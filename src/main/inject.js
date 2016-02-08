@@ -31,6 +31,10 @@ export function Provides(iface) {
 }
 
 export class Module {
+  static isConstructor(fn) {
+    return fn.prototype && fn === fn.prototype.constructor;
+  }
+
   constructor() {
     this._bindings = new Map();
   }
@@ -48,11 +52,7 @@ export class Module {
   }
 
   getClass() {
-    return this.prototype.constructor;
-  }
-
-  isConstructor(fn) {
-    return fn === fn.prototype.constructor;
+    return this.constructor;
   }
 
   has(iface) {
@@ -63,7 +63,7 @@ export class Module {
     const clazz = this.getClass();
     if (this._bindings.has(iface)) {
       const impl = this._bindings.get(iface);
-      if (this.isConstructor(impl)) {
+      if (Module.isConstructor(impl)) {
         return inj.create(impl);
       } else {
         return impl;
