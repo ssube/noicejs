@@ -35,6 +35,10 @@ export class Module {
     this._bindings = new Map();
   }
 
+  get bindings() {
+    return this._bindings;
+  }
+
   bind(iface) {
     return {
       to: (impl) => {
