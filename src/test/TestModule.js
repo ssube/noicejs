@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {Module} from '../main/inject';
+import {Module, Provides} from '../main/inject';
 
 describe('Module class', () => {
   it('should start with no bindings', () => {
@@ -62,5 +62,40 @@ describe('Module class', () => {
     module.configure();
 
     expect(module.get(iface, new MockInjector())).to.be.an.instanceOf(Impl);
+  });
+
+  it('should instantiate provider bindings', () => {
+    const iface = {};
+    let counter = 0;
+
+    class Impl {
+      constructor() {
+        // noop
+      }
+    }
+
+    class MockInjector {
+      create(impl) {
+        return new impl();
+      }
+    }
+
+    class SubModule extends Module {
+      configure() {
+        // noop
+      }
+
+      @Provides(iface)
+      createClass(injector) {
+        ++counter;
+        return new Impl();
+      }
+    }
+
+    const module = new SubModule();
+    module.configure();
+
+    expect(module.get(iface, new MockInjector())).to.be.an.instanceOf(Impl);
+    expect(counter).to.equal(1);
   });
 });

@@ -70,7 +70,7 @@ export class Module {
       }
     } else if (clazz.providers.has(iface)) {
       const method = clazz.providers.get(iface);
-      return method.call(this);
+      return method.call(this, inj);
     } else {
       return null;
     }
