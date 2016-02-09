@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {Inject, Injector, Module} from '../main/inject';
+import {Inject, Injector, Module, Provides} from '../main/inject';
 
 describe('Injector class', () => {
   it('should take a list of modules', () => {
@@ -86,5 +86,35 @@ describe('Injector class', () => {
     const args = ['a', 'b', 'c'];
     const impl = inj.create(Impl, ...args);
     expect(impl.a).to.deep.equal(args);
+  });
+
+  it('should execute providers', () => {
+    const iface = {}, inst = {};
+    let counter = 0;
+
+    class SubModule extends Module {
+      configure() {
+        // noop
+      }
+
+      @Provides(iface)
+      create() {
+        ++counter;
+        return inst;
+      }
+    }
+
+    const inj = new Injector(new SubModule());
+
+    @Inject(iface)
+    class Impl {
+      constructor(di) {
+        this.di = di;
+      }
+    }
+
+    const impl = inj.create(Impl);
+    expect(impl.di).to.deep.equal(inst);
+    expect(counter).to.equal(1);
   });
 });
