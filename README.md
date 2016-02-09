@@ -56,9 +56,7 @@ method for the dependency, using the `@Provides` decorator:
 
       @Provides(complexInterface)
       createComplex() {
-        return (args) => {
-          ComplexImplementation.createOne(args.map(arg => arg.id));
-        }
+        return ComplexImplementation.createOne('params');
       }
     }
 
@@ -72,9 +70,3 @@ in the package manifest, so you can simply run:
     npm install && gulp
 
 To build the library and run tests.
-
-
-## To Do:
-
- * Named annotations
- * Improve providers (factory methods) to behave like Guice
