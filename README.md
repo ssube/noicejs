@@ -8,28 +8,13 @@ simply attach the right properties to your constructor function
 and noicejs will happily inject your dependencies.
 
 ## Getting Started
-To use noicejs with ES7 features, you should import the library
-and decorate the class would be like dependencies provided to:
+For noice to inject dependencies, you need to create objects
+through an `Injector`. Each injector takes a list of modules,
+which bind the dependency. The `create` method takes a constructor
+and parameters, returning a new instance of the object.
 
-    import {Inject, Injector} from 'noice';
-
-    @Inject(Foo, Bar)
-    class FooBarUser {
-      constructor(foo, bar) {
-        this.fooStuff = foo.doStuff();
-        this.barStuff = bar.doOtherStuff();
-      }
-    }
-
-    injector.create(FooBarUser);
-
-To create an object with dependencies, you must go through the
-`Injector` class in noice. The `create` method takes a constructor
-and optional parameters, finds any dependencies the class has, and
-creates a new instance.
-
-To create an injector, you should organize your dependencies into
-modules and pass them in:
+### Injector
+First, declare a `Module` and `Injector`:
 
     import {Injector, Module} from 'noice';
 
@@ -41,11 +26,30 @@ modules and pass them in:
 
     const injector = new Injector(new MyModule());
 
-You only need to override the `configure` method in the module
-and should avoid putting logic in the module if you can.
+This will register your dependencies and pass them into any
+decorated constructors. You only need to override the
+`configure` method on the `Module`.
 
-Modules providing more complicated dependencies can offer a factory
-method for the dependency, using the `@Provides` decorator:
+### Create
+Next, decorate your class and use the `Injector` to `create`
+an instance:
+
+    import {Inject} from 'noice';
+
+    @Inject(Foo, Bar)
+    class FooBarUser {
+      constructor(foo, bar) {
+        this.fooStuff = foo.doStuff();
+        this.barStuff = bar.doOtherStuff();
+      }
+    }
+
+    injector.create(FooBarUser);
+
+## Providers
+If your module is providing a more complex dependency, you
+can declare a factory method and decorate it with the
+interface:
 
     import {Module, Provides} from 'noice';
 
