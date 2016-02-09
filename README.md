@@ -31,14 +31,14 @@ creates a new instance.
 To create an injector, you should organize your dependencies into
 modules and pass them in:
 
-import {Injector, Module} from 'noice';
-class MyLocalModule extends Module {
-  configure() {
-    this.bind(myInterface).to(myImplementation);
-  }
-}
+    import {Injector, Module} from 'noice';
+    class MyLocalModule extends Module {
+      configure() {
+        this.bind(myInterface).to(myImplementation);
+      }
+    }
 
-const injector = new Injector(new MyLocalModule());
+    const injector = new Injector(new MyLocalModule());
 
 You only need to override the `configure` method in the module
 and should avoid putting logic in the module if you can.
@@ -46,19 +46,19 @@ and should avoid putting logic in the module if you can.
 Modules providing more complicated dependencies can offer a factory
 method for the dependency, using the `@Provides` decorator:
 
-import {Module, Provides} from 'noice';
-class MyComplexModule extends Module {
-  configure() {
-    // Bind other dependencies
-  }
+    import {Module, Provides} from 'noice';
+    class MyComplexModule extends Module {
+      configure() {
+        // Bind other dependencies
+      }
 
-  @Provides(complexInterface)
-  createComplex() {
-    return (args) => {
-      ComplexImplementation.createOne(args.map(arg => arg.id));
+      @Provides(complexInterface)
+      createComplex() {
+        return (args) => {
+          ComplexImplementation.createOne(args.map(arg => arg.id));
+        }
+      }
     }
-  }
-}
 
 **Note:** Providers will be modified to match Guice's behavior soon,
 where they will be expected to return an instance rather than another
