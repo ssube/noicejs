@@ -32,13 +32,14 @@ To create an injector, you should organize your dependencies into
 modules and pass them in:
 
     import {Injector, Module} from 'noice';
-    class MyLocalModule extends Module {
+
+    class MyModule extends Module {
       configure() {
         this.bind(myInterface).to(myImplementation);
       }
     }
 
-    const injector = new Injector(new MyLocalModule());
+    const injector = new Injector(new MyModule());
 
 You only need to override the `configure` method in the module
 and should avoid putting logic in the module if you can.
@@ -47,7 +48,8 @@ Modules providing more complicated dependencies can offer a factory
 method for the dependency, using the `@Provides` decorator:
 
     import {Module, Provides} from 'noice';
-    class MyComplexModule extends Module {
+
+    class MyModule extends Module {
       configure() {
         // Bind other dependencies
       }

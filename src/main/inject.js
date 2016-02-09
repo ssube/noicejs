@@ -31,10 +31,6 @@ export function Provides(iface) {
 }
 
 export class Module {
-  static isConstructor(fn) {
-    return fn.prototype && fn === fn.prototype.constructor;
-  }
-
   constructor() {
     this._bindings = new Map();
   }
@@ -51,38 +47,38 @@ export class Module {
     };
   }
 
+  configure() {
+    throw new Error('Configure has not been implemented for module!');
+  }
+
   getClass() {
     return this.constructor;
+  }
+
+  getBinding(iface) {
+    return this._bindings.get(iface);
+  }
+
+  getProvider(iface) {
+    const clazz = this.getClass();
+    if (clazz.providers && clazz.providers.has(iface)) {
+      return clazz.providers.get(iface);
+    } else {
+      return null;
+    }
   }
 
   has(iface) {
     const clazz = this.getClass();
     return this._bindings.has(iface) || (clazz.providers && clazz.providers.has(iface));
   }
-
-  get(iface, inj) {
-    const clazz = this.getClass();
-    if (this._bindings.has(iface)) {
-      const impl = this._bindings.get(iface);
-      if (Module.isConstructor(impl)) {
-        return inj.create(impl);
-      } else {
-        return impl;
-      }
-    } else if (clazz.providers.has(iface)) {
-      const method = clazz.providers.get(iface);
-      return method.call(this, inj);
-    } else {
-      return null;
-    }
-  }
-
-  configure() {
-    throw new Error('Configure has not been implemented for module!');
-  }
 }
 
 export class Injector {
+  static isConstructor(fn) {
+    return fn.prototype && fn === fn.prototype.constructor;
+  }
+
   constructor(...modules) {
     this._modules = modules.map(module => (module.configure(), module));
   }
@@ -99,8 +95,21 @@ export class Injector {
     const args = ctor.dependencies.map(dep => {
       // Find the first module providing a dep
       const module = this._modules.find(m => m.has(dep));
+
       if (module) {
-        return module.get(dep, this);
+        const provider = module.getProvider(dep);
+        if (provider) {
+          return provider.call(module);
+        }
+
+        const binding = module.getBinding(dep);
+        if (binding) {
+          if (Injector.isConstructor(binding)) {
+            return this.create(binding);
+          } else {
+            return binding;
+          }
+        }
       } else {
         throw new Error('Unable to find any implementation for interface.', dep);
       }
