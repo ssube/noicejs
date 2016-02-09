@@ -56,7 +56,8 @@ export class Module {
   }
 
   has(iface) {
-    return this._bindings.has(iface) || this.getClass().providers.has(iface);
+    const clazz = this.getClass();
+    return this._bindings.has(iface) || (clazz.providers && clazz.providers.has(iface));
   }
 
   get(iface, inj) {
@@ -83,10 +84,18 @@ export class Module {
 
 export class Injector {
   constructor(...modules) {
-    this._modules = modules;
+    this._modules = modules.map(module => (module.configure(), module));
+  }
+
+  get modules() {
+    return this._modules;
   }
 
   create(ctor, ...params) {
+    if (!ctor.dependencies) {
+      throw new Error('Constructor does not list dependencies!');
+    }
+
     const args = ctor.dependencies.map(dep => {
       // Find the first module providing a dep
       const module = this._modules.find(m => m.has(dep));
@@ -96,6 +105,7 @@ export class Injector {
         throw new Error('Unable to find any implementation for interface.', dep);
       }
     }).concat(params);
+
     return new ctor(...args);
   }
 }
