@@ -97,23 +97,18 @@ export class Injector {
       const module = this._modules.find(m => m.has(dep));
 
       if (module) {
+        // Thanks to the has check in find, one of provider
+        // or binding is guaranteed to be present.
         const provider = module.getProvider(dep);
         if (provider) {
-          if (provider.dependencies) {
-            const deps = this.getDependencies(provider.dependencies);
-            return provider.apply(module, deps);
-          } else {
-            return provider.call(module);
-          }
+          return this.execute(provider, module);
         }
 
         const binding = module.getBinding(dep);
-        if (binding) {
-          if (Injector.isConstructor(binding)) {
-            return this.create(binding);
-          } else {
-            return binding;
-          }
+        if (Injector.isConstructor(binding)) {
+          return this.create(binding);
+        } else {
+          return binding;
         }
       } else {
         throw new Error('Unable to find any implementation for interface.', dep);
@@ -121,10 +116,17 @@ export class Injector {
     });
   }
 
-  create(ctor, ...params) {
-    const deps = ctor.dependencies ? this.getDependencies(ctor.dependencies) : [];
-    const args = deps.concat(params);
+  execute(fn, scope, params = []) {
+    const args = this.getDependencies(fn.dependencies || []).concat(params);
 
-    return new ctor(...args);
+    if (Injector.isConstructor(fn)) {
+      return new fn(...args);
+    } else {
+      return fn.apply(scope, ...args);
+    }
+  }
+
+  create(ctor, ...params) {
+    return this.execute(ctor, null, params);
   }
 }
