@@ -1,49 +1,64 @@
-## noicejs
-### Extremely thin dependency injection
-
-This is a DI library for JS, based on Google's Guice library.
+## noice
+### Extremely thin Dependency Injection
+inspired by Google's Guice library and written with idiomatic JS.
 
 While the examples use ES6 classes and ES7 decorators, you can
-simply attach the right properties to your constructor function
-and noicejs will happily inject your dependencies.
+simply attach the same properties to your constructor function
+and noice will happily inject your dependencies.
 
 ## Getting Started
-For noice to inject dependencies, you need to create objects
-through an `Injector`. Each injector takes a list of modules,
-which bind the dependency. The `create` method takes a constructor
-and parameters, returning a new instance of the object.
+Consider a `User` class that needs to fetch data from the server,
+but may be running on the same node or making a network request.
 
-### Injector
-First, declare a `Module` and `Injector`:
+First, decorate your class. You can attach any number of
+dependencies, by super class, and noice will pass them into the
+constructor:
 
-    import {Injector, Module} from 'noice';
-
-    class MyModule extends Module {
-      configure() {
-        this.bind(MyInterface).to(MyImplementation);
-      }
-    }
-
-    const injector = new Injector(new MyModule());
-
-This will register your dependencies and pass them into any
-decorated constructors. You only need to override the
-`configure` method on the `Module`.
-
-### Create
-Next, decorate your class and use the `Injector` to `create`
-an instance:
-
-    import {Inject} from 'noice';
-
-    @Inject(MyInterface)
+    @Inject(Server)
     class User {
-      constructor(instance) {
-        this.foo = instance.bar();
+      constructor(server, id) {
+        this.data = server.getUserData(id);
       }
     }
 
-    injector.create(User);
+Next, declare a `Module` to link your implementation to the
+interface:
+
+    import {Server} from './abstract/Server';
+    import {NetworkServer} from './network/Server';
+    import {Module} from 'noice';
+
+    class NetworkModule extends Module {
+      configure() {
+        this.bind(Server).to(NetworkServer);
+      }
+    }
+
+Finally, create an `Injector` with your module and use
+the injector to create a `User`:
+
+    const injector = new Injector(new NetworkModule());
+    const user = injector.create(User, 3);
+
+noice will look at the decorated constructor, look up the
+correct class (or instance) for each dependency, and instantiate
+the class with the dependency. This is especially useful for
+widely shared instances, like a connection pool or configuration.
+
+Any additional parameters you pass to `create` will be passed on
+to the constructor.
+
+You can also call a decorated factory method using `execute` and
+noice will inject dependencies in the same way:
+
+    class User {
+      @Inject(Server)
+      static createUser(server, id) {
+        return new User(server.getUserData(id));
+      }
+    }
+
+    injector.execute(User.createUser, scope, 3);
 
 ## Providers
 If your module is providing a more complex dependency, you

@@ -33,6 +33,32 @@ describe('Injector class', () => {
     expect(impl.di).to.equal(inst);
   });
 
+  it('should inject a dependency into a factory method', () => {
+    const iface = {}, inst = {};
+    class SubModule extends Module {
+      configure() {
+        this.bind(iface).to(inst);
+      }
+    }
+    const inj = new Injector(new SubModule());
+
+    class Impl {
+      @Inject(iface)
+      static createImpl(di, id) {
+        return new Impl(di, id);
+      }
+
+      constructor(di, id) {
+        this.di = di;
+        this.id = id;
+      }
+    }
+
+    const impl = inj.execute(Impl.createImpl, null, 3);
+    expect(impl.di).to.equal(inst);
+    expect(impl.id).to.equal(3);
+  });
+
   it('should throw on missing dependencies', () => {
     const iface = {}, oface = {}, inst = {};
     class SubModule extends Module {
