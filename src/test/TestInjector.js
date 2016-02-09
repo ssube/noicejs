@@ -13,18 +13,6 @@ describe('Injector class', () => {
     expect(injector.modules).to.deep.equal(modules);
   });
 
-  it('should should throw on a constructor without inject', () => {
-    class NoDeps {
-      constructor() {
-        // noop
-      }
-    }
-
-    expect(() => {
-      new Injector().create(NoDeps);
-    }).to.throw();
-  });
-
   it('should inject a dependency from a module', () => {
     const iface = {}, inst = {};
     class SubModule extends Module {
@@ -115,6 +103,39 @@ describe('Injector class', () => {
 
     const impl = inj.create(Impl);
     expect(impl.di).to.deep.equal(inst);
+    expect(counter).to.equal(1);
+  });
+
+  it('should provide dependencies to providers', () => {
+    const iface = {}, oface = {}, oinst = {};
+    let counter = 0;
+
+    class SubModule extends Module {
+      configure() {
+        this.bind(oface).to(oinst);
+      }
+
+      @Inject(oface)
+      @Provides(iface)
+      create(o) {
+        ++counter;
+        return new Impl(o);
+      }
+    }
+
+    const inj = new Injector(new SubModule());
+
+    @Inject(iface)
+    class Impl {
+      constructor(di) {
+        this.di = di;
+      }
+    }
+
+    const impl = inj.create(Impl);
+    expect(impl).to.be.an.instanceOf(Impl);
+    expect(impl.di).to.be.an.instanceOf(Impl);
+    expect(impl.di.di).to.equal(oinst);
     expect(counter).to.equal(1);
   });
 });

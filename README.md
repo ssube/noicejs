@@ -60,9 +60,25 @@ method for the dependency, using the `@Provides` decorator:
       }
     }
 
-**Note:** Providers will be modified to match Guice's behavior soon,
-where they will be expected to return an instance rather than another
-function.
+Provider methods may require dependencies using the `@Inject`
+decorator, allowing you to chain injection:
+
+    import {Inject, Module, Provides} from 'noice';
+
+    class NetworkModule extends Module {
+      configure() {
+        this.bind(Server).to(NetworkServer);
+      }
+
+      @Inject(Server)
+      @Provides(Api)
+      getApi(server) {
+        return new ServerApi(server);
+      }
+    }
+
+The dependencies for a provider can be in the same module or
+any other module the `Injector` is aware of.
 
 ## Build
 in the package manifest, so you can simply run:

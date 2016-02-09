@@ -6,8 +6,12 @@
  * when instantiated through an Injector.
  */
 export function Inject(...dependencies) {
-  return function decorator(target) {
-    target.dependencies = dependencies;
+  return function decorator(target, name) {
+    if (name) {
+      target[name].dependencies = dependencies;
+    } else {
+      target.dependencies = dependencies;
+    }
   }
 }
 
@@ -87,19 +91,20 @@ export class Injector {
     return this._modules;
   }
 
-  create(ctor, ...params) {
-    if (!ctor.dependencies) {
-      throw new Error('Constructor does not list dependencies!');
-    }
-
-    const args = ctor.dependencies.map(dep => {
+  getDependencies(dependencies) {
+    return dependencies.map(dep => {
       // Find the first module providing a dep
       const module = this._modules.find(m => m.has(dep));
 
       if (module) {
         const provider = module.getProvider(dep);
         if (provider) {
-          return provider.call(module);
+          if (provider.dependencies) {
+            const deps = this.getDependencies(provider.dependencies);
+            return provider.apply(module, deps);
+          } else {
+            return provider.call(module);
+          }
         }
 
         const binding = module.getBinding(dep);
@@ -113,7 +118,12 @@ export class Injector {
       } else {
         throw new Error('Unable to find any implementation for interface.', dep);
       }
-    }).concat(params);
+    });
+  }
+
+  create(ctor, ...params) {
+    const deps = ctor.dependencies ? this.getDependencies(ctor.dependencies) : [];
+    const args = deps.concat(params);
 
     return new ctor(...args);
   }
