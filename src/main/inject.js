@@ -83,6 +83,10 @@ export class Injector {
     return fn.prototype && fn === fn.prototype.constructor;
   }
 
+  static isFactory(fn) {
+    return typeof fn === 'function';
+  }
+
   constructor(...modules) {
     this._modules = modules.map(module => (module.configure(), module));
   }
@@ -95,24 +99,23 @@ export class Injector {
     return dependencies.map(dep => {
       // Find the first module providing a dep
       const module = this._modules.find(m => m.has(dep));
-
-      if (module) {
-        // Thanks to the has check in find, one of provider
-        // or binding is guaranteed to be present.
-        const provider = module.getProvider(dep);
-        if (provider) {
-          return this.execute(provider, module);
-        }
-
-        const binding = module.getBinding(dep);
-        if (Injector.isConstructor(binding)) {
-          return this.create(binding);
-        } else {
-          return binding;
-        }
-      } else {
+      if (!module) {
         throw new Error('Unable to find any implementation for interface.', dep);
       }
+
+      // Thanks to the has check in find, one of provider
+      // or binding is guaranteed to be present.
+      const provider = module.getProvider(dep);
+      if (provider) {
+        return this.execute(provider, module);
+      }
+
+      const binding = module.getBinding(dep);
+      if (Injector.isConstructor(binding)) {
+        return this.create(binding);
+      }
+
+      return binding;
     });
   }
 
