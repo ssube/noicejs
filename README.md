@@ -14,6 +14,10 @@ First, decorate your class. You can attach any number of
 dependencies, by super class, and noice will pass them into the
 constructor:
 
+    import {Inject, Injector, Module} from 'noice';
+    import {Server} from './abstract/Server';
+    import {NetworkServer} from './network/Server';
+
     @Inject(Server)
     class User {
       constructor(server, id) {
@@ -23,10 +27,6 @@ constructor:
 
 Next, declare a `Module` to link your implementation to the
 interface:
-
-    import {Server} from './abstract/Server';
-    import {NetworkServer} from './network/Server';
-    import {Module} from 'noice';
 
     class NetworkModule extends Module {
       configure() {
