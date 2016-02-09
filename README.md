@@ -20,7 +20,7 @@ First, declare a `Module` and `Injector`:
 
     class MyModule extends Module {
       configure() {
-        this.bind(myInterface).to(myImplementation);
+        this.bind(MyInterface).to(MyImplementation);
       }
     }
 
@@ -36,15 +36,14 @@ an instance:
 
     import {Inject} from 'noice';
 
-    @Inject(Foo, Bar)
-    class FooBarUser {
-      constructor(foo, bar) {
-        this.fooStuff = foo.doStuff();
-        this.barStuff = bar.doOtherStuff();
+    @Inject(MyInterface)
+    class User {
+      constructor(instance) {
+        this.foo = instance.bar();
       }
     }
 
-    injector.create(FooBarUser);
+    injector.create(User);
 
 ## Providers
 If your module is providing a more complex dependency, you
