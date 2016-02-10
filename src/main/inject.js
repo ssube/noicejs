@@ -83,7 +83,7 @@ export class Injector {
     return fn.prototype && fn === fn.prototype.constructor;
   }
 
-  static isFactory(fn) {
+  static isFunction(fn) {
     return typeof fn === 'function';
   }
 
@@ -111,8 +111,8 @@ export class Injector {
       }
 
       const binding = module.getBinding(dep);
-      if (Injector.isConstructor(binding)) {
-        return this.create(binding);
+      if (Injector.isFunction(binding)) {
+        return this.execute(binding, null);
       }
 
       return binding;

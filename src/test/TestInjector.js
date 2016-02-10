@@ -164,4 +164,53 @@ describe('Injector class', () => {
     expect(impl.di.di).to.equal(oinst);
     expect(counter).to.equal(1);
   });
+
+  it('should invoke binding functions', () => {
+    const iface = {}, inst = {};
+    let counter = 0;
+
+    class SubModule extends Module {
+      configure() {
+        this.bind(iface).to(() => {
+          ++counter;
+          return inst;
+        });
+      }
+    }
+
+    const inj = new Injector(new SubModule());
+
+    @Inject(iface)
+    class Impl {
+      constructor(di) {
+        this.di = di;
+      }
+    }
+
+    const impl = inj.create(Impl);
+    expect(impl.di).to.equal(inst);
+    expect(counter).to.equal(1);
+  });
+
+  it('should allow named bindings', () => {
+    const name = 'foobar', inst = {};
+
+    class SubModule extends Module {
+      configure() {
+        this.bind(name).to(inst);
+      }
+    }
+
+    const inj = new Injector(new SubModule());
+
+    @Inject(name)
+    class Impl {
+      constructor(di) {
+        this.di = di;
+      }
+    }
+
+    const impl = inj.create(Impl);
+    expect(impl.di).to.equal(inst);
+  })
 });
