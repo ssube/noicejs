@@ -2,7 +2,7 @@
   "name": "noicejs",
   "version": "0.1.0",
   "description": "thin dependency injection for JavaScript",
-  "main": "index.js",
+  "main": "target/main/inject.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
