@@ -1,6 +1,6 @@
 ## noice
 ### Extremely Thin Dependency Injection
-inspired by Google's Guice library and written with idiomatic JS.
+inspired by [Google's Guice library](https://github.com/google/guice) and written with idiomatic JS.
 
 [![Build Status](https://travis-ci.org/ssube/noicejs.svg?branch=master)](https://travis-ci.org/ssube/noicejs)
 [![Dependency Status](https://david-dm.org/ssube/noicejs.svg)](https://david-dm.org/ssube/noicejs)
