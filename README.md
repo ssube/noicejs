@@ -2,6 +2,11 @@
 ### Extremely Thin Dependency Injection
 inspired by Google's Guice library and written with idiomatic JS.
 
+[![Build Status](https://travis-ci.org/ssube/noicejs.svg?branch=master)](https://travis-ci.org/ssube/noicejs)
+[![Dependency Status](https://david-dm.org/ssube/noicejs.svg)](https://david-dm.org/ssube/noicejs)
+[![devDependency Status](https://david-dm.org/ssube/noicejs/dev-status.svg)](https://david-dm.org/ssube/noicejs#info=devDependencies)
+[![Code Climate](https://codeclimate.com/github/ssube/noicejs/badges/gpa.svg)](https://codeclimate.com/github/ssube/noicejs)
+
 While the examples use ES6 classes and ES7 decorators, you can
 simply attach the same properties to your constructor function
 and noice will happily inject your dependencies.
