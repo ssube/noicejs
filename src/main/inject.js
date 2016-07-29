@@ -1,3 +1,41 @@
+// Basic underlying functions
+
+/**
+ * Attach a list of dependencies to the target constructor or prototype.
+ *
+ * If the `name` parameter is truthy, we're dealing with a method rather
+ * than a class. If this is on a method, then `target` is the prototype.
+ * If this is on a class, then `target` is the constructor.
+ */
+function attachDependencies(target, name, dependencies) {
+  if (name) {
+    target[name].dependencies = dependencies;
+  } else {
+    target.dependencies = dependencies;
+  }
+}
+
+/**
+ * Create a wrapper class to allow transparent injection.
+ *
+ * @TODO: add an option to allow passthrough (create an instance of the
+ *        original class with the right params)
+ */
+function wrapClass(target, {hook, pass = false}) {
+  return class wrapper extends target {
+    static get wrappedClass() {
+      return target;
+    }
+
+    constructor(...args) {
+      const [{injector}] = args;
+      hook(target, args);
+      // this is actually a super call with modified params
+      super(injector.getDependencies(wrapper.dependencies).concat(args));
+    }
+  }
+}
+
 /**
  * Define constructor dependencies for the current class.
  *
@@ -7,10 +45,22 @@
  */
 export function Inject(...dependencies) {
   return function decorator(target, name) {
+    attachDependencies(target, name, dependencies);
+  }
+}
+
+/**
+ * Define constructor dependencies and replace the constructor
+ * with an auto-wrapping one, to support libraries like React.
+ */
+export function WrapInject(options, ...dependencies) {
+  return function decorator(target, name) {
     if (name) {
-      target[name].dependencies = dependencies;
+      throw new Error('unable to wrap a method');
     } else {
-      target.dependencies = dependencies;
+      const wrapper = wrapClass(target);
+      attachDependencies(wrapper, name, dependencies);
+      return wrapper;
     }
   }
 }
