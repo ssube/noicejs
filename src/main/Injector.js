@@ -10,11 +10,11 @@ export default class Injector {
   }
 
   static fromParams(params) {
-    const [arg0] = args;
-    if (arg0 instanceof Injector) {
-      return arg0;
+    const [p0] = params;
+    if (p0 instanceof Injector) {
+      return p0;
     } else {
-      const {injector} = arg0;
+      const {injector} = p0;
       if (injector instanceof Injector) {
         return injector;
       } else {
@@ -32,40 +32,42 @@ export default class Injector {
     return this._modules;
   }
 
+  getDependency(module, it) {
+    // Thanks to the has check in find, one of provider
+    // or binding is guaranteed to be present.
+    const provider = module.getProvider(it);
+    if (provider) {
+      return this.execute(provider, module, [], {detect: false});
+    }
+
+    const binding = module.getBinding(it);
+    if (Injector.isFunction(binding)) {
+      return this.execute(binding, null);
+    } else {
+      return binding;
+    }
+  }
+
   /**
    * refactor this to handle names
    */
   getDependencies(target) {
     const opts = Options.getOptions(target);
-    console.log('Injector', 'getDependencies', target, opts);
     return opts.deps.map(dep => {
-      const {fn} = dep;
+      const {fn, name} = dep;
 
-      // Find the first module providing a dep
-      const module = this._modules.find(m => m.has(fn));
-      console.log('Injector', 'getDependencies', 'search', fn, this._modules);
-
-      if (!module) {
-        throw new Error('Unable to find any implementation for interface.', fn);
+      // Prefer named dependencies
+      const moduleForName = this._modules.find(m => m.has(name));
+      if (moduleForName) {
+        return this.getDependency(moduleForName, name);
       }
 
-      // Thanks to the has check in find, one of provider
-      // or binding is guaranteed to be present.
-      const provider = module.getProvider(fn);
-      if (provider) {
-        console.log('Injector', 'getDependencies', 'provider', provider);
-        return this.execute(provider, module, [], {detect: false});
+      const moduleForFunc = this._modules.find(m => m.has(fn));
+      if (moduleForFunc) {
+        return this.getDependency(moduleForFunc, fn);
       }
 
-      const binding = module.getBinding(fn);
-      console.log('Injector', 'getDependencies', 'binding', binding);
-      if (Injector.isFunction(binding)) {
-        console.log('Injector', 'getDependencies', 'binding', 'execute');
-        return this.execute(binding, null);
-      } else {
-        console.log('Injector', 'getDependencies', 'binding', 'return');
-        return binding;
-      }
+      throw new Error('Unable to find any implementation for interface.', fn);
     });
   }
 
@@ -74,16 +76,13 @@ export default class Injector {
 
     // if we are allowed to detect the function type and it appears to be a ctor
     if (detect && Injector.isConstructor(fn)) {
-      console.log('Injector', 'execute', 'constructor', fn, args);
       return new fn(...args);
     } else {
-      console.log('Injector', 'execute', 'function', fn, scope, args);
       return fn.apply(scope, args);
     }
   }
 
   create(ctor, ...params) {
-    console.log('Injector', 'create');
     return this.execute(ctor, null, params);
   }
 }

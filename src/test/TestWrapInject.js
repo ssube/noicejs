@@ -1,54 +1,60 @@
 import {expect} from 'chai';
-import {WrapInject} from '../main/inject';
+import {Options, WrapInject} from '../main/inject';
+import {TestInjector} from './HelperClass';
 
 describe('WrapInject decorator', () => {
   it('should return a function', () => {
     expect(WrapInject()).to.be.a('function');
   });
 
-  xit('should attach params to the target', () => {
-    const params = ['a', 'b', 'c'];
+  it('should attach params to the target', () => {
+    const params = [{name: 'a'}, {name: 'b'}, {name: 'c'}];
 
     class Target {
       method() { /* noop */ }
     }
 
-    const wrapper = WrapInject(...params)(Target);
+    const wrapper = WrapInject({}, ...params)(Target);
 
-    expect(wrapper.dependencies).to.deep.equal(params);
+    expect(Options.getOptions(wrapper).deps).to.deep.equal(params);
     expect(wrapper).not.to.equal(Target);
     expect(new wrapper({
-      injector: {
-        getDependencies: () => []
-      }
+      injector: new TestInjector()
     })).to.be.an.instanceof(Target);
   });
 
-  xit('should work as a class decorator', () => {
-    const params = ['a', 'b', 'c'];
+  it('should work as a class decorator', () => {
+    const params = [{name: 'a'}, {name: 'b'}, {name: 'c'}];
 
-    @WrapInject(...params)
+    @WrapInject({}, ...params)
     class Target {
       method() { /* noop */ }
     }
 
-    expect(Target.dependencies).to.deep.equal(params);
+    expect(Options.getOptions(Target).deps).to.deep.equal(params);
     expect(new Target({
-      injector: {
-        getDependencies: () => []
-      }
+      injector: new TestInjector()
     })).to.be.an.instanceof(Target.wrappedClass);
   });
 
-  it('should not work as a method decorator', () => {
-    const params = ['a', 'b', 'c'];
+  it('should work as a method decorator', () => {
+    const params = [{}, {name: 'a'}, {name: 'b'}, {name: 'c'}];
+    let counter = 0;
 
-
-    expect(() => {
-      class Target {
-        @WrapInject(...params)
-        method() { /* noop */ }
+    class Target {
+      @WrapInject(...params)
+      method() {
+        ++counter;
       }
-    }).to.throw();
+    }
+
+    const inst = new Target();
+    inst.method({
+      injector: new TestInjector()
+    });
+
+    expect(inst.method).to.be.an.instanceof(Function);
+    expect(Options.getOptions(inst.method).deps).to.deep.equal(params);
+    expect(counter).to.equal(1);
   });
 });

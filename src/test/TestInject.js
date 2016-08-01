@@ -7,7 +7,7 @@ describe('Inject decorator', () => {
   });
 
   it('should work as a class decorator', () => {
-    const params = ['a', 'b', 'c'];
+    const params = [{name: 'a'}, {name: 'b'}, {name: 'c'}];
 
     @Inject(...params)
     class Target {

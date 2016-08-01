@@ -27,7 +27,7 @@ export default class Wrapper {
     return function wrapper(...args) {
       const injector = Injector.fromParams(args);
       hook(target, args, injector);
-      return injector.execute(target, this, args);
+      return injector.execute(target, this, args, {detect: false});
     }
   }
 

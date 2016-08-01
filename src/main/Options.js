@@ -11,6 +11,8 @@ export default class Options {
     return deps.map(it => {
       if (typeof it === 'function') {
         return {fn: it};
+      } else if (typeof it === 'string') {
+        return {name: it};
       } else {
         return it;
       }

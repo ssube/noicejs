@@ -1,4 +1,4 @@
-import {Inject, Module} from '../main/inject';
+import {Inject, Injector, Module} from '../main/inject';
 
 export class Interface {
   // empty
@@ -26,5 +26,11 @@ export class Consumer {
 export class TestModule extends Module {
   configure() {
     this.bind(Interface).to(Implementation);
+  }
+}
+
+export class TestInjector extends Injector {
+  getDependencies() {
+    return [];
   }
 }
