@@ -1,15 +1,9 @@
 import {expect} from 'chai';
-import {Inject} from '../main/inject';
+import {Inject, Options} from '../main/inject';
 
 describe('Inject decorator', () => {
   it('should return a function', () => {
     expect(Inject()).to.be.a('function');
-  });
-
-  it('should attach params to the target', () => {
-    const params = ['a', 'b', 'c'], target = {};
-    Inject(...params)(target);
-    expect(target.dependencies).to.deep.equal(params);
   });
 
   it('should work as a class decorator', () => {
@@ -20,6 +14,6 @@ describe('Inject decorator', () => {
       method() { /* noop */ }
     }
 
-    expect(Target.dependencies).to.deep.equal(params);
+    expect(Options.getOptions(Target).deps).to.deep.equal(params);
   });
 });

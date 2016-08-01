@@ -7,7 +7,7 @@ gulp.task('compile', function () {
 });
 
 gulp.task('test', ['compile'], function () {
-  return gulp.src('target/test/**/*.js').pipe(mocha());
+  return gulp.src('target/test/**/Test*.js').pipe(mocha());
 });
 
 gulp.task('default', ['compile', 'test']);
