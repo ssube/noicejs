@@ -38,11 +38,10 @@ describe('WrapInject decorator', () => {
   });
 
   it('should work as a method decorator', () => {
-    const params = [{}, {name: 'a'}, {name: 'b'}, {name: 'c'}];
+    const params = [{name: 'a'}, {name: 'b'}, {name: 'c'}];
     let counter = 0;
-
     class Target {
-      @WrapInject(...params)
+      @WrapInject({}, ...params)
       method() {
         ++counter;
       }
@@ -54,7 +53,7 @@ describe('WrapInject decorator', () => {
     });
 
     expect(inst.method).to.be.an.instanceof(Function);
-    expect(Options.getOptions(inst.method).deps).to.deep.equal(params);
+    expect(Options.getOptions(Target.prototype.method).deps).to.deep.equal(params);
     expect(counter).to.equal(1);
   });
 });

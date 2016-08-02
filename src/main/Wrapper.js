@@ -23,17 +23,18 @@ export default class Wrapper {
     }
   }
 
-  static wrapMethod(target, {hook = noop} = {}) {
-    return function wrapper(...args) {
+  static wrapMethod(target, desc, {hook = noop} = {}) {
+    desc.value = function wrapper(...args) {
       const injector = Injector.fromParams(args);
       hook(target, args, injector);
       return injector.execute(target, this, args, {detect: false});
-    }
+    };
+    return desc;
   }
 
-  static wrap(target, name, options) {
+  static wrap(target, name, desc, options) {
     if (name) {
-      return Wrapper.wrapMethod(target[name], options);
+      return Wrapper.wrapMethod(target[name], desc, options);
     } else {
       return Wrapper.wrapClass(target, options);
     }

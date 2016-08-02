@@ -18,10 +18,8 @@ function getConstructor(target, name) {
  * than a class. If this is on a method, then `target` is the prototype.
  * If this is on a class, then `target` is the constructor.
  */
-function attachDependencies(target, name, deps) {
-  // get the real target (in case we have a prototype)
-  const rt = getConstructor(target, name);
-  Options.setOptions(rt, Options.getOptions(rt).push(deps));
+function attachDependencies(target, deps) {
+  Options.setOptions(target, Options.getOptions(target).push(deps));
 }
 
 /**
@@ -33,7 +31,7 @@ function attachDependencies(target, name, deps) {
  */
 export function Inject(...dependencies) {
   return function decorator(target, name) {
-    attachDependencies(target, name, dependencies);
+    attachDependencies(getConstructor(target, name), dependencies);
   }
 }
 
@@ -45,9 +43,10 @@ export function Inject(...dependencies) {
  * first parameter (or a property thereof).
  */
 export function WrapInject(options, ...dependencies) {
-  return function decorator(target, name) {
-    const wrapper = Wrapper.wrap(target, name, options);
-    attachDependencies(wrapper, name, dependencies);
+  return function decorator(target, name, desc) {
+    const wrapper = Wrapper.wrap(target, name, desc, options);
+    //@TODO: make this prettier
+    attachDependencies(name ? wrapper.value : wrapper, dependencies);
     return wrapper;
   }
 }
