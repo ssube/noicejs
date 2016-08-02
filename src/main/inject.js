@@ -18,7 +18,7 @@ function getConstructor(target, name) {
  * than a class. If this is on a method, then `target` is the prototype.
  * If this is on a class, then `target` is the constructor.
  */
-function attachDependencies(target, deps) {
+export function attachDependencies(target, deps) {
   Options.setOptions(target, Options.getOptions(target).push(deps));
 }
 

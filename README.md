@@ -1,4 +1,4 @@
-## noice
+## noicejs
 ### Extremely Thin Dependency Injection
 inspired by [Google's Guice library](https://github.com/google/guice) and written with idiomatic JS.
 
