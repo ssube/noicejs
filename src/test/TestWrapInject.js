@@ -14,7 +14,7 @@ describe('WrapInject decorator', () => {
       method() { /* noop */ }
     }
 
-    const wrapper = WrapInject({}, ...params)(Target);
+    const wrapper = WrapInject(...params)(Target);
 
     expect(Options.getOptions(wrapper).deps).to.deep.equal(params);
     expect(wrapper).not.to.equal(Target);
@@ -26,7 +26,7 @@ describe('WrapInject decorator', () => {
   it('should work as a class decorator', () => {
     const params = [{name: 'a'}, {name: 'b'}, {name: 'c'}];
 
-    @WrapInject({}, ...params)
+    @WrapInject(...params)
     class Target {
       method() { /* noop */ }
     }
@@ -41,7 +41,7 @@ describe('WrapInject decorator', () => {
     const params = [{name: 'a'}, {name: 'b'}, {name: 'c'}];
     let counter = 0;
     class Target {
-      @WrapInject({}, ...params)
+      @WrapInject(...params)
       method() {
         ++counter;
       }

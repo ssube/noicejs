@@ -18,20 +18,53 @@ function getConstructor(target, name) {
  * than a class. If this is on a method, then `target` is the prototype.
  * If this is on a class, then `target` is the constructor.
  */
-export function attachDependencies(target, deps) {
-  Options.setOptions(target, Options.getOptions(target).push(deps));
+export function attachDependencies(target, flags, deps) {
+  const opts = Options.getOptions(target);
+  opts.push(deps);
+  opts.merge(flags);
+  Options.setOptions(target, opts);
 }
 
 /**
- * Define constructor dependencies for the current class.
+ * Define dependencies for the current class or method.
  *
- * This decorator takes each dependency (by interface) as a parameter
- * and will provide an instance of each to the decorated class' constructor,
- * when instantiated through an Injector.
+ * this decorator takes each dependency (by interface) as a parameter
+ * and will provide an instance of each, wrapped in an object, to the
+ * constructor or function when instantiated through an Injector.
  */
 export function Inject(...dependencies) {
   return function decorator(target, name) {
-    attachDependencies(getConstructor(target, name), dependencies);
+    attachDependencies(getConstructor(target, name), {}, dependencies);
+  }
+}
+
+/**
+ * Define dependencies for the current class or method.
+ *
+ * this decorator takes each dependency (by interface) as a parameter
+ * and will provide an instance of each, wrapped in an object, to the
+ * constructor or function when instantiated through an Injector.
+ */
+export function ObjectInject(...dependencies) {
+  return function decorator(target, name) {
+    attachDependencies(getConstructor(target, name), {merge: true}, dependencies);
+  }
+}
+
+/**
+ * Define dependencies for the current class or method and replace
+ * it with an automatically injecting one, to support React.
+ *
+ * The resulting constructor or function will require an `Injector`
+ * as the first parameter (or a property thereof).
+ *
+ * The dependencies will be merged into the first argument.
+ */
+export function ReactInject(...dependencies) {
+  return function decorator(target, name, desc) {
+    const wrapper = Wrapper.wrap(target, name, desc);
+    attachDependencies(name ? wrapper.value : wrapper, {merge: true}, dependencies);
+    return wrapper;
   }
 }
 
@@ -41,15 +74,18 @@ export function Inject(...dependencies) {
  *
  * The resulting constructor will require an Injector as the
  * first parameter (or a property thereof).
+ *
+ * The dependencies will be merged into the first argument.
  */
-export function WrapInject(options, ...dependencies) {
+export function WrapInject(...dependencies) {
   return function decorator(target, name, desc) {
-    const wrapper = Wrapper.wrap(target, name, desc, options);
+    const wrapper = Wrapper.wrap(target, name, desc);
     //@TODO: make this prettier
-    attachDependencies(name ? wrapper.value : wrapper, dependencies);
+    attachDependencies(name ? wrapper.value : wrapper, {}, dependencies);
     return wrapper;
   }
 }
+
 
 /**
  * Mark a module method as the factory for an interface.

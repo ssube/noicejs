@@ -1,4 +1,4 @@
-export const symbol = Symbol('noicejs-options');
+export const symbol = Symbol('noice-options');
 
 export default class Options {
   /**
@@ -27,8 +27,9 @@ export default class Options {
     return (fn[symbol] = opts);
   }
 
-  constructor({deps = []} = {}) {
+  constructor({deps = [], obj = false} = {}) {
     this._deps = deps;
+    this._obj = obj;
   }
 
   get deps() {
@@ -38,5 +39,17 @@ export default class Options {
   push(deps) {
     this._deps.push(...Options.wrap(deps));
     return this;
+  }
+
+  /**
+   * Combine the current options with another set
+   * using `&&`.
+   */
+  merge(opts) {
+    this._obj &= opts.obj;
+  }
+
+  get obj() {
+    return this._obj;
   }
 }

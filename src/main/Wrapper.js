@@ -16,18 +16,14 @@ export default class Wrapper {
       }
 
       constructor(...args) {
-        const injector = Injector.fromParams(args);
-        hook(target, args, injector);
-        super(injector.getDependencies(wrapper).concat(args));
+        super(Injector.fromParams(args).getDependencies(wrapper).concat(args));
       }
     }
   }
 
-  static wrapMethod(target, desc, {hook = noop} = {}) {
+  static wrapMethod(target, desc) {
     desc.value = function wrapper(...args) {
-      const injector = Injector.fromParams(args);
-      hook(target, args, injector);
-      return injector.execute(target, this, args, {detect: false});
+      return Injector.fromParams(args).execute(target, this, args, {detect: false});
     };
     return desc;
   }
