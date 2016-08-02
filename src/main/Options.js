@@ -18,14 +18,8 @@ export default class Options {
     return this._deps;
   }
 
-  /**
-   * Convert an iterable of constructors (interfaces, here) into
-   * an array of dependency options. Any objects will be passed
-   * through unchanged, so named dependencies and the like will
-   * not be modified.
-   */
   push(deps) {
-    this._deps.push(...deps.map(it => {
+    this._deps = this._deps.concat(deps.map(it => {
       if (typeof it === 'function') {
         return {fn: it};
       } else if (typeof it === 'string') {
