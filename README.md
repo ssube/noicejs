@@ -8,14 +8,14 @@ inspired by [Google's Guice library](https://github.com/google/guice) and writte
 [![Code Climate](https://codeclimate.com/github/ssube/noicejs/badges/gpa.svg)](https://codeclimate.com/github/ssube/noicejs)
 
 While the examples use ES6 classes and ES7 decorators, you can
-simply attach the same properties to your constructor function
-and noice will happily inject your dependencies.
+simply call `attachDependencies` on your class or method and 
+noicejs will happily inject your dependencies.
 
 ## Getting Started
 Consider a `User` class that needs to fetch data from the server,
 but may be running on the same node or making a network request.
 
-    import {Inject, Injector, Module} from 'noice';
+    import {Inject, Injector, Module} from 'noicejs';
     import {Server} from './abstract/Server';
     import {NetworkServer} from './network/Server';
 
@@ -46,7 +46,7 @@ but may be running on the same node or making a network request.
     const injector = new Injector(new NetworkModule());
     const user = injector.create(User, 3);
 
-noice will check the decorated constructor, find the correct
+noicejs will check the decorated constructor, find the correct
 class for each dependency, and pass them into the constructor.
 
 Any extra parameters you pass to `create` will be passed on

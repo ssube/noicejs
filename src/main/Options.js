@@ -1,4 +1,4 @@
-export const symbol = Symbol('noice-options');
+export const symbol = Symbol('noicejs-options');
 
 export default class Options {
   /**
