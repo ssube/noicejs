@@ -57,6 +57,7 @@ export default class Injector {
       const {fn, name} = dep;
 
       // Prefer named dependencies
+      //@TODO: turn this into some sort of loop to allow for more fields
       const moduleForName = this._modules.find(m => m.has(name));
       if (moduleForName) {
         return this.getDependency(moduleForName, name);
