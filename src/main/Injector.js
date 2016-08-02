@@ -1,5 +1,7 @@
 import Options from './Options';
 
+export const allowedKeys = ['name', 'fn'];
+
 export default class Injector {
   static isConstructor(fn) {
     return fn.prototype && fn === fn.prototype.constructor;
@@ -32,22 +34,6 @@ export default class Injector {
     return this._modules;
   }
 
-  getDependency(module, it) {
-    // Thanks to the has check in find, one of provider
-    // or binding is guaranteed to be present.
-    const provider = module.getProvider(it);
-    if (provider) {
-      return this.execute(provider, module, [], {detect: false});
-    }
-
-    const binding = module.getBinding(it);
-    if (Injector.isFunction(binding)) {
-      return this.execute(binding, null);
-    } else {
-      return binding;
-    }
-  }
-
   /**
    * refactor this to handle names
    */
@@ -56,19 +42,30 @@ export default class Injector {
     return opts.deps.map(dep => {
       const {fn, name} = dep;
 
-      // Prefer named dependencies
-      //@TODO: turn this into some sort of loop to allow for more fields
-      const moduleForName = this._modules.find(m => m.has(name));
-      if (moduleForName) {
-        return this.getDependency(moduleForName, name);
-      }
+      //@TODO: get rid of this side effect
+      let module = null;
+      const val = allowedKeys
+        .filter(it => dep.hasOwnProperty(it)) // from keys that are present
+        .map(it => dep[it])                   // get the values
+        .find(val => {                        // find the first one with a module
+          return (module = this._modules.find(m => m.has(val)));
+        });
 
-      const moduleForFunc = this._modules.find(m => m.has(fn));
-      if (moduleForFunc) {
-        return this.getDependency(moduleForFunc, fn);
-      }
+      if (val && module) {
+        const provider = module.getProvider(val);
+        if (provider) {
+          return this.execute(provider, module, [], {detect: false});
+        }
 
-      throw new Error('Unable to find any implementation for interface.', fn);
+        const binding = module.getBinding(val);
+        if (Injector.isFunction(binding)) {
+          return this.execute(binding, null);
+        } else {
+          return binding;
+        }
+      } else {
+        throw new Error('Unable to satisfy dependency.', dep);
+      }
     });
   }
 
