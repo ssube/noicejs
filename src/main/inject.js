@@ -20,8 +20,8 @@ function getConstructor(target, name) {
  */
 export function attachDependencies(target, flags, deps) {
   const opts = Options.getOptions(target);
-  opts.push(deps);
   opts.merge(flags);
+  opts.push(deps);
   Options.setOptions(target, opts);
 }
 
@@ -47,7 +47,7 @@ export function Inject(...dependencies) {
  */
 export function ObjectInject(...dependencies) {
   return function decorator(target, name) {
-    attachDependencies(getConstructor(target, name), {merge: true}, dependencies);
+    attachDependencies(getConstructor(target, name), {merge: true, tagged: true}, dependencies);
   }
 }
 
@@ -63,7 +63,7 @@ export function ObjectInject(...dependencies) {
 export function ReactInject(...dependencies) {
   return function decorator(target, name, desc) {
     const wrapper = Wrapper.wrap(target, name, desc);
-    attachDependencies(name ? wrapper.value : wrapper, {merge: true}, dependencies);
+    attachDependencies(name ? wrapper.value : wrapper, {merge: true, tagged: true}, dependencies);
     return wrapper;
   }
 }

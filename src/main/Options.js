@@ -1,24 +1,6 @@
 export const symbol = Symbol('noice-options');
 
 export default class Options {
-  /**
-   * Convert an iterable of constructors (interfaces, here) into
-   * an array of dependency options. Any objects will be passed
-   * through unchanged, so named dependencies and the like will
-   * not be modified.
-   */
-  static wrap(deps) {
-    return deps.map(it => {
-      if (typeof it === 'function') {
-        return {fn: it};
-      } else if (typeof it === 'string') {
-        return {name: it};
-      } else {
-        return it;
-      }
-    });
-  }
-
   static getOptions(fn) {
     return (fn[symbol] || new Options());
   }
@@ -36,8 +18,22 @@ export default class Options {
     return this._deps;
   }
 
+  /**
+   * Convert an iterable of constructors (interfaces, here) into
+   * an array of dependency options. Any objects will be passed
+   * through unchanged, so named dependencies and the like will
+   * not be modified.
+   */
   push(deps) {
-    this._deps.push(...Options.wrap(deps));
+    this._deps.push(...deps.map(it => {
+      if (typeof it === 'function') {
+        return {fn: it};
+      } else if (typeof it === 'string') {
+        return {name: it};
+      } else {
+        return it;
+      }
+    }));
     return this;
   }
 
