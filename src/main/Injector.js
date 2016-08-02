@@ -2,6 +2,20 @@ import Options from './Options';
 
 export const allowedKeys = ['name', 'fn'];
 
+function find(data, cb) {
+  if (data.find) {
+    return data.find(cb);
+  }
+
+  for (let it of data) {
+    if (cb(it)) {
+      return it;
+    }
+  }
+
+  return undefined;
+}
+
 export default class Injector {
   static isConstructor(fn) {
     return fn.prototype && fn === fn.prototype.constructor;
@@ -44,12 +58,10 @@ export default class Injector {
 
       //@TODO: get rid of this side effect
       let module = null;
-      const val = allowedKeys
-        .filter(it => dep.hasOwnProperty(it)) // from keys that are present
-        .map(it => dep[it])                   // get the values
-        .find(val => {                        // find the first one with a module
-          return (module = this._modules.find(m => m.has(val)));
-        });
+      const val = find(
+        allowedKeys.filter(it => dep.hasOwnProperty(it)).map(it => dep[it]),
+        val => (module = find(this._modules, m => m.has(val)))
+      );
 
       if (val && module) {
         const provider = module.getProvider(val);
