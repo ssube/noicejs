@@ -8,8 +8,9 @@ export default class Wrapper {
   /**
    * Create a wrapper class to allow transparent injection.
    *
-   * @TODO: add an option to allow passthrough (create an instance of the
-   *        original class with the right params)
+   * If options are provided and a `hook` is specified, it will be called
+   * with the target and arguments before the wrapped class is invoked, and
+   * may modify the parameters on the way (typically adding by dependencies).
    */
   static wrapClass(target, {hook = injectorHook}) {
     return class wrapper extends target {
@@ -23,6 +24,13 @@ export default class Wrapper {
     }
   }
 
+  /**
+   * Create a wrapper method to allow transparent injection.
+   *
+   * If options are provided and a `hook` is specified, it will be called
+   * with the target and arguments before the wrapped class is invoked, and
+   * may modify the parameters on the way (typically by adding dependencies).
+   */
   static wrapMethod(target, desc, {hook = injectorHook}) {
     desc.value = function wrapper(...args) {
       return target.apply(this, hook(target, wrapper, args));
