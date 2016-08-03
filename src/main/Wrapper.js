@@ -16,7 +16,7 @@ export default class Wrapper {
       }
 
       constructor(...args) {
-        super(Injector.fromParams(args).getDependencies(wrapper).concat(args));
+        super(...Injector.fromParams(args).getDependencies(wrapper).concat(args));
       }
     }
   }
