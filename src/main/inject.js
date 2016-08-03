@@ -79,7 +79,7 @@ export function ReactInject(...dependencies) {
  */
 export function WrapInject(...dependencies) {
   return function decorator(target, name, desc) {
-    const wrapper = Wrapper.wrap(target, name, desc);
+    const wrapper = Wrapper.wrap(target, name, desc, {});
     //@TODO: make this prettier
     attachDependencies(name ? wrapper.value : wrapper, {}, dependencies);
     return wrapper;

@@ -1,6 +1,8 @@
 import Injector from './Injector';
 
-const noop = function () { /* noop */ };
+export const injectorHook = function (target, wrapper, args) {
+  return Injector.fromParams(args).getDependencies(wrapper).concat(args)
+};
 
 export default class Wrapper {
   /**
@@ -9,21 +11,21 @@ export default class Wrapper {
    * @TODO: add an option to allow passthrough (create an instance of the
    *        original class with the right params)
    */
-  static wrapClass(target, {hook = noop} = {}) {
+  static wrapClass(target, {hook = injectorHook}) {
     return class wrapper extends target {
       static get wrappedClass() {
         return target;
       }
 
       constructor(...args) {
-        super(...Injector.fromParams(args).getDependencies(wrapper).concat(args));
+        super(...hook(target, wrapper, args));
       }
     }
   }
 
-  static wrapMethod(target, desc) {
+  static wrapMethod(target, desc, {hook = injectorHook}) {
     desc.value = function wrapper(...args) {
-      return Injector.fromParams(args).execute(target, this, args, {detect: false});
+      return target.apply(this, hook(target, wrapper, args));
     };
     return desc;
   }

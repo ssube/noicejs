@@ -11,7 +11,7 @@ describe('Wrapper class', () => {
     }
 
     const args = [new TestInjector(), 1, 2, 3];
-    const wrapped = Wrapper.wrapClass(Target);
+    const wrapped = Wrapper.wrapClass(Target, {});
     const inst = new wrapped(...args);
 
     expect(wrapped).to.not.equal(Target);
@@ -27,7 +27,7 @@ describe('Wrapper class', () => {
     }
 
     const proto = Target.prototype;
-    Wrapper.wrapMethod(proto.method, Object.getOwnPropertyDescriptor(proto, 'method'));
+    Wrapper.wrapMethod(proto.method, Object.getOwnPropertyDescriptor(proto, 'method'), {});
 
     const args = [new TestInjector(), 1, 2, 3];
     const inst = new Target();
