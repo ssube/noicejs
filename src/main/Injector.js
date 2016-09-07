@@ -44,6 +44,10 @@ export default class Injector {
     this._modules.forEach(module => module.configure());
   }
 
+  extend(...modules) {
+    return new Injector(this.modules.concat(modules));
+  }
+
   get modules() {
     return this._modules;
   }
