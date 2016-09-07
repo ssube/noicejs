@@ -85,18 +85,20 @@ export default class Injector {
     });
   }
 
-  execute(fn, scope, params = [], {detect = true} = {}) {
+  execute(fn, scope, params = [], {
+    create = false, detect = true
+  } = {}) {
     const args = this.getDependencies(fn).concat(params);
 
     // if we are allowed to detect the function type and it appears to be a ctor
-    if (detect && Injector.isConstructor(fn)) {
+    if ((detect && Injector.isConstructor(fn)) || (!detect && create)) {
       return new fn(...args);
-    } else {
+    } else if (detect || (!detect && !create)) {
       return fn.apply(scope, args);
     }
   }
 
   create(ctor, ...params) {
-    return this.execute(ctor, null, params);
+    return this.execute(ctor, null, params, {create: true, detect: false});
   }
 }
