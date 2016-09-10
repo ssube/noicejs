@@ -1,6 +1,6 @@
 {
   "name": "noicejs",
-  "version": "1.0.0-alpha.4",
+  "version": "1.0.0-alpha.5",
   "description": "thin dependency injection for JavaScript",
   "main": "target/main/inject.js",
   "scripts": {

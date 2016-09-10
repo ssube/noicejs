@@ -17,12 +17,8 @@ function find(data, cb) {
 }
 
 export default class Injector {
-  static isConstructor(fn) {
-    return fn.prototype && fn === fn.prototype.constructor;
-  }
-
-  static isFunction(fn) {
-    return typeof fn === 'function';
+  static isCallable(fn) {
+    return fn && typeof fn.apply === 'function' && typeof fn.call === 'function';
   }
 
   static fromParams(params) {
@@ -48,6 +44,10 @@ export default class Injector {
     return new Injector(this.modules.concat(modules));
   }
 
+  set logger(value) {
+    this._logger = value;
+  }
+
   get modules() {
     return this._modules;
   }
@@ -56,6 +56,10 @@ export default class Injector {
    * refactor this to handle names
    */
   getDependencies(target) {
+    if (this._logger) {
+      this._logger.debug({target}, 'Getting dependencies.');
+    }
+
     const opts = Options.getOptions(target);
     return opts.deps.map(dep => {
       const {fn, name} = dep;
@@ -68,15 +72,31 @@ export default class Injector {
       );
 
       if (val && module) {
+        if (this._logger) {
+          this._logger.debug({module, val}, 'Using val from module to meet dependency.');
+        }
+
         const provider = module.getProvider(val);
         if (provider) {
+          if (this._logger) {
+            this._logger.debug({module, provider}, 'Executing provider from module.');
+          }
+
           return this.execute(provider, module);
         }
 
         const binding = module.getBinding(val);
-        if (Injector.isFunction(binding)) {
+        if (Injector.isCallable(binding)) {
+          if (this._logger) {
+            this._logger.debug({binding, module}, 'Creating binding from module.');
+          }
+
           return this.create(binding);
         } else {
+          if (this._logger) {
+            this._logger.debug({binding, module}, 'Returning binding from module.');
+          }
+
           return binding;
         }
       } else {
