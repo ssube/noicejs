@@ -70,12 +70,12 @@ export default class Injector {
       if (val && module) {
         const provider = module.getProvider(val);
         if (provider) {
-          return this.execute(provider, module, [], {detect: false});
+          return this.execute(provider, module);
         }
 
         const binding = module.getBinding(val);
         if (Injector.isFunction(binding)) {
-          return this.execute(binding, null);
+          return this.create(binding);
         } else {
           return binding;
         }
@@ -85,20 +85,13 @@ export default class Injector {
     });
   }
 
-  execute(fn, scope, params = [], {
-    create = false, detect = true
-  } = {}) {
+  execute(fn, scope, params = []) {
     const args = this.getDependencies(fn).concat(params);
-
-    // if we are allowed to detect the function type and it appears to be a ctor
-    if ((detect && Injector.isConstructor(fn)) || (!detect && create)) {
-      return new fn(...args);
-    } else if (detect || (!detect && !create)) {
-      return fn.apply(scope, args);
-    }
+    return fn.apply(scope, args);
   }
 
   create(ctor, ...params) {
-    return this.execute(ctor, null, params, {create: true, detect: false});
+    const args = this.getDependencies(ctor).concat(params);
+    return new ctor(...args);
   }
 }
