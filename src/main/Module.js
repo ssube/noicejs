@@ -7,16 +7,22 @@ export default class Module {
     return this._bindings;
   }
 
-  bind(iface) {
-    return {
-      to: (impl) => {
-        this._bindings.set(iface, impl);
-      }
-    };
+  bind(iface, impl) {
+    if (impl) {
+      this._bindings.set(iface, impl);
+      return this;
+    } else {
+      return {
+        to: (dimpl) => {
+          this._bindings.set(iface, dimpl);
+          return this;
+        }
+      };
+    }
   }
 
   configure() {
-    throw new Error('Configure has not been implemented for module!');
+    throw new Error('Configure has not been implemented by this module!');
   }
 
   getClass() {

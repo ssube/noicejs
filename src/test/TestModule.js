@@ -11,9 +11,15 @@ describe('Module class', () => {
     expect(Object.keys(new Module().bind(iface))).to.deep.equal(keys);
   });
 
-  it('should bind an interface to an implementation', () => {
+  it('should bind an interface to an deferred implementation', () => {
     const iface = {}, impl = {}, module = new Module();
     module.bind(iface).to(impl);
+    expect(module.bindings.get(iface)).to.equal(impl);
+  });
+
+  it('should bind an interface to an implementation immediately', () => {
+    const iface = {}, impl = {}, module = new Module();
+    module.bind(iface, impl);
     expect(module.bindings.get(iface)).to.equal(impl);
   });
 
