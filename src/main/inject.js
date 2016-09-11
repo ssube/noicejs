@@ -99,9 +99,9 @@ export function WrapInject(...dependencies) {
 export function Provides(iface) {
   return function decorator(proto, name) {
     const target = proto.constructor;
-    if (!target.providers) {
-      target.providers = new Map();
+    if (!target._providers) {
+      target._providers = new Map();
     }
-    target.providers.set(iface, proto[name]);
+    target._providers.set(iface, proto[name]);
   }
 }

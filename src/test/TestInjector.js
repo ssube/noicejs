@@ -144,5 +144,39 @@ describe('Injector class', () => {
 
     const impl = inj.create(NameConsumer);
     expect(impl.arg0).to.equal(inst);
-  })
+  });
+
+  it('should resolve constructors', () => {
+    class Other { }
+    class SubModule extends Module {
+      configure() {
+        this.bind(Interface, Implementation);
+      }
+    }
+
+    const inj = new Injector(new SubModule());
+    const impl = inj.create(Interface);
+    expect(impl).to.be.an.instanceof(Implementation);
+    const other = inj.create(Other);
+    expect(other).to.be.an.instanceof(Other);
+  });
+
+  it('should resolve providers', () => {
+    class Other { }
+    class SubModule extends Module {
+      createInterface(...args) {
+        return new Implementation(...args);
+      }
+
+      configure() {
+        this.provide(Interface).with((...args) => this.createInterface(...args));
+      }
+    }
+
+    const inj = new Injector(new SubModule());
+    const impl = inj.execute(Interface);
+    expect(impl).to.be.an.instanceof(Implementation);
+    const val = inj.execute(() => 4);
+    expect(val).to.equal(4);
+  });
 });
