@@ -1,10 +1,11 @@
 {
   "name": "noicejs",
-  "version": "1.0.0-alpha.6",
-  "description": "thin dependency injection for JavaScript",
-  "main": "target/main/inject.js",
+  "version": "2.0.0-pre-1",
+  "description": "extremely thin dependency injection",
+  "main": "out/main-bundle.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "make bundle",
+    "test": "make test"
   },
   "repository": {
     "type": "git",
