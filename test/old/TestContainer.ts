@@ -46,7 +46,7 @@ describe('container', () => {
     const ctr = Container.from(new TestModule());
     await ctr.configure();
 
-    @Inject(Outerface)
+    @Inject('outerface')
     class FailingConsumer {
       private di: any;
 
@@ -55,7 +55,7 @@ describe('container', () => {
       }
     }
 
-    return expect(ctr.create(FailingConsumer)).to.eventually.throw();
+    expect(ctr.create(FailingConsumer)).to.eventually.be.rejected;
   });
 
   itAsync('should pass arguments to the constructor', async () => {
@@ -67,8 +67,7 @@ describe('container', () => {
     expect(impl.args).to.deep.equal(args);
   });
 
-  // @todo: fix Provides
-  it('should execute providers', async () => {
+  itAsync('should execute providers', async () => {
     const modSpy = spy();
 
     class SubModule extends Module {
