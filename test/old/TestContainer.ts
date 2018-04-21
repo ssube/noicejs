@@ -1,10 +1,11 @@
 import { expect } from 'chai';
+import {spy} from 'sinon';
 import { Container } from 'src/Container';
 import { Inject } from 'src/Inject';
 import { Module } from 'src/Module';
 import { Provides } from 'src/Provides';
-import { Consumer, Implementation, Interface, TestModule } from './HelperClass';
 import { itAsync } from '../helpers/async';
+import { Consumer, Implementation, Interface, TestModule } from './HelperClass';
 
 describe('container', () => {
   itAsync('should take a list of modules', async () => {
@@ -67,44 +68,43 @@ describe('container', () => {
   });
 
   // @todo: fix Provides
-  xit('should execute providers', async () => {
-    let counter = 0;
+  it('should execute providers', async () => {
+    const modSpy = spy();
 
     class SubModule extends Module {
-      public async configure() {
-        // noop
-      }
-
       @Provides(Interface)
       public async create() {
-        ++counter;
-        return new Implementation();
+        modSpy();
+        return ctr.create(Implementation);
       }
     }
 
-    const ctr = Container.from(new SubModule());
+    const mod = new SubModule();
+    const ctr = Container.from(mod);
     await ctr.configure();
 
     const impl = await ctr.create(Consumer);
+    expect(modSpy).to.have.been.calledOnce;
     expect(impl.deps.interface).to.be.an.instanceof(Implementation);
-    expect(counter).to.equal(1);
   });
 
   itAsync('should provide dependencies to providers', async () => {
     class Outerface { /* empty */ }
     const outerInstance = new Outerface();
 
-    let counter = 0;
+    const modSpy = spy();
     class SubModule extends Module {
-      public async configure() {
+      public async configure(container: Container) {
+        await super.configure(container);
         this.bind(Outerface).toInstance(outerInstance);
       }
 
-      // @Inject(Outerface)
+      @Inject(Outerface)
       @Provides(Interface)
-      public create(outer: any) {
-        ++counter;
-        return new Implementation(outer);
+      public async create(outer: {outerface: Outerface}) {
+        console.info('===marker', 'submodule create', outer);
+        modSpy(outer);
+        return ctr.create(Implementation, outer as any);
       }
     }
 
@@ -112,9 +112,11 @@ describe('container', () => {
     await ctr.configure();
 
     const impl = await ctr.create(Consumer);
-    expect(impl.deps.interface).to.be.an.instanceof(Implementation);
-    expect(impl.args).to.deep.equal([outerInstance]);
-    expect(counter).to.equal(1);
+    console.info('===marker', 'providers impl', JSON.stringify(impl));
+
+    expect(modSpy).to.have.been.calledOnce;
+    expect(impl.deps.interface).to.be.an.instanceOf(Implementation);
+    expect(impl.deps.interface.deps.outerface).to.equal(outerInstance);
   });
 
   itAsync('should invoke binding functions', async () => {
@@ -122,9 +124,9 @@ describe('container', () => {
 
     class SubModule extends Module {
       public async configure() {
-        this.bind(Interface).toFactory(async (...args: Array<any>) => {
+        this.bind(Interface).toFactory(async (deps: any, ...args: Array<any>) => {
           ++counter;
-          return new Implementation(...args);
+          return new Implementation(deps, ...args);
         });
       }
     }
@@ -185,12 +187,12 @@ describe('container', () => {
   itAsync('should resolve providers', async () => {
     class Other { }
     class SubModule extends Module {
-      public async createInterface(...args: Array<any>) {
-        return new Implementation(...args);
+      public async createInterface(deps: any, ...args: Array<any>) {
+        return new Implementation(deps, ...args);
       }
 
       public async configure() {
-        this.bind(Interface).toFactory((...args: Array<any>) => this.createInterface(...args));
+        this.bind(Interface).toFactory((deps: any, ...args: Array<any>) => this.createInterface(deps, ...args));
       }
     }
 

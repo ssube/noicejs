@@ -1,6 +1,6 @@
 import {isString} from 'lodash';
 
-import {Constructor, Contract, contractName, injectionSymbol, isConstructor} from 'src/Container';
+import {Constructor, Contract, contractName, isConstructor} from 'src/Container';
 
 export interface Dependency {
   name: string;
@@ -12,23 +12,6 @@ export interface Descriptor {
 }
 
 export type InjectedDependency = Dependency | Constructor<any, any> | string;
-
-/**
- * Attach a descriptor to a target constructor.
- * @param target
- * @param descriptor
- */
-export function dependsOn(target: Function, descriptor: Descriptor): void {
-  Reflect.set(target, injectionSymbol, descriptor);
-}
-
-export function getDepends(target: Function): Array<Dependency> {
-  if (Reflect.has(target, injectionSymbol)) {
-    return Reflect.get(target, injectionSymbol);
-  } else {
-    return [];
-  }
-}
 
 /**
  * Convert an InjectedDependency into a regular Dependency

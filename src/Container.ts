@@ -4,10 +4,9 @@ import { ContainerBoundError } from 'src/error/ContainerBoundError';
 import { ContainerNotBoundError } from 'src/error/ContainerNotBoundError';
 import { MissingValueError } from 'src/error/MissingValueError';
 
-import { Dependency, Descriptor, getDepends } from 'src/Dependency';
+import { Dependency, Descriptor } from 'src/Dependency';
+import { getDepends } from 'src/Inject';
 import { Factory, Module, ProviderType } from 'src/Module';
-
-export const injectionSymbol = Symbol('inject');
 
 export interface Constructor<TReturn, TOptions> {
   new(options: TOptions, ...extra: Array<any>): TReturn;
@@ -90,6 +89,8 @@ export class Container {
       throw new MissingValueError('missing contract');
     }
 
+    console.info('===marker', 'container create', contract);
+
     const module = this.provides(contract);
     if (module) {
       const provider = module.get<TReturn>(contract);
@@ -139,6 +140,8 @@ export class Container {
    * Prepare a map with the dependencies for a descriptor.
    *
    * This will always inject the container itself to configure children.
+   *
+   * @todo resolve dependencies in parallel
    */
   protected async dependencies<O extends BaseOptions>(deps: Array<Dependency>): Promise<O> {
     const options: Partial<O> = {};

@@ -1,9 +1,6 @@
-import {expect} from 'chai';
-import {spy} from 'sinon';
-
-import {getDepends, resolveDepends} from 'src/Dependency';
-import {Inject} from 'src/Inject';
-import {describeAsync, itAsync} from 'test/helpers/async';
+import { expect } from 'chai';
+import { Inject, getDepends } from 'src/Inject';
+import { describeAsync, itAsync } from 'test/helpers/async';
 
 describeAsync('injection decorator', async () => {
   itAsync('should attach dependencies', async () => {

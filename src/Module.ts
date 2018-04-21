@@ -58,8 +58,11 @@ export abstract class Module {
 
   public get<C>(contract: Contract<C>): Provider<C> {
     const name = contractName(contract);
+    const prov = this.providers.get(name) as Provider<C>;
 
-    return this.providers.get(name) as Provider<C>;
+    console.info('===marker', 'provider', name, prov);
+
+    return prov;
   }
 
   /**
@@ -98,5 +101,12 @@ export abstract class Module {
         return this;
       }
     };
+  }
+
+  public debug() {
+    console.info('debug module');
+    for (const [k, v] of this.providers.entries()) {
+      console.info('debug module: ', k, ' provides ', v);
+    }
   }
 }

@@ -1,16 +1,13 @@
 # noicejs
 
-Extremely Thin Dependency Injection
-
-inspired by [Google's Guice library](https://github.com/google/guice) and written in Typescript.
+extremely thin dependency injection (v2: now with async!)
 
 [![Build Status](https://travis-ci.org/ssube/noicejs.svg?branch=master)](https://travis-ci.org/ssube/noicejs)
 [![Dependency Status](https://david-dm.org/ssube/noicejs.svg)](https://david-dm.org/ssube/noicejs)
 [![devDependency Status](https://david-dm.org/ssube/noicejs/dev-status.svg)](https://david-dm.org/ssube/noicejs#info=devDependencies)
 [![Code Climate](https://codeclimate.com/github/ssube/noicejs/badges/gpa.svg)](https://codeclimate.com/github/ssube/noicejs)
 
-While the examples use ES6 classes and ES7 decorators, you can simply call `attachDependencies` on your class or method
-and noicejs will happily inject your dependencies.
+Inspired by [Google's Guice library](https://github.com/google/guice) and written in Typescript.
 
 ## Usage
 
@@ -75,5 +72,6 @@ injector.execute(User.createUser, scope, 3);
 To build a bundle and run tests:
 
 ```shell
+yarn
 make
 ```
