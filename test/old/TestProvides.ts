@@ -1,25 +1,39 @@
-import {expect} from 'chai';
-import {Provides} from 'src/Provides';
+import { expect } from 'chai';
+import { Container } from 'src/Container';
+import { Module } from 'src/Module';
+import { getProvides, Provides } from 'src/Provides';
+import { itAsync } from '../helpers/async';
 
 describe('provides decorator', () => {
-  it('should return a function', () => {
+  itAsync('should return a function', async () => {
     expect(Provides()).to.be.a('function');
   });
 
-  it('should register the method on the class', () => {
-    const iface = {}, target = {constructor: {}, foo: {}};
-    Provides(iface)(target, 'foo');
-    expect(target.constructor._providers.get(iface)).to.equal(target.foo);
-  });
-
-  it('should work as a method decorator', () => {
-    const iface = {};
-
-    class Target {
-      @Provides(iface)
-      foo() { /* noop */ }
+  itAsync('should register the method on the class', async () => {
+    class Target { }
+    class TestModule extends Module {
+      public foo() { /* noop */ }
     }
 
-    expect(Target._providers.get(iface)).to.equal(Target.prototype.foo);
+    Provides(Target)(TestModule, 'foo', Object.getOwnPropertyDescriptor(TestModule.prototype, 'foo'));
+
+    const provides = getProvides(TestModule.prototype.foo);
+    expect(provides[0].contract).to.deep.equal(Target);
+  });
+
+  itAsync('should work as a method decorator', async () => {
+    class Target { }
+    class TestModule extends Module {
+      @Provides(Target)
+      public foo() {
+        return 2;
+       }
+    }
+
+    const module = new TestModule();
+    const ctr = Container.from(module);
+    await ctr.configure();
+
+    expect(module.get('target').value).to.equal(TestModule.prototype.foo);
   });
 });

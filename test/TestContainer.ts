@@ -1,11 +1,12 @@
-import {expect} from 'chai';
-import {spy} from 'sinon';
+import { expect } from 'chai';
+import { spy } from 'sinon';
 
-import {Container} from 'src/Container';
-import {Inject} from 'src/Inject';
-import {Module} from 'src/Module';
+import { Container } from 'src/Container';
+import { Inject } from 'src/Inject';
+import { Module } from 'src/Module';
 
-import {describeAsync, itAsync} from 'test/helpers/async';
+import { describeAsync, itAsync } from 'test/helpers/async';
+import { ContainerNotBoundError } from 'src/error/ContainerNotBoundError';
 
 const testModuleCount = 8; // the number of test modules to create
 
@@ -42,7 +43,7 @@ describeAsync('injection container', async () => {
     const modules = Array(testModuleCount).fill(null).map(() => new TestModule());
     const container = Container.from(...modules);
 
-    expect(container.create(TestModule)).to.be.rejected;
+    return expect(container.create(TestModule)).to.eventually.be.rejectedWith(ContainerNotBoundError);
   });
 
   itAsync('should be extended with some modules', async () => {

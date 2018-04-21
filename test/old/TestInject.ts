@@ -1,7 +1,7 @@
-import {expect} from 'chai';
-import {getDependencies} from 'src/Container';
-import {Inject} from 'src/Inject';
-import {itAsync} from 'test/helpers/async';
+import { expect } from 'chai';
+import { getDepends } from 'src/Dependency';
+import { Inject } from 'src/Inject';
+import { itAsync } from 'test/helpers/async';
 
 describe('inject decorator', async () => {
   itAsync('should return a function', async () => {
@@ -25,6 +25,6 @@ describe('inject decorator', async () => {
       private method() { /* noop */ }
     }
 
-    expect(getDependencies(Target)).to.deep.equal(params);
+    expect(getDepends(Target)).to.deep.equal(params);
   });
 });

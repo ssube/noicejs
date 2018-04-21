@@ -1,5 +1,6 @@
 import {Inject} from 'src/Inject';
 import {Module} from 'src/Module';
+import { Container } from 'src/Container';
 
 export class Interface {
   // empty
@@ -15,22 +16,24 @@ export class Implementation {
 
 @Inject(Interface)
 export class Consumer {
-  public readonly iface: any;
+  public readonly deps: any;
   public readonly args: Array<any>;
 
-  @Inject(Interface)
-  static create(iface: any, ...args: Array<any>) {
-    return new Consumer(iface, ...args);
+  // @Inject(Interface)
+  public static create(deps: any, ...args: Array<any>) {
+    return new Consumer(deps, ...args);
   }
 
-  constructor(iface: any, ...args: Array<any>) {
-    this.iface = iface;
+  constructor(deps: any, ...args: Array<any>) {
+    this.deps = deps;
     this.args = args;
   }
 }
 
 export class TestModule extends Module {
-  public async configure() {
+  public async configure(container: Container) {
+    await super.configure(container);
+
     this.bind(Interface).toConstructor(Implementation);
   }
 }

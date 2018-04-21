@@ -1,8 +1,8 @@
 import {expect} from 'chai';
 import {spy} from 'sinon';
 
-import {getDependencies} from 'src/Container';
-import {Inject, normalizeDependencies} from 'src/Inject';
+import {getDepends, resolveDepends} from 'src/Dependency';
+import {Inject} from 'src/Inject';
 import {describeAsync, itAsync} from 'test/helpers/async';
 
 describeAsync('injection decorator', async () => {
@@ -16,13 +16,13 @@ describeAsync('injection decorator', async () => {
     @Inject(dep)
     class TestClass { /* noop */ }
 
-    expect(getDependencies(TestClass)).to.deep.equal([dep]);
+    expect(getDepends(TestClass)).to.deep.equal([dep]);
   });
 
   itAsync('should handle missing dependencies', async () => {
     class TestClass { /* noop */ }
 
-    expect(getDependencies(TestClass)).to.deep.equal([]);
+    expect(getDepends(TestClass)).to.deep.equal([]);
   });
 
   itAsync('should flatten dependencies', async () => {
@@ -31,7 +31,7 @@ describeAsync('injection decorator', async () => {
     @Inject(FooClass)
     class TestClass { /* noop */ }
 
-    expect(getDependencies(TestClass)).to.deep.equal([{
+    expect(getDepends(TestClass)).to.deep.equal([{
       contract: FooClass,
       name: 'foo-class'
     }]);

@@ -1,11 +1,11 @@
-import {isFunction, kebabCase} from 'lodash';
+import { isFunction, kebabCase } from 'lodash';
 
-import {ContainerBoundError} from 'src/error/ContainerBoundError';
-import {ContainerNotBoundError} from 'src/error/ContainerNotBoundError';
-import {MissingValueError} from 'src/error/MissingValueError';
+import { ContainerBoundError } from 'src/error/ContainerBoundError';
+import { ContainerNotBoundError } from 'src/error/ContainerNotBoundError';
+import { MissingValueError } from 'src/error/MissingValueError';
 
-import {Dependency, Descriptor} from 'src/Dependency';
-import {Factory, Module, ProviderType} from 'src/Module';
+import { Dependency, Descriptor, getDepends } from 'src/Dependency';
+import { Factory, Module, ProviderType } from 'src/Module';
 
 export const injectionSymbol = Symbol('inject');
 
@@ -30,14 +30,6 @@ export function contractName(c: Contract<any>): string {
     return kebabCase(c.toString());
   } else {
     return c.toString();
-  }
-}
-
-export function getDependencies(target: Constructor<any, any>): Array<Dependency> {
-  if (Reflect.has(target, injectionSymbol)) {
-    return Reflect.get(target, injectionSymbol);
-  } else {
-    return [];
   }
 }
 
@@ -90,8 +82,8 @@ export class Container {
    */
   public async create<
     TReturn,
-    TOptions
-  >(contract: Contract<TReturn>, options?: Partial<TOptions>): Promise<TReturn> {
+    TOptions extends BaseOptions
+    >(contract: Contract<TReturn>, options: Partial<TOptions> = {}, ...args: Array<any>): Promise<TReturn> {
     if (!this.ready) {
       throw new ContainerNotBoundError('container has not been configured yet');
     } else if (!contract) {
@@ -103,9 +95,9 @@ export class Container {
       const provider = module.get<TReturn>(contract);
 
       if (provider.type === ProviderType.Constructor) {
-        return this.construct<TReturn, TOptions>(provider.value, options);
+        return this.construct<TReturn, TOptions>(provider.value, options, args);
       } else if (provider.type === ProviderType.Factory) {
-        return this.invoke<TReturn, TOptions>(provider.value, module, options);
+        return this.invoke<TReturn, TOptions>(provider.value, module, options, args);
       } else if (provider.type === ProviderType.Instance) {
         return provider.value;
       } else {
@@ -113,7 +105,7 @@ export class Container {
       }
     } else if (isFunction(contract)) {
       // @todo this shouldn't need a cast but detecting constructors is difficult
-      return this.construct<TReturn, TOptions>(contract as Constructor<TReturn, TOptions>, options);
+      return this.construct<TReturn, TOptions>(contract as Constructor<TReturn, TOptions>, options, args);
     } else {
       throw new MissingValueError(`no provider for contract: ${contractName(contract)}`);
     }
@@ -131,16 +123,16 @@ export class Container {
     return new Container(merged);
   }
 
-  protected async construct<R, O>(ctor: Constructor<R, O>, options?: Partial<O>): Promise<R> {
-    const deps = await this.fulfill(ctor);
-    const args = {...deps, ...(options as any)}; // caught between a lint and a cast
-    return Reflect.construct(ctor, [args]);
+  protected async construct<R, O extends BaseOptions>(ctor: Constructor<R, O>, options: Partial<O>, args: Array<any>): Promise<R> {
+    const deps = await this.dependencies<O>(getDepends(ctor));
+    Object.assign(deps, options);
+    return Reflect.construct(ctor, [deps].concat(args));
   }
 
-  protected async invoke<R, O>(factory: Factory<R>, thisArg: Module, options?: Partial<O>): Promise<R> {
-    const deps = await this.fulfill(factory);
-    const args = {...deps, ...(options as any)};
-    return Reflect.apply(factory, thisArg, [args]);
+  protected async invoke<R, O extends BaseOptions>(factory: Factory<R>, thisArg: Module, options: Partial<O>, args: Array<any>): Promise<R> {
+    const deps = await this.dependencies<O>(getDepends(factory));
+    Object.assign(deps, options);
+    return Reflect.apply(factory, thisArg, [deps].concat(args));
   }
 
   /**
@@ -151,7 +143,7 @@ export class Container {
   protected async dependencies<O extends BaseOptions>(deps: Array<Dependency>): Promise<O> {
     const options: Partial<O> = {};
     for (const dependency of deps) {
-      const {contract, name} = dependency;
+      const { contract, name } = dependency;
       const dep = await this.create(contract);
       options[name as keyof O] = dep;
     }
@@ -159,13 +151,6 @@ export class Container {
       container: this
     });
     return options as O;
-  }
-
-  /**
-   * This is a simple helper for the common `describe` and `dependencies` pair.
-   */
-  protected async fulfill<O extends BaseOptions>(implementation: any): Promise<O> {
-    return this.dependencies<O>(getDependencies(implementation));
   }
 
   protected provides<R>(contract: Contract<R>): Module | undefined {

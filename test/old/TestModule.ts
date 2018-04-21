@@ -12,26 +12,29 @@ describe('Module class', () => {
     expect(new TestModule().size).to.equal(0);
   });
 
-  it('should bind an interface and return a to function', () => {
-    const iface = Symbol(), keys = ['to'];
-    expect(Object.keys(new TestModule().bind(iface))).to.deep.equal(keys);
+  it('should bind an interface and return a builder', () => {
+    const iface = Symbol();
+    const builder = new TestModule().bind(iface);
+    for (const [key, value] of Object.entries(builder)) {
+      expect(value).to.be.a('function');
+    }
   });
 
   it('should bind an interface to an deferred implementation', () => {
-    const iface = Symbol(), impl = {}, module = new TestModule();
+    const iface = Symbol();
+    const impl = {};
+    const module = new TestModule();
+
     module.bind(iface).toInstance(impl);
-    expect(module.get(iface)).to.equal(impl);
+    expect(module.get(iface).value).to.equal(impl);
   });
 
   it('should bind an interface to an implementation immediately', () => {
-    const iface = Symbol(), impl = {}, module = new TestModule();
-    module.bind(iface).toInstance(impl);
-    expect(module.get(iface)).to.equal(impl);
-  });
+    const iface = Symbol();
+    const impl = {};
+    const module = new TestModule();
 
-  it('should throw on configure', () => {
-    expect(() => {
-      new TestModule().configure();
-    }).to.throw();
+    module.bind(iface).toInstance(impl);
+    expect(module.get(iface).value).to.equal(impl);
   });
 });

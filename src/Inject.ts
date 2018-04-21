@@ -1,28 +1,13 @@
-import {Constructor, Contract, contractName, getDependencies, injectionSymbol, isConstructor} from 'src/Container';
-import {Dependency} from 'src/Dependency';
-
-export type InjectedDependency = Dependency | Constructor<any, any>;
-
-export function normalizeDependencies(deps: Array<InjectedDependency>): Array<Dependency> {
-  return deps.map((contract: InjectedDependency) => {
-    if (isConstructor(contract)) {
-      return {
-        contract,
-        name: contractName(contract)
-      };
-    } else {
-      return contract;
-    }
-  });
-}
+import { Constructor, Contract, contractName, injectionSymbol, isConstructor } from 'src/Container';
+import { Dependency, getDepends, InjectedDependency, resolveDepends } from 'src/Dependency';
 
 /**
  * Injection decorator for classes.
  */
 export function Inject<TInjected>(...needs: Array<InjectedDependency>) {
   return (target: Constructor<TInjected, any>) => {
-    const prev = getDependencies(target);
-    const next = normalizeDependencies(needs);
+    const prev = getDepends(target);
+    const next = resolveDepends(needs);
     Reflect.set(target, injectionSymbol, prev.concat(next));
   };
 }
