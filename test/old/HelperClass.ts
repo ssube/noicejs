@@ -1,6 +1,6 @@
 import { Container } from 'src/Container';
 import { Inject } from 'src/Inject';
-import { Module } from 'src/Module';
+import { Module, ModuleOptions } from 'src/Module';
 
 export class Interface {
   // empty
@@ -34,8 +34,8 @@ export class Consumer {
 }
 
 export class TestModule extends Module {
-  public async configure(container: Container) {
-    await super.configure(container);
+  public async configure(options: ModuleOptions) {
+    await super.configure(options);
 
     this.bind(Interface).toConstructor(Implementation);
   }

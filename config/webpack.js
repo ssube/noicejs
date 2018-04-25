@@ -1,9 +1,12 @@
-const {resolve} = require('path');
-const {CheckerPlugin, TsConfigPathsPlugin} = require('awesome-typescript-loader');
+const { resolve } = require('path');
+const { CheckerPlugin, TsConfigPathsPlugin } = require('awesome-typescript-loader');
+const DtsGeneratorPlugin = require('dts-generator-webpack-plugin').default;
 const instrument = require('istanbul-instrumenter-loader');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
-const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
+console.info('===webpack', DtsGeneratorPlugin);
 
 const tsconfig = require('./tsconfig');
 
@@ -12,6 +15,10 @@ const path = {
   source: process.env.SOURCE_PATH,
   target: process.env.TARGET_PATH,
   test: process.env.TEST_PATH
+};
+
+const pattern = {
+  source: /^.*src\//
 };
 
 const modulePath = {
@@ -24,7 +31,7 @@ const modulePath = {
 const typeCheck = process.env['TEST_CHECK'] === 'true';
 
 module.exports = {
-  devtool: 'inline-source-map',
+  devtool: 'source-map',
   entry: {
     main: modulePath.index,
     test: [modulePath.harness, 'sinon', 'chai']
@@ -43,6 +50,10 @@ module.exports = {
       test: /\.tsx?$/,
       loader: 'awesome-typescript-loader',
       options: {
+        compilerOptions: {
+          declaration: true,
+          outFile: resolve(path.target, "main-bundle.d.ts"),
+        },
         configFileName: 'config/tsconfig.json',
         inlineSourceMap: false,
         sourceMap: true
@@ -69,6 +80,26 @@ module.exports = {
       generateStatsFile: true,
       openAnalyzer: false,
       reportFilename: 'bundles.html'
+    }),
+    new DtsGeneratorPlugin({
+      name: 'noicejs',
+      project: path.root,
+      exclude: [
+        'node_modules/**/*',
+        'test/**/*'
+      ],
+      resolveModuleId: (params) => {
+        console.info('===webpack', 'resolve module', params);
+        const module = params.currentModuleId.replace(pattern.source, '');
+        if (module === 'index') {
+          return 'noicejs';
+        }
+        return 'noicejs/' + module;
+      },
+      resolveModuleImport: (params) => {
+        console.info('===webpack', 'import module', params);
+        return 'noicejs/' + params.importedModuleId.replace(pattern.source, '');
+      }
     })
   ],
   resolve: {
@@ -95,7 +126,7 @@ module.exports = {
     }],
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
     plugins: [
-      new TsConfigPathsPlugin({tsconfig, compiler: 'typescript'})
+      new TsConfigPathsPlugin({ tsconfig, compiler: 'typescript' })
     ]
   },
   target: 'node'

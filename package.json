@@ -3,6 +3,7 @@
   "version": "2.0.0-pre-1",
   "description": "extremely thin dependency injection",
   "main": "out/main-bundle.js",
+  "types": "out/noicejs.d.ts",
   "scripts": {
     "build": "make bundle",
     "test": "make test"
@@ -33,6 +34,9 @@
     "awesome-typescript-loader": "^5.0.0",
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
+    "dts-bundle": "^0.7.3",
+    "dts-generator": "^2.1.0",
+    "dts-generator-webpack-plugin": "^1.0.0",
     "ineeda": "^0.12.0-alpha.0",
     "istanbul-instrumenter-loader": "^3.0.1",
     "lodash": "^4.17.5",
@@ -47,6 +51,7 @@
     "typescript": "2.8",
     "webpack": "4",
     "webpack-bundle-analyzer": "^2.11.1",
-    "webpack-cli": "^2.0.14"
+    "webpack-cli": "^2.0.14",
+    "webpack-dts-bundle": "^0.0.2"
   }
 }

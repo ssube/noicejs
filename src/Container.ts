@@ -6,6 +6,7 @@ import { MissingValueError } from 'src/error/MissingValueError';
 
 import { Dependency, Descriptor } from 'src/Dependency';
 import { getDepends } from 'src/Inject';
+import { Logger } from 'src/Logger';
 import { Factory, Module, ProviderType } from 'src/Module';
 
 export interface Constructor<TReturn, TOptions> {
@@ -43,6 +44,10 @@ export interface BaseOptions {
   container: Container;
 }
 
+export interface ContainerOptions {
+  logger: Logger | undefined;
+}
+
 /**
  * This is an exceptionally minimal DI container.
  */
@@ -51,10 +56,12 @@ export class Container {
     return new Container(modules);
   }
 
+  protected logger: Logger | undefined;
   protected modules: Array<Module>;
   protected ready: boolean;
 
   constructor(modules: Iterable<Module>) {
+    this.logger = undefined;
     this.modules = Array.from(modules);
     this.ready = false;
   }
@@ -64,15 +71,21 @@ export class Container {
    *
    * This must be done sequentially, since some modules may use classes from other modules.
    */
-  public async configure() {
+  public async configure(options: ContainerOptions = {logger: undefined}) {
     if (this.ready) {
       throw new ContainerBoundError('container already bound');
     }
 
-    for (const module of this.modules) {
-      await module.configure(this);
-    }
+    this.logger = options.logger;
     this.ready = true;
+
+    for (const module of this.modules) {
+      await module.configure({
+        container: this,
+        logger: options.logger
+      });
+    }
+
     return this;
   }
 
@@ -89,27 +102,40 @@ export class Container {
       throw new MissingValueError('missing contract');
     }
 
-    console.info('===marker', 'container create', contract);
+    if (this.logger) {
+      this.logger.debug({ contract }, 'container create contract');
+    }
 
     const module = this.provides(contract);
     if (module) {
-      const provider = module.get<TReturn>(contract);
-
-      if (provider.type === ProviderType.Constructor) {
-        return this.construct<TReturn, TOptions>(provider.value, options, args);
-      } else if (provider.type === ProviderType.Factory) {
-        return this.invoke<TReturn, TOptions>(provider.value, module, options, args);
-      } else if (provider.type === ProviderType.Instance) {
-        return provider.value;
-      } else {
-        throw new MissingValueError(`no known provider for contract: ${contractName(contract)}`);
+      if (this.logger) {
+        this.logger.debug({ module }, 'contract provided by module');
       }
-    } else if (isFunction(contract)) {
+
+      const provider = module.get<TReturn>(contract);
+      switch (provider.type) {
+        case ProviderType.Constructor:
+          return this.construct<TReturn, TOptions>(provider.value, options, args);
+        case ProviderType.Factory:
+          return this.invoke<TReturn, TOptions>(provider.value, module, options, args);
+        case ProviderType.Instance:
+          return provider.value;
+        default:
+          const msg = `no known provider for contract: ${contractName(contract)}`;
+          const error = new MissingValueError(msg);
+          if (this.logger) {
+            this.logger.error(error, msg);
+          }
+          throw error;
+      }
+    } 
+    
+    if (isFunction(contract)) {
       // @todo this shouldn't need a cast but detecting constructors is difficult
       return this.construct<TReturn, TOptions>(contract as Constructor<TReturn, TOptions>, options, args);
-    } else {
-      throw new MissingValueError(`no provider for contract: ${contractName(contract)}`);
     }
+
+    throw new MissingValueError(`no provider for contract: ${contractName(contract)}`);
   }
 
   public getModules(): Array<Module> {

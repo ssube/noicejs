@@ -1,14 +1,14 @@
-import {expect} from 'chai';
-import {spy} from 'sinon';
+import { expect } from 'chai';
+import { match, spy } from 'sinon';
 
-import {BaseOptions, Container} from 'src/Container';
-import {Module, ProviderType} from 'src/Module';
-import {describeAsync, itAsync} from 'test/helpers/async';
+import { BaseOptions, Container } from 'src/Container';
+import { Module, ProviderType, ModuleOptions } from 'src/Module';
+import { describeAsync, itAsync } from 'test/helpers/async';
 
 describeAsync('injection modules', async () => {
   itAsync('should be extendable', async () => {
     class TestModule extends Module {
-      public async configure(moduleContainer: Container) { /* noop */ }
+      public async configure(options: ModuleOptions) { /* noop */ }
     }
 
     const module = new TestModule();
@@ -18,12 +18,12 @@ describeAsync('injection modules', async () => {
     await container.configure();
 
     expect(module.configure).to.have.been.calledOnce;
-    expect(module.configure).to.have.been.calledWith(container);
+    expect(module.configure).to.have.been.calledWithMatch(match.has('container', container));
   });
 
   itAsync('should report bindings', async () => {
     class TestModule extends Module {
-      public async configure(moduleContainer: Container) {
+      public async configure(options: ModuleOptions) {
         this.bind('a').toConstructor(TestModule);
         this.bind('b').toFactory(() => Promise.resolve(3));
         this.bind('c').toInstance(1);
@@ -42,7 +42,7 @@ describeAsync('injection modules', async () => {
 
   itAsync('should get the same instance each time', async () => {
     class TestModule extends Module {
-      public async configure(moduleContainer: Container) {
+      public async configure(options: ModuleOptions) {
         this.bind('c').toInstance({});
       }
     }
@@ -60,7 +60,7 @@ describeAsync('injection modules', async () => {
   itAsync('should convert contract names', async () => {
     class TestClass { /* noop */ }
     class TestModule extends Module {
-      public async configure(moduleContainer: Container) {
+      public async configure(options: ModuleOptions) {
         this.bind(TestClass).toConstructor(TestClass);
       }
     }
@@ -77,7 +77,7 @@ describeAsync('injection modules', async () => {
     let instance: TestInstance;
 
     class TestModule extends Module {
-      public async configure(moduleContainer: Container) {
+      public async configure(options: ModuleOptions) {
         this.bind('a').toFactory(async (options) => this.getInstance(options));
       }
 
@@ -102,7 +102,7 @@ describeAsync('injection modules', async () => {
     expect(module.get('a').type).to.equal(ProviderType.Factory);
 
     expect(module.getInstance).to.have.been.calledOnce;
-    expect(module.getInstance).to.have.been.calledWith({container});
+    expect(module.getInstance).to.have.been.calledWith({ container });
 
     expect(ref, 'return the same instance').to.equal(await container.create('a'));
   });

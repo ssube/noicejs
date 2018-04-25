@@ -1,9 +1,11 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "allowJs": true,
+    "allowJs": false,
     "allowSyntheticDefaultImports": false,
     "baseUrl": "../",
+    "declaration": true,
+    "declarationDir": "../out/typings/",
     "experimentalDecorators": true,
     "importHelpers": true,
     "jsx": "react",

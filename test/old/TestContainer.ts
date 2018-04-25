@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import {spy} from 'sinon';
 import { Container } from 'src/Container';
 import { Inject } from 'src/Inject';
-import { Module } from 'src/Module';
+import { Module, ModuleOptions } from 'src/Module';
 import { Provides } from 'src/Provides';
 import { itAsync } from '../helpers/async';
 import { Consumer, Implementation, Interface, TestModule } from './HelperClass';
@@ -93,15 +93,17 @@ describe('container', () => {
 
     const modSpy = spy();
     class SubModule extends Module {
-      public async configure(container: Container) {
-        await super.configure(container);
+      public async configure(options: ModuleOptions) {
+        await super.configure(options);
         this.bind(Outerface).toInstance(outerInstance);
       }
 
       @Inject(Outerface)
       @Provides(Interface)
       public async create(outer: {outerface: Outerface}) {
-        console.info('===marker', 'submodule create', outer);
+        if (this.logger) {
+          this.logger.debug({outer}, 'submodule create');
+        }
         modSpy(outer);
         return ctr.create(Implementation, outer as any);
       }

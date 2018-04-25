@@ -1,7 +1,8 @@
 import { isFunction } from 'lodash';
 
-import { Constructor, Container, Contract, contractName } from 'src/Container';
-import { getProvides } from './Provides';
+import { Constructor, Container, Contract, contractName, BaseOptions } from 'src/Container';
+import { getProvides } from 'src/Provides';
+import { Logger } from 'src/Logger';
 
 export enum ProviderType {
   None,
@@ -29,26 +30,30 @@ export interface FluentBinding<TContract, TReturn> {
   toInstance(instance: TContract): TReturn;
 }
 
+export interface ModuleOptions extends BaseOptions {
+  logger?: Logger;
+}
+
 /**
  * Provides a set of dependencies, bound in the `configure` method.
  */
 export abstract class Module {
+  protected logger: Logger | undefined;
   protected providers: Map<string, Provider<any>>;
 
   constructor() {
     this.providers = new Map();
   }
 
-  public async configure(container: Container): Promise<void> {
+  public async configure(options: ModuleOptions): Promise<void> {
+    this.logger = options.logger;
+
     const proto: any = Reflect.getPrototypeOf(this);
     for (const k of Object.getOwnPropertyNames(proto)) {
       const v = proto[k];
-      console.info('===marker', 'proto', k, typeof v);
       if (isFunction(v)) {
         const provides = getProvides(v);
-        console.info('===marker', 'values', k, provides);
         for (const p of provides) {
-          console.info('===marker', 'provides', k, p.name);
           this.bind(p.contract).toFactory(v);
         }
       }
@@ -58,11 +63,13 @@ export abstract class Module {
 
   public get<C>(contract: Contract<C>): Provider<C> {
     const name = contractName(contract);
-    const prov = this.providers.get(name) as Provider<C>;
+    const provider = this.providers.get(name) as Provider<C>;
 
-    console.info('===marker', 'provider', name, prov);
+    if (this.logger) {
+      this.logger.debug({name, provider}, 'module get provider');
+    }
 
-    return prov;
+    return provider;
   }
 
   /**
@@ -72,6 +79,11 @@ export abstract class Module {
    */
   public has<C>(contract: Contract<C>): boolean {
     const name = contractName(contract);
+
+    if (this.logger) {
+      this.logger.debug({name}, 'module has provider');
+    }
+
     return this.providers.has(name);
   }
 
@@ -87,6 +99,11 @@ export abstract class Module {
    */
   public bind<C, I extends C>(contract: Contract<C>): FluentBinding<I, this> {
     const name = contractName(contract);
+
+    if (this.logger) {
+      this.logger.debug({name}, 'binding contract to name');
+    }
+
     return {
       toConstructor: (constructor) => {
         this.providers.set(name, { type: ProviderType.Constructor, value: constructor });
@@ -104,9 +121,13 @@ export abstract class Module {
   }
 
   public debug() {
-    console.info('debug module');
-    for (const [k, v] of this.providers.entries()) {
-      console.info('debug module: ', k, ' provides ', v);
+    if (!this.logger) {
+      throw new Error('no logger available to print debug');
+    }
+
+    this.logger.debug('module debug');
+    for (const [name, provider] of this.providers.entries()) {
+      this.logger.debug({name, provider}, 'module provides contract');
     }
   }
 }

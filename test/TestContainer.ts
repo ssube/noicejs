@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
-import { Container } from 'src/Container';
+import { Container, ContainerOptions } from 'src/Container';
 import { Inject } from 'src/Inject';
-import { Module } from 'src/Module';
+import { Module, ModuleOptions } from 'src/Module';
 import { ContainerNotBoundError } from 'src/error/ContainerNotBoundError';
 import { describeAsync, itAsync } from 'test/helpers/async';
 
@@ -63,7 +63,7 @@ describeAsync('injection container', async () => {
 
   itAsync('should handle a module returning bad providers', async () => {
     class TestModule extends Module {
-      public async configure(moduleContainer: Container) {
+      public async configure(options: ModuleOptions) {
         this.bind('d').toInstance({});
       }
 
@@ -91,7 +91,7 @@ describeAsync('injection container', async () => {
 
   itAsync('should throw when the contract has no provider', async () => {
     class TestModule extends Module {
-      public async configure(moduleContainer: Container) {
+      public async configure(options: ModuleOptions) {
         this.bind('c').toInstance({});
       }
     }
@@ -117,7 +117,7 @@ describeAsync('injection container', async () => {
     }
 
     class TestModule extends Module {
-      public async configure(moduleContainer: Container) {
+      public async configure(options: ModuleOptions) {
         this.bind(FooClass).toInstance(instance);
       }
     }
