@@ -71,6 +71,8 @@ module.exports = {
     filename: '[name]-bundle.js',
     hashDigest: 'base64',
     hashFunction: 'sha256',
+    library: 'noicejs',
+    libraryTarget: 'umd',
     path: path.target
   },
   plugins: [

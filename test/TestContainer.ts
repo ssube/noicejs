@@ -19,6 +19,7 @@ describeAsync('injection container', async () => {
 
     const container = Container.from(module);
     await container.configure();
+
     expect(module.configure).to.have.been.calledOnce;
   });
 
