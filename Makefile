@@ -98,4 +98,4 @@ todo:
 	@grep "[[:space:]]xit" -r $(TEST_PATH)
 
 update: ## check yarn for outdated packages
-	yarn -L -C -P '.*'
+	yarn upgrade -L -C -P '.*'
