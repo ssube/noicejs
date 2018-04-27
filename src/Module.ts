@@ -138,14 +138,9 @@ export abstract class Module {
   }
 
   protected bindPrototype(proto: any) {
-    if (!proto) {
-      throw new Error('unable to bind prototype, null or undefined');
-    }
-
-    for (const k of Object.getOwnPropertyNames(proto)) {
-      const v = proto[k];
-      if (isFunction(v)) {
-        this.bindFunction(v);
+    for (const [name, desc] of Object.entries(Object.getOwnPropertyDescriptors(proto))) {
+      if (isFunction(desc.value)) {
+        this.bindFunction(desc.value);
       }
     }
 

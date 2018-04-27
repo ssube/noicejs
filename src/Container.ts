@@ -7,7 +7,7 @@ import { MissingValueError } from 'src/error/MissingValueError';
 import { Dependency, Descriptor } from 'src/Dependency';
 import { getDepends } from 'src/Inject';
 import { Logger } from 'src/Logger';
-import { Factory, Module, ProviderType } from 'src/Module';
+import { Factory, Module, Provider, ProviderType } from 'src/Module';
 
 export interface Constructor<TReturn, TOptions> {
   new(options: TOptions, ...extra: Array<any>): TReturn;
@@ -98,7 +98,8 @@ export class Container {
     >(contract: Contract<TReturn>, options: Partial<TOptions> = {}, ...args: Array<any>): Promise<TReturn> {
     if (!this.ready) {
       throw new ContainerNotBoundError('container has not been configured yet');
-    } else if (!contract) {
+    }
+    if (!contract) {
       throw new MissingValueError('missing contract');
     }
 
@@ -107,35 +108,25 @@ export class Container {
     }
 
     const module = this.provides(contract);
-    if (module) {
-      if (this.logger) {
-        this.logger.debug({ module }, 'contract provided by module');
+    if (!module) {
+      if (isFunction(contract)) {
+        // @todo this shouldn't need a cast but detecting constructors is difficult
+        return this.construct<TReturn, TOptions>(contract as Constructor<TReturn, TOptions>, options, args);
       }
 
-      const provider = module.get<TReturn>(contract);
-      switch (provider.type) {
-        case ProviderType.Constructor:
-          return this.construct<TReturn, TOptions>(provider.value, options, args);
-        case ProviderType.Factory:
-          return this.invoke<TReturn, TOptions>(provider.value, module, options, args);
-        case ProviderType.Instance:
-          return provider.value;
-        default:
-          const msg = `no known provider for contract: ${contractName(contract)}`;
-          const error = new MissingValueError(msg);
-          if (this.logger) {
-            this.logger.error(error, msg);
-          }
-          throw error;
-      }
+      throw new MissingValueError(`no provider for contract: ${contractName(contract)}`);
     }
 
-    if (isFunction(contract)) {
-      // @todo this shouldn't need a cast but detecting constructors is difficult
-      return this.construct<TReturn, TOptions>(contract as Constructor<TReturn, TOptions>, options, args);
+    if (this.logger) {
+      this.logger.debug({ module }, 'contract provided by module');
     }
 
-    throw new MissingValueError(`no provider for contract: ${contractName(contract)}`);
+    const provider = module.get<TReturn>(contract);
+    if (!provider) {
+      this.fail(`no known provider for contract: ${contractName(contract)}`);
+    }
+
+    return this.provide(module, provider, options, args);
   }
 
   public getModules(): Array<Module> {
@@ -148,6 +139,28 @@ export class Container {
   public with(...modules: Array<Module>): Container {
     const merged = this.modules.concat(modules);
     return new Container(merged);
+  }
+
+  protected async provide<TReturn, TOptions extends BaseOptions>(module: Module, provider: Provider<TReturn>, options: Partial<TOptions>, args: Array<any>): Promise<TReturn> {
+    switch (provider.type) {
+      case ProviderType.Constructor:
+        return this.construct<TReturn, TOptions>(provider.value, options, args);
+      case ProviderType.Factory:
+        return this.invoke<TReturn, TOptions>(provider.value, module, options, args);
+      case ProviderType.Instance:
+        return provider.value;
+      default:
+        throw new Error('invalid provider type');
+    }
+  }
+
+  protected fail(msg: string): never {
+    const error = new MissingValueError(msg);
+    if (this.logger) {
+      this.logger.error(error, msg);
+    }
+    throw error;
+
   }
 
   protected async construct<R, O extends BaseOptions>(ctor: Constructor<R, O>, options: Partial<O>, args: Array<any>): Promise<R> {
