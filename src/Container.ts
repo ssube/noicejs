@@ -71,7 +71,7 @@ export class Container {
    *
    * This must be done sequentially, since some modules may use classes from other modules.
    */
-  public async configure(options: ContainerOptions = {logger: undefined}) {
+  public async configure(options: ContainerOptions = { logger: undefined }) {
     if (this.ready) {
       throw new ContainerBoundError('container already bound');
     }
@@ -128,8 +128,8 @@ export class Container {
           }
           throw error;
       }
-    } 
-    
+    }
+
     if (isFunction(contract)) {
       // @todo this shouldn't need a cast but detecting constructors is difficult
       return this.construct<TReturn, TOptions>(contract as Constructor<TReturn, TOptions>, options, args);

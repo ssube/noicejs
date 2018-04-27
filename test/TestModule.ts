@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { match, spy } from 'sinon';
 
 import { BaseOptions, Container } from 'src/Container';
-import { Module, ProviderType, ModuleOptions } from 'src/Module';
+import { Module, ModuleOptions, ProviderType } from 'src/Module';
 import { describeAsync, itAsync } from 'test/helpers/async';
 
 describeAsync('injection modules', async () => {
@@ -78,7 +78,7 @@ describeAsync('injection modules', async () => {
 
     class TestModule extends Module {
       public async configure(options: ModuleOptions) {
-        this.bind('a').toFactory(async (options) => this.getInstance(options));
+        this.bind('a').toFactory(async (args) => this.getInstance(args));
       }
 
       public async getInstance(options: BaseOptions): Promise<TestInstance> {

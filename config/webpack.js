@@ -6,8 +6,6 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
-console.info('===webpack', DtsGeneratorPlugin);
-
 const tsconfig = require('./tsconfig');
 
 const path = {
@@ -91,7 +89,6 @@ module.exports = {
         'test/**/*'
       ],
       resolveModuleId: (params) => {
-        console.info('===webpack', 'resolve module', params);
         const module = params.currentModuleId.replace(pattern.source, '');
         if (module === 'index') {
           return 'noicejs';
@@ -99,7 +96,6 @@ module.exports = {
         return 'noicejs/' + module;
       },
       resolveModuleImport: (params) => {
-        console.info('===webpack', 'import module', params);
         return 'noicejs/' + params.importedModuleId.replace(pattern.source, '');
       }
     })

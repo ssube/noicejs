@@ -1,8 +1,8 @@
 import { isFunction } from 'lodash';
 
-import { Constructor, Container, Contract, contractName, BaseOptions } from 'src/Container';
-import { getProvides } from 'src/Provides';
+import { BaseOptions, Constructor, Container, Contract, contractName } from 'src/Container';
 import { Logger } from 'src/Logger';
+import { getProvides } from 'src/Provides';
 
 export enum ProviderType {
   None,

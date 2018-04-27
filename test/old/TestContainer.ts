@@ -1,11 +1,11 @@
 import { expect } from 'chai';
-import {spy} from 'sinon';
+import { spy } from 'sinon';
 import { Container } from 'src/Container';
 import { Inject } from 'src/Inject';
 import { Module, ModuleOptions } from 'src/Module';
 import { Provides } from 'src/Provides';
-import { itAsync } from '../helpers/async';
-import { Consumer, Implementation, Interface, TestModule } from './HelperClass';
+import { itAsync } from 'test/helpers/async';
+import { Consumer, Implementation, Interface, TestModule } from 'test/old/HelperClass';
 
 describe('container', () => {
   itAsync('should take a list of modules', async () => {
@@ -100,9 +100,9 @@ describe('container', () => {
 
       @Inject(Outerface)
       @Provides(Interface)
-      public async create(outer: {outerface: Outerface}) {
+      public async create(outer: { outerface: Outerface }) {
         if (this.logger) {
-          this.logger.debug({outer}, 'submodule create');
+          this.logger.debug({ outer }, 'submodule create');
         }
         modSpy(outer);
         return ctr.create(Implementation, outer as any);
@@ -113,7 +113,6 @@ describe('container', () => {
     await ctr.configure();
 
     const impl = await ctr.create(Consumer);
-    console.info('===marker', 'providers impl', JSON.stringify(impl));
 
     expect(modSpy).to.have.been.calledOnce;
     expect(impl.deps.interface).to.be.an.instanceOf(Implementation);

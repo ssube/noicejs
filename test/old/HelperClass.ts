@@ -27,7 +27,6 @@ export class Consumer {
   public readonly deps: any;
 
   constructor(deps: any, ...args: Array<any>) {
-    console.log('===marker', 'consumer', deps, args);
     this.args = args;
     this.deps = deps;
   }

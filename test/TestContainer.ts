@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
 import { Container, ContainerOptions } from 'src/Container';
+import { ContainerNotBoundError } from 'src/error/ContainerNotBoundError';
 import { Inject } from 'src/Inject';
 import { Module, ModuleOptions } from 'src/Module';
-import { ContainerNotBoundError } from 'src/error/ContainerNotBoundError';
 import { describeAsync, itAsync } from 'test/helpers/async';
 
 const testModuleCount = 8; // the number of test modules to create

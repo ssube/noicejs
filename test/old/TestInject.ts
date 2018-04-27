@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { Inject, getDepends  } from 'src/Inject';
+import { getDepends, Inject  } from 'src/Inject';
 import { itAsync } from 'test/helpers/async';
 
 describe('inject decorator', async () => {
