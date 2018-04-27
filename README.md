@@ -7,7 +7,8 @@ extremely thin dependency injection (v2: now with async!)
 [![devDependency Status](https://david-dm.org/ssube/noicejs/dev-status.svg)](https://david-dm.org/ssube/noicejs#info=devDependencies)
 [![Code Climate](https://codeclimate.com/github/ssube/noicejs/badges/gpa.svg)](https://codeclimate.com/github/ssube/noicejs)
 
-Inspired by [Google's Guice library](https://github.com/google/guice) and written in Typescript.
+Inspired by [Google's Guice library](https://github.com/google/guice) and written in
+[Typescript](https://www.typescriptlang.org/).
 
 ## Usage
 

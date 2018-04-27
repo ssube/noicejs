@@ -5,7 +5,7 @@ import { Logger } from 'src/Logger';
 import { getProvides } from 'src/Provides';
 
 export enum ProviderType {
-  None,
+  None = 0,
   Constructor,
   Factory,
   Instance
@@ -22,6 +22,9 @@ export type Provider<R> = {
   } | {
     type: ProviderType.Instance;
     value: R;
+  } | {
+    type: ProviderType.None;
+    value: undefined;
   };
 
 export interface FluentBinding<TContract, TReturn> {
@@ -47,18 +50,7 @@ export abstract class Module {
 
   public async configure(options: ModuleOptions): Promise<void> {
     this.logger = options.logger;
-
-    const proto: any = Reflect.getPrototypeOf(this);
-    for (const k of Object.getOwnPropertyNames(proto)) {
-      const v = proto[k];
-      if (isFunction(v)) {
-        const provides = getProvides(v);
-        for (const p of provides) {
-          this.bind(p.contract).toFactory(v);
-        }
-      }
-    }
-
+    this.bindPrototype(Reflect.getPrototypeOf(this));
   }
 
   public get<C>(contract: Contract<C>): Provider<C> {
@@ -66,7 +58,7 @@ export abstract class Module {
     const provider = this.providers.get(name) as Provider<C>;
 
     if (this.logger) {
-      this.logger.debug({name, provider}, 'module get provider');
+      this.logger.debug({ name, provider }, 'module get provider');
     }
 
     return provider;
@@ -81,7 +73,7 @@ export abstract class Module {
     const name = contractName(contract);
 
     if (this.logger) {
-      this.logger.debug({name}, 'module has provider');
+      this.logger.debug({ name }, 'module has provider');
     }
 
     return this.providers.has(name);
@@ -92,31 +84,38 @@ export abstract class Module {
   }
 
   /**
+   * Bind a provider to a contract. This is the core of the module.
+   *
+   * @todo fix the any in this signature
+   * @param contract the contract to be bound
+   * @param type the type of provider
+   * @param value the class, factory, or instance to bind
+   */
+  public bindTo<C, I extends C>(contract: Contract<C>, type: ProviderType.Constructor, value: Constructor<I, any>): this;
+  public bindTo<C, I extends C>(contract: Contract<C>, type: ProviderType.Factory, value: Factory<I>): this;
+  public bindTo<C, I extends C>(contract: Contract<C>, type: ProviderType.Instance, value: I): this;
+  public bindTo<C, I extends C>(contract: Contract<C>, type: ProviderType.None): this;
+  public bindTo<C, I extends C>(contract: Contract<C>, type: any, value?: any): this {
+    const name = contractName(contract);
+    this.providers.set(name, { type, value });
+    return this;
+  }
+
+  /**
    * Register a class as the provider for a particular contract. The class will be instantiated after having
    * dependencies resolved, its parameters being the dependencies and any additional arguments passed to the container.
    *
    * @todo this should be protected
    */
   public bind<C, I extends C>(contract: Contract<C>): FluentBinding<I, this> {
-    const name = contractName(contract);
-
     if (this.logger) {
-      this.logger.debug({name}, 'binding contract to name');
+      this.logger.debug({ contract }, 'binding contract');
     }
 
     return {
-      toConstructor: (constructor) => {
-        this.providers.set(name, { type: ProviderType.Constructor, value: constructor });
-        return this;
-      },
-      toFactory: (factory) => {
-        this.providers.set(name, { type: ProviderType.Factory, value: factory });
-        return this;
-      },
-      toInstance: (instance) => {
-        this.providers.set(name, { type: ProviderType.Instance, value: instance });
-        return this;
-      }
+      toConstructor: (constructor) => this.bindTo(contract, ProviderType.Constructor, constructor),
+      toFactory: (factory) => this.bindTo(contract, ProviderType.Factory, factory),
+      toInstance: (instance) => this.bindTo(contract, ProviderType.Instance, instance)
     };
   }
 
@@ -127,7 +126,31 @@ export abstract class Module {
 
     this.logger.debug('module debug');
     for (const [name, provider] of this.providers.entries()) {
-      this.logger.debug({name, provider}, 'module provides contract');
+      this.logger.debug({ name, provider }, 'module provides contract');
+    }
+  }
+
+  protected bindFunction<C, I extends C>(fn: Factory<I>) {
+    const provides = getProvides(fn);
+    for (const p of provides) {
+      this.bindTo(p.contract, ProviderType.Factory, fn);
+    }
+  }
+
+  protected bindPrototype(proto: any) {
+    if (!proto) {
+      throw new Error('unable to bind prototype, null or undefined');
+    }
+
+    for (const k of Object.getOwnPropertyNames(proto)) {
+      const v = proto[k];
+      if (isFunction(v)) {
+        this.bindFunction(v);
+      }
+    }
+
+    if (proto.prototype) {
+      this.bindPrototype(proto.prototype);
     }
   }
 }
