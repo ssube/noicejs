@@ -6,6 +6,7 @@ out/docs/
 out/*.html
 out/*.json
 out/test-*
+out/typings/
 src/
 test/
 Makefile
