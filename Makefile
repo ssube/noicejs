@@ -73,7 +73,7 @@ configure: ## create the target directory and other files not in git
 docs: ## generate html docs
 	$(NODE_BIN)/typedoc $(DOCS_OPTS)
 
-push: ## push to both gitlab and github (this assumes you have both remotes set up)
+git-push: ## push to both gitlab and github (this assumes you have both remotes set up)
 	git push gitlab
 	git push github
 

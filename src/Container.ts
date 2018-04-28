@@ -62,7 +62,7 @@ export class Container {
   protected ready: boolean;
 
   constructor(modules: Iterable<Module>) {
-    this.logger = new NullLogger();
+    this.logger = NullLogger.global;
     this.modules = Array.from(modules);
     this.ready = false;
   }
@@ -103,11 +103,12 @@ export class Container {
 
     this.logger.debug({ contract }, 'container create contract');
 
-    const module = this.provides(contract);
+    const module = this.modules.find((item) => {
+      return item.has(contract);
+    });
     if (!module) {
       if (isFunction(contract)) {
-        // @todo this shouldn't need a cast but detecting constructors is difficult
-        return this.construct<TReturn, TOptions>(contract as Constructor<TReturn, TOptions>, options, args);
+        return this.construct(contract as Constructor<TReturn, TOptions>, options, args);
       }
 
       throw new MissingValueError(`no provider for contract: ${contractName(contract)}`);
@@ -138,9 +139,9 @@ export class Container {
 
     switch (provider.type) {
       case ProviderType.Constructor:
-        return this.construct<TReturn, TOptions>(provider.value, options, args);
+        return this.construct(provider.value, options, args);
       case ProviderType.Factory:
-        return this.invoke<TReturn, TOptions>(provider.value, module, options, args);
+        return this.apply(provider.value, module, options, args);
       case ProviderType.Instance:
         return provider.value;
       default:
@@ -148,23 +149,23 @@ export class Container {
     }
   }
 
+  protected async construct<TReturn>(ctor: Constructor<TReturn, any>, options: any, args: any) {
+    const deps = await this.dependencies(getDepends(ctor));
+    Object.assign(deps, options);
+    return Reflect.construct(ctor, [deps].concat(args));
+  }
+
+  protected async apply<TReturn>(impl: Function, thisArg: Module | undefined, options: any, args: any) {
+    const deps = await this.dependencies(getDepends(impl));
+    Object.assign(deps, options);
+    return Reflect.apply(impl, thisArg, [deps].concat(args));
+  }
+
   protected fail(msg: string): never {
     const error = new MissingValueError(msg);
     this.logger.error(error, msg);
     throw error;
 
-  }
-
-  protected async construct<R, O extends BaseOptions>(ctor: Constructor<R, O>, options: Partial<O>, args: Array<any>): Promise<R> {
-    const deps = await this.dependencies<O>(getDepends(ctor));
-    Object.assign(deps, options);
-    return Reflect.construct(ctor, [deps].concat(args));
-  }
-
-  protected async invoke<R, O extends BaseOptions>(factory: Factory<R>, thisArg: Module, options: Partial<O>, args: Array<any>): Promise<R> {
-    const deps = await this.dependencies<O>(getDepends(factory));
-    Object.assign(deps, options);
-    return Reflect.apply(factory, thisArg, [deps].concat(args));
   }
 
   /**
@@ -185,11 +186,5 @@ export class Container {
       container: this
     });
     return options as O;
-  }
-
-  protected provides<R>(contract: Contract<R>): Module | undefined {
-    return this.modules.find((item) => {
-      return item.has(contract);
-    });
   }
 }

@@ -4,6 +4,8 @@ import { Logger } from 'src/logger/Logger';
  * Logger implementation using the console.
  */
 export class ConsoleLogger implements Logger {
+  public static readonly global = new ConsoleLogger();
+
   public debug(...params: Array<any>) {
     console.debug(params);
   }

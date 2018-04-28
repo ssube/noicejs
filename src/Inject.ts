@@ -1,4 +1,4 @@
-import { isFunction } from 'lodash';
+import { isFunction, isString, isSymbol } from 'lodash';
 import { Constructor, Contract, contractName, isConstructor } from 'src/Container';
 import { Dependency, Descriptor, InjectedDependency, resolveDepends } from 'src/Dependency';
 
@@ -16,9 +16,9 @@ export function dependsOn(target: Function, descriptor: Descriptor): void {
 export function getDepends(target: Function): Array<Dependency> {
   if (Reflect.has(target, injectionSymbol)) {
     return Reflect.get(target, injectionSymbol);
-  } else {
-    return [];
   }
+
+  return [];
 }
 
 /**

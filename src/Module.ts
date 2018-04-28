@@ -46,7 +46,7 @@ export abstract class Module {
   protected providers: Map<string, Provider<any>>;
 
   constructor() {
-    this.logger = new NullLogger();
+    this.logger = NullLogger.global;
     this.providers = new Map();
   }
 

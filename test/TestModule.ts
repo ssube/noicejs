@@ -106,4 +106,25 @@ describeAsync('injection modules', async () => {
 
     expect(ref, 'return the same instance').to.equal(await container.create('a'));
   });
+
+  itAsync('should invoke factories with the module scope', async () => {
+    let scope: Module | undefined;
+    class TestModule extends Module {
+      public async configure(options: ModuleOptions) {
+        this.bind('test').toFactory(this.testFactory);
+      }
+
+      public async testFactory() {
+        scope = this;
+        return {};
+      }
+    }
+
+    const module = new TestModule();
+    const container = Container.from(module);
+    await container.configure();
+    await container.create('test');
+
+    expect(scope).to.equal(module);
+  });
 });
