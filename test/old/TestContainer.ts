@@ -101,9 +101,7 @@ describe('container', () => {
       @Inject(Outerface)
       @Provides(Interface)
       public async create(outer: { outerface: Outerface }) {
-        if (this.logger) {
-          this.logger.debug({ outer }, 'submodule create');
-        }
+        this.logger.debug({ outer }, 'submodule create');
         modSpy(outer);
         return ctr.create(Implementation, outer as any);
       }

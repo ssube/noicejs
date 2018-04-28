@@ -6,7 +6,8 @@ import { MissingValueError } from 'src/error/MissingValueError';
 
 import { Dependency, Descriptor } from 'src/Dependency';
 import { getDepends } from 'src/Inject';
-import { Logger } from 'src/Logger';
+import { Logger } from 'src/logger/Logger';
+import { NullLogger } from 'src/logger/NullLogger';
 import { Factory, Module, Provider, ProviderType } from 'src/Module';
 
 export interface Constructor<TReturn, TOptions> {
@@ -19,9 +20,9 @@ export type Contract<R> = string | symbol | Constructor<R, any>;
 /**
  * Get the standard name for a contract (usually a constructor).
  *
- * This accepts strings and symbols, so if a function is not proveably a constructor, simply pass the name.
+ * This accepts strings and symbols, so if a function is not provably a constructor, simply pass the name.
  *
- * @warning This can do unfortunate things to mixed alnum strings, so strings without capital letters will
+ * @warning This can do unfortunate things to mixed alpha-numeric strings, so strings without capital letters will
  */
 export function contractName(c: Contract<any>): string {
   if (isFunction(c)) {
@@ -56,12 +57,12 @@ export class Container {
     return new Container(modules);
   }
 
-  protected logger: Logger | undefined;
+  protected logger: Logger;
   protected modules: Array<Module>;
   protected ready: boolean;
 
   constructor(modules: Iterable<Module>) {
-    this.logger = undefined;
+    this.logger = new NullLogger();
     this.modules = Array.from(modules);
     this.ready = false;
   }
@@ -76,13 +77,13 @@ export class Container {
       throw new ContainerBoundError('container already bound');
     }
 
-    this.logger = options.logger;
+    this.logger = options.logger || this.logger;
     this.ready = true;
 
     for (const module of this.modules) {
       await module.configure({
         container: this,
-        logger: options.logger
+        logger: this.logger
       });
     }
 
@@ -92,10 +93,7 @@ export class Container {
   /**
    * Returns the best provided value for the request contract.
    */
-  public async create<
-    TReturn,
-    TOptions extends BaseOptions
-    >(contract: Contract<TReturn>, options: Partial<TOptions> = {}, ...args: Array<any>): Promise<TReturn> {
+  public async create<TReturn, TOptions extends BaseOptions>(contract: Contract<TReturn>, options: Partial<TOptions> = {}, ...args: Array<any>): Promise<TReturn> {
     if (!this.ready) {
       throw new ContainerNotBoundError('container has not been configured yet');
     }
@@ -103,9 +101,7 @@ export class Container {
       throw new MissingValueError('missing contract');
     }
 
-    if (this.logger) {
-      this.logger.debug({ contract }, 'container create contract');
-    }
+    this.logger.debug({ contract }, 'container create contract');
 
     const module = this.provides(contract);
     if (!module) {
@@ -117,16 +113,9 @@ export class Container {
       throw new MissingValueError(`no provider for contract: ${contractName(contract)}`);
     }
 
-    if (this.logger) {
-      this.logger.debug({ module }, 'contract provided by module');
-    }
+    this.logger.debug({ module }, 'contract provided by module');
 
-    const provider = module.get<TReturn>(contract);
-    if (!provider) {
-      this.fail(`no known provider for contract: ${contractName(contract)}`);
-    }
-
-    return this.provide(module, provider, options, args);
+    return this.provide(module, contract, options, args);
   }
 
   public getModules(): Array<Module> {
@@ -141,7 +130,12 @@ export class Container {
     return new Container(merged);
   }
 
-  protected async provide<TReturn, TOptions extends BaseOptions>(module: Module, provider: Provider<TReturn>, options: Partial<TOptions>, args: Array<any>): Promise<TReturn> {
+  protected async provide<TReturn, TOptions extends BaseOptions>(module: Module, contract: Contract<TReturn>, options: Partial<TOptions>, args: Array<any>): Promise<TReturn> {
+    const provider = module.get<TReturn>(contract);
+    if (!provider) {
+      this.fail(`no known provider for contract: ${contractName(contract)}`);
+    }
+
     switch (provider.type) {
       case ProviderType.Constructor:
         return this.construct<TReturn, TOptions>(provider.value, options, args);
@@ -156,9 +150,7 @@ export class Container {
 
   protected fail(msg: string): never {
     const error = new MissingValueError(msg);
-    if (this.logger) {
-      this.logger.error(error, msg);
-    }
+    this.logger.error(error, msg);
     throw error;
 
   }
