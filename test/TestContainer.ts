@@ -132,7 +132,7 @@ describeAsync('injection container', async () => {
     expect(ctorSpy).to.have.been.calledOnce;
     expect(ctorSpy).to.have.been.calledWithExactly({
       container,
-      'foo-class': instance
+      [FooClass.name]: instance
     });
   });
 });

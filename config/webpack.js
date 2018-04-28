@@ -34,14 +34,6 @@ module.exports = {
     main: modulePath.index,
     test: [modulePath.harness, 'sinon', 'chai']
   },
-  externals: {
-    lodash: {
-      commonjs: "lodash",
-      commonjs2: "lodash",
-      amd: "lodash",
-      root: "_"
-    }
-  },
   mode: 'none',
   module: {
     rules: [{

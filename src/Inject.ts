@@ -1,4 +1,3 @@
-import { isFunction, isString, isSymbol } from 'lodash';
 import { Constructor, Contract, contractName, isConstructor } from 'src/Container';
 import { Dependency, Descriptor, InjectedDependency, resolveDepends } from 'src/Dependency';
 
@@ -30,7 +29,8 @@ export function Inject<TInjected>(...needs: Array<InjectedDependency>) {
       const prop = desc || Object.getOwnPropertyDescriptor(Object.getPrototypeOf(target), key);
       if (!prop) {
         throw new Error('cannot get method descriptor');
-      } else if (!isFunction(prop.value)) {
+      }
+      if (typeof prop.value !== 'function') {
         throw new Error('method decorator cannot inject properties');
       }
 

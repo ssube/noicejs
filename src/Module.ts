@@ -1,5 +1,3 @@
-import { isFunction } from 'lodash';
-
 import { BaseOptions, Constructor, Container, Contract, contractName } from 'src/Container';
 import { Logger } from 'src/logger/Logger';
 import { NullLogger } from 'src/logger/NullLogger';
@@ -135,7 +133,7 @@ export abstract class Module {
 
   protected bindPrototype(proto: any) {
     for (const [name, desc] of Object.entries(Object.getOwnPropertyDescriptors(proto))) {
-      if (isFunction(desc.value)) {
+      if (typeof desc.value === 'function') {
         this.bindFunction(desc.value);
       }
     }

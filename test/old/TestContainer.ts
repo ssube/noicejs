@@ -27,7 +27,7 @@ describe('container', () => {
     await ctr.configure();
 
     const impl = await ctr.create(Consumer);
-    expect(impl.deps.interface).to.be.an.instanceof(Implementation);
+    expect(impl.deps[Interface.name]).to.be.an.instanceof(Implementation);
   });
 
   itAsync('should inject a dependency into a factory method', async () => {
@@ -36,7 +36,7 @@ describe('container', () => {
 
     const impl = await ctr.create(Consumer, {}, 3);
     expect(impl.args).to.deep.equal([3]);
-    expect(impl.deps.interface).to.be.an.instanceof(Implementation);
+    expect(impl.deps[Interface.name]).to.be.an.instanceof(Implementation);
   });
 
   itAsync('should throw on missing dependencies', async () => {
@@ -84,7 +84,7 @@ describe('container', () => {
 
     const impl = await ctr.create(Consumer);
     expect(modSpy).to.have.been.calledOnce;
-    expect(impl.deps.interface).to.be.an.instanceof(Implementation);
+    expect(impl.deps[Interface.name]).to.be.an.instanceof(Implementation);
   });
 
   itAsync('should provide dependencies to providers', async () => {
@@ -113,8 +113,8 @@ describe('container', () => {
     const impl = await ctr.create(Consumer);
 
     expect(modSpy).to.have.been.calledOnce;
-    expect(impl.deps.interface).to.be.an.instanceOf(Implementation);
-    expect(impl.deps.interface.deps.outerface).to.equal(outerInstance);
+    expect(impl.deps[Interface.name]).to.be.an.instanceOf(Implementation);
+    expect(impl.deps[Interface.name].deps[Outerface.name]).to.equal(outerInstance);
   });
 
   itAsync('should invoke binding functions', async () => {
@@ -134,7 +134,7 @@ describe('container', () => {
 
     const impl = await ctr.create(Consumer);
 
-    expect(impl.deps.interface).to.be.an.instanceof(Implementation);
+    expect(impl.deps[Interface.name]).to.be.an.instanceof(Implementation);
     expect(counter).to.equal(1);
   });
 

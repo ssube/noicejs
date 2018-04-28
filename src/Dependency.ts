@@ -1,5 +1,3 @@
-import {isString} from 'lodash';
-
 import {Constructor, Contract, contractName, isConstructor} from 'src/Container';
 
 export interface Dependency {
@@ -23,7 +21,7 @@ export function resolveDepends(deps: Array<InjectedDependency>): Array<Dependenc
         contract,
         name: contractName(contract)
       };
-    } else if (isString(contract)) {
+    } else if (typeof contract === 'string') {
       return {
         contract,
         name: contract

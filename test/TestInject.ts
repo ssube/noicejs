@@ -30,7 +30,7 @@ describeAsync('injection decorator', async () => {
 
     expect(getDepends(TestClass)).to.deep.equal([{
       contract: FooClass,
-      name: 'foo-class'
+      name: FooClass.name
     }]);
   });
 });

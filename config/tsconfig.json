@@ -24,7 +24,6 @@
     "target": "es2017",
     "types": [
       "chai-as-promised",
-      "lodash",
       "mocha",
       "sinon-chai",
       "source-map-support"

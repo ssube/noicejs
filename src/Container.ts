@@ -1,5 +1,3 @@
-import { isFunction, kebabCase } from 'lodash';
-
 import { ContainerBoundError } from 'src/error/ContainerBoundError';
 import { ContainerNotBoundError } from 'src/error/ContainerNotBoundError';
 import { MissingValueError } from 'src/error/MissingValueError';
@@ -25,17 +23,15 @@ export type Contract<R> = string | symbol | Constructor<R, any>;
  * @warning This can do unfortunate things to mixed alpha-numeric strings, so strings without capital letters will
  */
 export function contractName(c: Contract<any>): string {
-  if (isFunction(c)) {
-    return kebabCase(c.name);
-  } else if (/[A-Z]/.test(c.toString())) {
-    return kebabCase(c.toString());
+  if (typeof c === 'function') {
+    return c.name;
   } else {
     return c.toString();
   }
 }
 
 export function isConstructor(it: any): it is Constructor<any, any> {
-  return isFunction(it);
+  return typeof it === 'function';
 }
 
 /**
@@ -107,8 +103,8 @@ export class Container {
       return item.has(contract);
     });
     if (!module) {
-      if (isFunction(contract)) {
-        return this.construct(contract as Constructor<TReturn, TOptions>, options, args);
+      if (isConstructor(contract)) {
+        return this.construct(contract, options, args);
       }
 
       throw new MissingValueError(`no provider for contract: ${contractName(contract)}`);
