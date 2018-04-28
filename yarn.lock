@@ -91,6 +91,10 @@
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.0.0.tgz#acaa89247afddc7967e9902fd11761dadea1a555"
 
+"@types/node@^9.6.7":
+  version "9.6.7"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.7.tgz#5f3816d1db2155edcde1b2e3aa5d0e5c520cb564"
+
 "@types/shelljs@0.7.8":
   version "0.7.8"
   resolved "https://registry.yarnpkg.com/@types/shelljs/-/shelljs-0.7.8.tgz#4b4d6ee7926e58d7bca448a50ba442fd9f6715bd"
@@ -108,12 +112,6 @@
 "@types/sinon@*":
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-4.3.1.tgz#32458f9b166cd44c23844eee4937814276f35199"
-
-"@types/source-map-support@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@types/source-map-support/-/source-map-support-0.4.0.tgz#a62a1866614af68c888173c001481f242aaf148b"
-  dependencies:
-    "@types/node" "*"
 
 "@types/tapable@*":
   version "1.0.2"
@@ -4662,7 +4660,7 @@ source-map-support@^0.4.15:
   dependencies:
     source-map "^0.5.6"
 
-source-map-support@^0.5.3, source-map-support@^0.5.5:
+source-map-support@^0.5.3:
   version "0.5.5"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.5.tgz#0d4af9e00493e855402e8ec36ebed2d266fceb90"
   dependencies:

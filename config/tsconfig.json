@@ -25,8 +25,8 @@
     "types": [
       "chai-as-promised",
       "mocha",
-      "sinon-chai",
-      "source-map-support"
+      "node",
+      "sinon-chai"
     ],
     "typeRoots": [
       "node_modules/@types",
