@@ -6,6 +6,10 @@ import { Logger } from 'src/logger/Logger';
 export class NullLogger implements Logger {
   public static readonly global = new NullLogger();
 
+  public child() {
+    return NullLogger.global;
+  }
+
   public debug() {
     /* noop */
   }

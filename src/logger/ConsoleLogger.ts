@@ -6,6 +6,10 @@ import { Logger } from 'src/logger/Logger';
 export class ConsoleLogger implements Logger {
   public static readonly global = new ConsoleLogger();
 
+  public child(): Logger {
+    return ConsoleLogger.global;
+  }
+
   public debug(...params: Array<any>) {
     console.debug(params);
   }
