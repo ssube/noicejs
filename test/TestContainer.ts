@@ -135,4 +135,30 @@ describeAsync('injection container', async () => {
       [FooClass.name]: instance
     });
   });
+
+  itAsync('should inject named dependencies', async () => {
+    class FooClass { /* noop */ }
+
+    @Inject({contract: FooClass, name: 'foo'})
+    class TestClass {
+      public readonly foo: FooClass;
+
+      constructor(options: {foo: FooClass}) {
+        this.foo  = options.foo;
+      }
+    }
+
+    class TestModule extends Module {
+      public async configure(options: ModuleOptions) {
+        this.bind(FooClass).toConstructor(FooClass);
+      }
+    }
+
+    const module = new TestModule();
+    const container = Container.from(module);
+    await container.configure();
+
+    const injected = await container.create(TestClass);
+    expect(injected.foo).to.be.an.instanceof(FooClass);
+  });
 });
