@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { getDepends, Inject  } from 'src/Inject';
+import { getInject, Inject  } from 'src/Inject';
 import { itAsync } from 'test/helpers/async';
 
 describe('inject decorator', async () => {
@@ -24,6 +24,6 @@ describe('inject decorator', async () => {
       private method() { /* noop */ }
     }
 
-    expect(getDepends(Target)).to.deep.equal(params);
+    expect(getInject(Target)).to.deep.equal(params);
   });
 });

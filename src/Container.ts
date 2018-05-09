@@ -3,7 +3,7 @@ import { ContainerNotBoundError } from 'src/error/ContainerNotBoundError';
 import { MissingValueError } from 'src/error/MissingValueError';
 
 import { Dependency, Descriptor } from 'src/Dependency';
-import { getDepends } from 'src/Inject';
+import { getInject } from 'src/Inject';
 import { Logger } from 'src/logger/Logger';
 import { NullLogger } from 'src/logger/NullLogger';
 import { Factory, Module, Provider, ProviderType } from 'src/Module';
@@ -146,13 +146,13 @@ export class Container {
   }
 
   protected async construct<TReturn>(ctor: Constructor<TReturn, any>, options: any, args: any) {
-    const deps = await this.dependencies(getDepends(ctor));
+    const deps = await this.dependencies(getInject(ctor));
     Object.assign(deps, options);
     return Reflect.construct(ctor, [deps].concat(args));
   }
 
   protected async apply<TReturn>(impl: Function, thisArg: Module | undefined, options: any, args: any) {
-    const deps = await this.dependencies(getDepends(impl));
+    const deps = await this.dependencies(getInject(impl));
     Object.assign(deps, options);
     return Reflect.apply(impl, thisArg, [deps].concat(args));
   }

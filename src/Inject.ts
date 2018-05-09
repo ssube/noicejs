@@ -3,16 +3,7 @@ import { Dependency, Descriptor, InjectedDependency, resolveDepends } from 'src/
 
 export const injectionSymbol = Symbol('noicejs-inject');
 
-/**
- * Attach a descriptor to a target constructor.
- * @param target
- * @param descriptor
- */
-export function dependsOn(target: Function, descriptor: Descriptor): void {
-  Reflect.set(target, injectionSymbol, descriptor);
-}
-
-export function getDepends(target: Function): Array<Dependency> {
+export function getInject(target: Function): Array<Dependency> {
   if (Reflect.has(target, injectionSymbol)) {
     return Reflect.get(target, injectionSymbol);
   }
@@ -34,11 +25,11 @@ export function Inject<TInjected>(...needs: Array<InjectedDependency>) {
         throw new Error('method decorator cannot inject properties');
       }
 
-      const prev = getDepends(prop.value);
+      const prev = getInject(prop.value);
       const next = resolveDepends(needs);
       Reflect.set(prop.value, injectionSymbol, prev.concat(next));
     } else {
-      const prev = getDepends(target);
+      const prev = getInject(target);
       const next = resolveDepends(needs);
       Reflect.set(target, injectionSymbol, prev.concat(next));
     }
