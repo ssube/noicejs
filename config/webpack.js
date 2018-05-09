@@ -9,10 +9,10 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const tsconfig = require('./tsconfig');
 
 const path = {
-  root: process.env.ROOT_PATH,
-  source: process.env.SOURCE_PATH,
-  target: process.env.TARGET_PATH,
-  test: process.env.TEST_PATH
+  root: resolve(process.env.ROOT_PATH),
+  source: resolve(process.env.SOURCE_PATH),
+  target: resolve(process.env.TARGET_PATH),
+  test: resolve(process.env.TEST_PATH)
 };
 
 const pattern = {
