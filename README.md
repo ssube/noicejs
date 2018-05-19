@@ -3,7 +3,7 @@
 extremely thin dependency injection (v2: now with async!)
 
 [![npm package](https://img.shields.io/npm/v/noicejs.svg)](https://www.npmjs.com/package/noicejs)
-[![pipeline status](https://git.apextoaster.com/apex-open/noicejs/badges/master/pipeline.svg)](https://git.apextoaster.com/apex-open/noicejs/commits/master)
+[![pipeline status](https://git.apextoaster.com/ssube/noicejs/badges/master/pipeline.svg)](https://git.apextoaster.com/ssube/noicejs/commits/master)
 [![Dependency Status](https://david-dm.org/ssube/noicejs.svg)](https://david-dm.org/ssube/noicejs)
 [![devDependency Status](https://david-dm.org/ssube/noicejs/dev-status.svg)](https://david-dm.org/ssube/noicejs#info=devDependencies)
 [![Code Climate](https://codeclimate.com/github/ssube/noicejs/badges/gpa.svg)](https://codeclimate.com/github/ssube/noicejs)
