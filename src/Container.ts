@@ -89,7 +89,7 @@ export class Container {
   /**
    * Returns the best provided value for the request contract.
    */
-  public async create<TReturn, TOptions extends BaseOptions>(contract: Contract<TReturn>, options: Partial<TOptions> = {}, ...args: Array<any>): Promise<TReturn> {
+  public async create<TReturn, TOptions>(contract: Contract<TReturn>, options: Partial<TOptions> = {}, ...args: Array<any>): Promise<TReturn> {
     if (!this.ready) {
       throw new ContainerNotBoundError('container has not been configured yet');
     }
@@ -169,10 +169,10 @@ export class Container {
    *
    * This will always inject the container itself to configure children.
    *
-   * @todo resolve dependencies in parallel
+   * @TODO resolve dependencies in parallel
    */
-  protected async dependencies<O extends BaseOptions>(deps: Array<Dependency>): Promise<O> {
-    const options: Partial<O> = {};
+  protected async dependencies<O>(deps: Array<Dependency>): Promise<O & BaseOptions> {
+    const options: Partial<O & BaseOptions> = {};
     for (const dependency of deps) {
       const { contract, name } = dependency;
       const dep = await this.create(contract);
@@ -181,6 +181,6 @@ export class Container {
     Object.assign(options, {
       container: this
     });
-    return options as O;
+    return options as O & BaseOptions;
   }
 }

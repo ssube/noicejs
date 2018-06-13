@@ -14,6 +14,10 @@ export class BaseError extends Error {
     }, this.stack);
   }
 
+  public cause(): Error | undefined {
+    return this.nested[0];
+  }
+
   get length() {
     return this.nested.length;
   }

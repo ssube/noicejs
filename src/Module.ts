@@ -66,7 +66,7 @@ export abstract class Module {
   /**
    * Indicate if this module provides a dependency and if so, how.
    *
-   * @todo Memoize this if performance becomes a problem.
+   * @TODO Memoize this if performance becomes a problem.
    */
   public has<C>(contract: Contract<C>): boolean {
     const name = contractName(contract);
@@ -83,7 +83,7 @@ export abstract class Module {
   /**
    * Bind a provider to a contract. This is the core of the module.
    *
-   * @todo fix the any in this signature
+   * @TODO fix the any in this signature
    * @param contract the contract to be bound
    * @param type the type of provider
    * @param value the class, factory, or instance to bind
@@ -103,7 +103,7 @@ export abstract class Module {
    * Register a class as the provider for a particular contract. The class will be instantiated after having
    * dependencies resolved, its parameters being the dependencies and any additional arguments passed to the container.
    *
-   * @todo this should be protected
+   * @TODO this should be protected
    */
   public bind<C, I extends C>(contract: Contract<C>): FluentBinding<I, this> {
     return {
