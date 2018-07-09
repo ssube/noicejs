@@ -1,4 +1,4 @@
-import {Constructor, Contract, contractName, isConstructor} from 'src/Container';
+import { Constructor, Contract, contractName, isConstructor } from 'src/Container';
 
 export interface Dependency {
   name: string;
@@ -9,7 +9,7 @@ export interface Descriptor {
   requires: Array<Dependency>;
 }
 
-export type InjectedDependency = Dependency | Constructor<any, any> | string;
+export type InjectedDependency = Dependency | Contract<any>;
 
 /**
  * Convert an InjectedDependency into a regular Dependency
@@ -19,15 +19,24 @@ export function resolveDepends(deps: Array<InjectedDependency>): Array<Dependenc
     if (isConstructor(contract)) {
       return {
         contract,
-        name: contractName(contract)
+        name: contractName(contract),
       };
-    } else if (typeof contract === 'string') {
+    }
+
+    if (typeof contract === 'string') {
       return {
         contract,
-        name: contract
+        name: contract,
       };
-    } else {
-      return contract;
     }
+
+    if (typeof contract === 'symbol') {
+      return {
+        contract,
+        name: contractName(contract),
+      };
+    }
+
+    return contract;
   });
 }

@@ -41,7 +41,7 @@ export interface ModuleOptions extends BaseOptions {
  */
 export abstract class Module {
   protected logger: Logger;
-  protected providers: Map<string, Provider<any>>;
+  protected providers: Map<Contract<any>, Provider<any>>;
 
   constructor() {
     this.logger = NullLogger.global;
@@ -56,9 +56,9 @@ export abstract class Module {
 
   public get<C>(contract: Contract<C>): Provider<C> {
     const name = contractName(contract);
-    const provider = this.providers.get(name) as Provider<C>;
+    const provider = this.providers.get(contract) as Provider<C>;
 
-    this.logger.debug({ name, provider }, 'module get provider');
+    this.logger.debug({ name, provider }, 'fetching contract from module');
 
     return provider;
   }
@@ -71,9 +71,9 @@ export abstract class Module {
   public has<C>(contract: Contract<C>): boolean {
     const name = contractName(contract);
 
-    this.logger.debug({ name }, 'module has provider');
+    this.logger.debug({ name }, 'searching module for contract');
 
-    return this.providers.has(name);
+    return this.providers.has(contract);
   }
 
   public get size(): number {
@@ -95,7 +95,7 @@ export abstract class Module {
   public bindTo<C, I extends C>(contract: Contract<C>, type: any, value?: any): this {
     const name = contractName(contract);
     this.logger.debug({ contract, name, type, value }, 'binding contract');
-    this.providers.set(name, { type, value });
+    this.providers.set(contract, { type, value });
     return this;
   }
 

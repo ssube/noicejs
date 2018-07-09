@@ -1,6 +1,6 @@
 {
   "name": "noicejs",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "description": "extremely thin dependency injection",
   "main": "out/main-bundle.js",
   "types": "out/noicejs.d.ts",

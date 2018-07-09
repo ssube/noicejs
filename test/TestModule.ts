@@ -69,7 +69,7 @@ describeAsync('injection modules', async () => {
     const container = Container.from(module);
     await container.configure();
 
-    expect(module.has(TestClass.name), 'has a constructor').to.be.true;
+    expect(module.has(TestClass.name), 'has a constructor').to.equal(false);
   });
 
   itAsync('should invoke complex factories', async () => {

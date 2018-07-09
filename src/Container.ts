@@ -2,11 +2,11 @@ import { ContainerBoundError } from 'src/error/ContainerBoundError';
 import { ContainerNotBoundError } from 'src/error/ContainerNotBoundError';
 import { MissingValueError } from 'src/error/MissingValueError';
 
-import { Dependency, Descriptor } from 'src/Dependency';
+import { Dependency } from 'src/Dependency';
 import { getInject } from 'src/Inject';
 import { Logger } from 'src/logger/Logger';
 import { NullLogger } from 'src/logger/NullLogger';
-import { Factory, Module, Provider, ProviderType } from 'src/Module';
+import { Module, ProviderType } from 'src/Module';
 
 export interface Constructor<TReturn, TOptions> {
   new(options: TOptions, ...extra: Array<any>): TReturn;
@@ -113,6 +113,13 @@ export class Container {
     this.logger.debug({ module }, 'contract provided by module');
 
     return this.provide(module, contract, options, args);
+  }
+
+  public debug() {
+    this.logger.debug('container debug');
+    for (const m of this.modules) {
+      m.debug();
+    }
   }
 
   public getModules(): Array<Module> {

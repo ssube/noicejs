@@ -34,6 +34,6 @@ describe('provides decorator', () => {
     const ctr = Container.from(module);
     await ctr.configure();
 
-    expect(module.get(Target.name).value).to.equal(TestModule.prototype.foo);
+    expect(module.get(Target).value).to.equal(TestModule.prototype.foo);
   });
 });
