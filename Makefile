@@ -74,8 +74,8 @@ docs: ## generate html docs
 	$(NODE_BIN)/typedoc $(DOCS_OPTS)
 
 git-push: ## push to both gitlab and github (this assumes you have both remotes set up)
-	git push gitlab
-	git push github
+	git push gitlab $(GIT_BRANCH)
+	git push github $(GIT_BRANCH)
 
 test: test-check ## run mocha unit tests
 
