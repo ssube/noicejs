@@ -58,7 +58,7 @@ export abstract class Module {
     const name = contractName(contract);
     const provider = this.providers.get(contract) as Provider<C>;
 
-    this.logger.debug({ name, provider }, 'fetching contract from module');
+    this.logger.debug({ contract: name, provider }, 'fetching contract from module');
 
     return provider;
   }
@@ -94,7 +94,7 @@ export abstract class Module {
   public bindTo<C, I extends C>(contract: Contract<C>, type: ProviderType.None): this;
   public bindTo<C, I extends C>(contract: Contract<C>, type: any, value?: any): this {
     const name = contractName(contract);
-    this.logger.debug({ contract, name, type, value }, 'binding contract');
+    this.logger.debug({ contract: name, type, value }, 'binding contract');
     this.providers.set(contract, { type, value });
     return this;
   }
@@ -119,8 +119,8 @@ export abstract class Module {
     }
 
     this.logger.debug('module debug');
-    for (const [name, provider] of this.providers.entries()) {
-      this.logger.debug({ name, provider }, 'module provides contract');
+    for (const [module, provider] of this.providers.entries()) {
+      this.logger.debug({ module, provider }, 'module provides contract');
     }
   }
 
