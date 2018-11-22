@@ -71,7 +71,7 @@ export abstract class Module {
   public has<C>(contract: Contract<C>): boolean {
     const name = contractName(contract);
 
-    this.logger.debug({ name }, 'searching module for contract');
+    this.logger.debug({ contract: name }, 'searching module for contract');
 
     return this.providers.has(contract);
   }
