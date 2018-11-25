@@ -34,10 +34,10 @@ describeAsync('injection modules', async () => {
     const container = Container.from(module);
     await container.configure();
 
-    expect(module.has('a'), 'has a constructor').to.be.true;
-    expect(module.has('b'), 'has a factory').to.be.true;
-    expect(module.has('c'), 'has an instance').to.be.true;
-    expect(module.has('d'), 'does not have').to.be.false;
+    expect(module.has('a'), 'has a constructor').to.equal(true);
+    expect(module.has('b'), 'has a factory').to.equal(true);
+    expect(module.has('c'), 'has an instance').to.equal(true);
+    expect(module.has('d'), 'does not have').to.equal(false);
   });
 
   itAsync('should get the same instance each time', async () => {
