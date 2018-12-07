@@ -1,4 +1,4 @@
-export { Container } from 'src/Container';
+export { Container, Contract } from 'src/Container';
 export { BaseError } from 'src/error/BaseError';
 export { ContainerBoundError } from 'src/error/ContainerBoundError';
 export { ContainerNotBoundError } from 'src/error/ContainerNotBoundError';
@@ -7,5 +7,5 @@ export { getInject, Inject } from 'src/Inject';
 export { ConsoleLogger } from 'src/logger/ConsoleLogger';
 export { Logger, logWithLevel } from 'src/logger/Logger';
 export { NullLogger } from 'src/logger/NullLogger';
-export { Module } from 'src/Module';
+export { Module, ModuleOptions, Provider, ProviderType } from 'src/Module';
 export { getProvides, Provides } from 'src/Provides';

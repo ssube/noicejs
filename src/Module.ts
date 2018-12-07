@@ -1,4 +1,4 @@
-import { BaseOptions, Constructor, Container, Contract, contractName } from 'src/Container';
+import { BaseOptions, Constructor, Contract, contractName } from 'src/Container';
 import { Logger } from 'src/logger/Logger';
 import { NullLogger } from 'src/logger/NullLogger';
 import { getProvides } from 'src/Provides';
@@ -16,15 +16,15 @@ export type Provider<R> = {
   type: ProviderType.Constructor;
   value: Constructor<R, any>;
 } | {
-    type: ProviderType.Factory;
-    value: Factory<R>
-  } | {
-    type: ProviderType.Instance;
-    value: R;
-  } | {
-    type: ProviderType.None;
-    value: undefined;
-  };
+  type: ProviderType.Factory;
+  value: Factory<R>
+} | {
+  type: ProviderType.Instance;
+  value: R;
+} | {
+  type: ProviderType.None;
+  value: undefined;
+};
 
 export interface FluentBinding<TContract, TReturn> {
   toConstructor(implementation: Constructor<TContract, any>): TReturn;

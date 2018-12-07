@@ -1,5 +1,4 @@
-import {Constructor} from 'src/Container';
-import {Dependency, InjectedDependency, resolveDepends} from 'src/Dependency';
+import { Dependency, InjectedDependency, resolveDepends } from 'src/Dependency';
 
 export const providesSymbol = Symbol('noicejs-provides');
 
