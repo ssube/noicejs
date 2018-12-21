@@ -1,4 +1,5 @@
 import { Dependency, InjectedDependency, resolveDepends } from 'src/Dependency';
+import { DescriptorNotFoundError } from 'src/error/DescriptorNotFoundError';
 
 export const providesSymbol = Symbol('noicejs-provides');
 
@@ -16,7 +17,7 @@ export function getProvides(target: any): Array<Dependency> {
 export function Provides<TInjected>(...provides: Array<InjectedDependency>) {
   return (target: any, key: string, desc?: PropertyDescriptor) => {
     if (!desc) {
-      throw new Error('missing descriptor');
+      throw new DescriptorNotFoundError();
     }
 
     const prev = getProvides(target);

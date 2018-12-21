@@ -1,4 +1,5 @@
 import { BaseOptions, Constructor, Contract, contractName } from 'src/Container';
+import { LoggerNotFoundError } from 'src/error/LoggerNotFoundError';
 import { Logger } from 'src/logger/Logger';
 import { NullLogger } from 'src/logger/NullLogger';
 import { getProvides } from 'src/Provides';
@@ -115,7 +116,7 @@ export abstract class Module {
 
   public debug() {
     if (!this.logger) {
-      throw new Error('no logger available to print debug');
+      throw new LoggerNotFoundError('no logger available to print debug');
     }
 
     this.logger.debug('module debug');

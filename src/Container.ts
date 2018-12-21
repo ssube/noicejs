@@ -7,6 +7,7 @@ import { getInject } from 'src/Inject';
 import { Logger } from 'src/logger/Logger';
 import { NullLogger } from 'src/logger/NullLogger';
 import { Module, ProviderType } from 'src/Module';
+import { InvalidProviderError } from './error/InvalidProviderError';
 
 export interface Constructor<TReturn, TOptions> {
   new(options: TOptions, ...extra: Array<any>): TReturn;
@@ -148,7 +149,7 @@ export class Container {
       case ProviderType.Instance:
         return provider.value;
       default:
-        throw new Error('invalid provider type');
+        throw new InvalidProviderError('invalid provider type');
     }
   }
 

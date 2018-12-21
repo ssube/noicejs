@@ -1,5 +1,4 @@
 import { AsyncHook, createHook } from 'async_hooks';
-import { expect } from 'chai';
 
 // this will pull Mocha internals out of the stacks
 // tslint:disable-next-line:no-var-requires

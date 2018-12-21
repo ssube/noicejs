@@ -5,7 +5,7 @@ export { ContainerNotBoundError } from 'src/error/ContainerNotBoundError';
 export { MissingValueError } from 'src/error/MissingValueError';
 export { getInject, Inject } from 'src/Inject';
 export { ConsoleLogger } from 'src/logger/ConsoleLogger';
-export { Logger, logWithLevel } from 'src/logger/Logger';
+export { Logger, LogLevel, logWithLevel } from 'src/logger/Logger';
 export { NullLogger } from 'src/logger/NullLogger';
 export { Module, ModuleOptions, Provider, ProviderType } from 'src/Module';
 export { getProvides, Provides } from 'src/Provides';
