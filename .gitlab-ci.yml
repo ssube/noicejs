@@ -1,11 +1,20 @@
-build:
-  image: apextoaster/node
-  stage: build
-  script:
-    - yarn
-    - make strict
+stages:
+  - build
+  - publish
+
+.node: &node
+  image: apextoaster/node:10.1
   tags:
-    - runner:k8s
+    - platform:k8s
+    - runner:shared
+  allow_failure: false
+  before_script:
+    - echo "${NPM_SECRET}" | base64 -d > ${HOME}/.npmrc
+
+build:
+  <<: [*node]
+  stage: build
+
   artifacts:
     expire_in: 1 week
     paths:
@@ -13,3 +22,19 @@ build:
       - out/docs
       - out/main-bundle.*
       - out/version.json
+
+  script:
+    - yarn
+    - make strict
+
+publish:
+  <<: [*node]
+  stage: publish
+  only:
+    - tags
+
+  dependencies:
+    - build
+
+  script:
+    - npm publish
