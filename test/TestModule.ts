@@ -17,7 +17,7 @@ describeAsync('injection modules', async () => {
     const container = Container.from(module);
     await container.configure();
 
-    expect(module.configure).to.have.been.calledOnce;
+    expect(module.configure).to.have.been.called.callCount(1);
     expect(module.configure).to.have.been.calledWithMatch(match.has('container', container));
   });
 
@@ -98,10 +98,10 @@ describeAsync('injection modules', async () => {
 
     const ref = await container.create('a');
 
-    expect(module.has('a')).to.be.true;
+    expect(module.has('a')).to.equal(true);
     expect(module.get('a').type).to.equal(ProviderType.Factory);
 
-    expect(module.getInstance).to.have.been.calledOnce;
+    expect(module.getInstance).to.have.been.called.callCount(1);
     expect(module.getInstance).to.have.been.calledWith({ container });
 
     expect(ref, 'return the same instance').to.equal(await container.create('a'));

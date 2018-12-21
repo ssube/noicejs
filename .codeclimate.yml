@@ -1,7 +1,22 @@
 version: "2"
+
+exclude_patterns:
+  - src/migration/
+  - vendor/
+
 plugins:
+  duplication:
+    enabled: true
+    config:
+      languages:
+        typescript:
+          mass_threshold: 120
   fixme:
+    enabled: true
+  markdownlint:
+    enabled: true
+  shellcheck:
     enabled: true
   tslint:
     enabled: true
-    config: config/tslint.json
+    config: config/tslint.cc.json

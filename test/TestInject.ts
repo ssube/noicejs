@@ -7,7 +7,7 @@ describeAsync('injection decorator', async () => {
     class FooClass { /* noop */ }
     const dep = {
       contract: FooClass,
-      name: 'foo'
+      name: 'foo',
     };
 
     @Inject(dep)
@@ -30,7 +30,7 @@ describeAsync('injection decorator', async () => {
 
     expect(getInject(TestClass)).to.deep.equal([{
       contract: FooClass,
-      name: FooClass.name
+      name: FooClass.name,
     }]);
   });
 });

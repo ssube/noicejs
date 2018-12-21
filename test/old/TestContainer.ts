@@ -1,9 +1,12 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
+
+import { MissingValueError } from 'src';
 import { Container } from 'src/Container';
 import { Inject } from 'src/Inject';
 import { Module, ModuleOptions } from 'src/Module';
 import { Provides } from 'src/Provides';
+
 import { itAsync } from 'test/helpers/async';
 import { Consumer, Implementation, Interface, TestModule } from 'test/old/HelperClass';
 
@@ -55,7 +58,7 @@ describe('container', () => {
       }
     }
 
-    expect(ctr.create(FailingConsumer)).to.eventually.be.rejected;
+    expect(ctr.create(FailingConsumer)).to.eventually.be.rejectedWith(MissingValueError);
   });
 
   itAsync('should pass arguments to the constructor', async () => {
@@ -83,7 +86,7 @@ describe('container', () => {
     await ctr.configure();
 
     const impl = await ctr.create(Consumer);
-    expect(modSpy).to.have.been.calledOnce;
+    expect(modSpy).to.have.been.called.callCount(1);
     expect(impl.deps[Interface.name]).to.be.an.instanceof(Implementation);
   });
 
@@ -112,7 +115,7 @@ describe('container', () => {
 
     const impl = await ctr.create(Consumer);
 
-    expect(modSpy).to.have.been.calledOnce;
+    expect(modSpy).to.have.been.called.callCount(1);
     expect(impl.deps[Interface.name]).to.be.an.instanceOf(Implementation);
     expect(impl.deps[Interface.name].deps[Outerface.name]).to.equal(outerInstance);
   });

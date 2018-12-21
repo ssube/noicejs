@@ -10,13 +10,13 @@ describe('inject decorator', async () => {
   itAsync('should work as a class decorator', async () => {
     const params = [{
       contract: 'a',
-      name: 'a'
+      name: 'a',
     }, {
       contract: 'b',
-      name: 'b'
+      name: 'b',
     }, {
       contract: 'c',
-      name: 'c'
+      name: 'c',
     }];
 
     @Inject(...params)

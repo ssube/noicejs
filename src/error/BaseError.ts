@@ -1,6 +1,6 @@
 export class BaseError extends Error {
   public message: string;
-  public stack: string | undefined;
+  public stack?: string;
   protected nested: Array<Error>;
 
   constructor(message: string, ...nested: Array<Error>) {

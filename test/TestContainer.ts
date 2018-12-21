@@ -1,9 +1,13 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
-import { Container, ContainerOptions } from 'src/Container';
+
+import { BaseError, MissingValueError } from 'src';
+import { Container } from 'src/Container';
 import { ContainerNotBoundError } from 'src/error/ContainerNotBoundError';
+import { InvalidProviderError } from 'src/error/InvalidProviderError';
 import { Inject } from 'src/Inject';
 import { Module, ModuleOptions } from 'src/Module';
+
 import { describeAsync, itAsync } from 'test/helpers/async';
 
 const testModuleCount = 8; // the number of test modules to create
@@ -20,7 +24,7 @@ describeAsync('injection container', async () => {
     const container = Container.from(module);
     await container.configure();
 
-    expect(module.configure).to.have.been.calledOnce;
+    expect(module.configure).to.have.been.called.callCount(1);
   });
 
   itAsync('should be created from some modules', async () => {
@@ -71,7 +75,7 @@ describeAsync('injection container', async () => {
       public get(contract: any): any {
         return {
           type: 'invalid',
-          value: null
+          value: null,
         };
       }
     }
@@ -80,14 +84,14 @@ describeAsync('injection container', async () => {
     const container = Container.from(module);
     await container.configure();
 
-    expect(container.create('d')).to.be.rejected;
+    expect(container.create('d')).to.be.rejectedWith(InvalidProviderError);
   });
 
   itAsync('should throw when no contract was passed', async () => {
     const container = Container.from();
     await container.configure();
 
-    expect(container.create(null as any)).to.be.rejected;
+    expect(container.create(null as any)).to.be.rejectedWith(BaseError);
   });
 
   itAsync('should throw when the contract has no provider', async () => {
@@ -101,7 +105,7 @@ describeAsync('injection container', async () => {
     const container = Container.from(module);
     await container.configure();
 
-    expect(container.create('d')).to.be.rejected;
+    expect(container.create('d')).to.be.rejectedWith(MissingValueError);
   });
 
   itAsync('should provide injected dependencies', async () => {
@@ -129,10 +133,10 @@ describeAsync('injection container', async () => {
 
     const injected = await container.create(TestClass);
 
-    expect(ctorSpy).to.have.been.calledOnce;
+    expect(ctorSpy).to.have.been.called.callCount(1);
     expect(ctorSpy).to.have.been.calledWithExactly({
       container,
-      [FooClass.name]: instance
+      [FooClass.name]: instance,
     });
   });
 

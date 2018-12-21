@@ -43,7 +43,7 @@ export interface BaseOptions {
 }
 
 export interface ContainerOptions {
-  logger: Logger | undefined;
+  logger?: Logger;
 }
 
 /**
@@ -80,7 +80,7 @@ export class Container {
     for (const module of this.modules) {
       await module.configure({
         container: this,
-        logger: this.logger
+        logger: this.logger,
       });
     }
 
@@ -187,7 +187,7 @@ export class Container {
       options[name as keyof O] = dep;
     }
     Object.assign(options, {
-      container: this
+      container: this,
     });
     return options as O & BaseOptions;
   }

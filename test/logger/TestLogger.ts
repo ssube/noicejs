@@ -1,8 +1,10 @@
 import { expect } from 'chai';
-import { spy } from 'sinon';
-import { describeAsync } from 'test/helpers/async';
 import { ineeda } from 'ineeda';
+import { spy } from 'sinon';
+
 import { Logger, logWithLevel } from 'src/logger/Logger';
+
+import { describeAsync } from 'test/helpers/async';
 
 describeAsync('log level switch', async () => {
   it('should log at debug level', () => {
@@ -13,7 +15,7 @@ describeAsync('log level switch', async () => {
     const data = {};
     const msg = 'test';
     logWithLevel(logger, 'debug', data, msg);
-    expect(logger.debug).to.have.been.calledOnce;
+    expect(logger.debug).to.have.been.called.callCount(1);
     expect(logger.debug).to.have.been.calledWithExactly(data, msg);
   });
 
@@ -25,7 +27,7 @@ describeAsync('log level switch', async () => {
     const data = {};
     const msg = 'test';
     logWithLevel(logger, 'error', data, msg);
-    expect(logger.error).to.have.been.calledOnce;
+    expect(logger.error).to.have.been.called.callCount(1);
     expect(logger.error).to.have.been.calledWithExactly(data, msg);
   });
 
@@ -37,7 +39,7 @@ describeAsync('log level switch', async () => {
     const data = {};
     const msg = 'test';
     logWithLevel(logger, 'info', data, msg);
-    expect(logger.info).to.have.been.calledOnce;
+    expect(logger.info).to.have.been.called.callCount(1);
     expect(logger.info).to.have.been.calledWithExactly(data, msg);
   });
 
@@ -49,7 +51,7 @@ describeAsync('log level switch', async () => {
     const data = {};
     const msg = 'test';
     logWithLevel(logger, 'warn', data, msg);
-    expect(logger.warn).to.have.been.calledOnce;
+    expect(logger.warn).to.have.been.called.callCount(1);
     expect(logger.warn).to.have.been.calledWithExactly(data, msg);
   });
 });

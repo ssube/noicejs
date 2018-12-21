@@ -8,7 +8,7 @@ export enum ProviderType {
   None = 0,
   Constructor,
   Factory,
-  Instance
+  Instance,
 }
 
 export type Factory<R> = (options: any) => Promise<R>;
@@ -110,7 +110,7 @@ export abstract class Module {
     return {
       toConstructor: (constructor) => this.bindTo(contract, ProviderType.Constructor, constructor),
       toFactory: (factory) => this.bindTo(contract, ProviderType.Factory, factory),
-      toInstance: (instance) => this.bindTo(contract, ProviderType.Instance, instance)
+      toInstance: (instance) => this.bindTo(contract, ProviderType.Instance, instance),
     };
   }
 
