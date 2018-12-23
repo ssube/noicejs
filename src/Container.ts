@@ -1,13 +1,12 @@
+import { Dependency } from 'src/Dependency';
 import { ContainerBoundError } from 'src/error/ContainerBoundError';
 import { ContainerNotBoundError } from 'src/error/ContainerNotBoundError';
+import { InvalidProviderError } from 'src/error/InvalidProviderError';
 import { MissingValueError } from 'src/error/MissingValueError';
-
-import { Dependency } from 'src/Dependency';
 import { getInject } from 'src/Inject';
 import { Logger } from 'src/logger/Logger';
 import { NullLogger } from 'src/logger/NullLogger';
 import { Module, ProviderType } from 'src/Module';
-import { InvalidProviderError } from './error/InvalidProviderError';
 
 export interface Constructor<TReturn, TOptions> {
   new(options: TOptions, ...extra: Array<any>): TReturn;
@@ -20,8 +19,6 @@ export type Contract<R> = string | symbol | Constructor<R, any>;
  * Get the standard name for a contract (usually a constructor).
  *
  * This accepts strings and symbols, so if a function is not provably a constructor, simply pass the name.
- *
- * @warning This can do unfortunate things to mixed alpha-numeric strings, so strings without capital letters will
  */
 export function contractName(c: Contract<any>): string {
   if (typeof c === 'function') {
@@ -153,15 +150,13 @@ export class Container {
     }
   }
 
-  protected async construct<TReturn>(ctor: Constructor<TReturn, any>, options: any, args: any) {
-    const deps = await this.dependencies(getInject(ctor));
-    Object.assign(deps, options);
+  protected async construct<TReturn, TOptions extends BaseOptions>(ctor: Constructor<TReturn, TOptions>, options: Partial<TOptions>, args: any) {
+    const deps = await this.dependencies(getInject(ctor), options);
     return Reflect.construct(ctor, [deps].concat(args));
   }
 
-  protected async apply<TReturn>(impl: Function, thisArg: Module | undefined, options: any, args: any) {
-    const deps = await this.dependencies(getInject(impl));
-    Object.assign(deps, options);
+  protected async apply<TReturn, TOptions extends BaseOptions>(impl: Function, thisArg: Module | undefined, options: Partial<TOptions>, args: any) {
+    const deps = await this.dependencies(getInject(impl), options);
     return Reflect.apply(impl, thisArg, [deps].concat(args));
   }
 
@@ -179,16 +174,18 @@ export class Container {
    *
    * @TODO resolve dependencies in parallel
    */
-  protected async dependencies<O>(deps: Array<Dependency>): Promise<O & BaseOptions> {
-    const options: Partial<O & BaseOptions> = {};
+  protected async dependencies<TOptions extends BaseOptions>(deps: Array<Dependency>, passed: Partial<TOptions>): Promise<TOptions> {
+    const options: Partial<TOptions> = {};
     for (const dependency of deps) {
       const { contract, name } = dependency;
-      const dep = await this.create(contract);
-      options[name as keyof O] = dep;
+      if (!Reflect.has(passed, name)) {
+        const dep = await this.create(contract);
+        options[name as keyof TOptions] = dep;
+      }
     }
-    Object.assign(options, {
+    Object.assign(options, passed, {
       container: this,
     });
-    return options as O & BaseOptions;
+    return options as TOptions;
   }
 }

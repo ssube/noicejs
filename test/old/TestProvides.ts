@@ -1,8 +1,10 @@
 import { expect } from 'chai';
+
 import { Container } from 'src/Container';
 import { Module } from 'src/Module';
 import { getProvides, Provides } from 'src/Provides';
-import { itAsync } from '../helpers/async';
+
+import { itAsync } from 'test/helpers/async';
 
 describe('provides decorator', () => {
   itAsync('should return a function', async () => {
