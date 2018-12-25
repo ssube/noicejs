@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { spy } from 'sinon';
+import { match, spy } from 'sinon';
 
 import { BaseError, MissingValueError } from 'src';
 import { Container } from 'src/Container';
@@ -164,5 +164,43 @@ describeAsync('injection container', async () => {
 
     const injected = await container.create(TestClass);
     expect(injected.foo).to.be.an.instanceof(FooClass);
+  });
+
+  itAsync('should not look up dependencies passed in options', async () => {
+    @Inject('foo', 'bar')
+    class TestClass {
+      public foo: any;
+      public bar: any;
+
+      constructor(options: any) {
+        this.foo = options.foo;
+        this.bar = options.bar;
+      }
+    }
+
+    const foo = {};
+    class TestModule extends Module {
+      public async configure(options: ModuleOptions) {
+        this.bind('foo').toInstance(foo);
+      }
+    }
+
+    const module = new TestModule();
+    module.has = spy(module.has);
+
+    const container = Container.from(module);
+    await container.configure();
+
+    const bar = {};
+    const injected = await container.create(TestClass, {
+      bar,
+    });
+
+    expect(module.has).to.have.been.calledWith('foo');
+    expect(module.has).not.to.have.been.calledWith('bar');
+    expect(module.has, 'called for injected and foo').to.have.callCount(2);
+
+    expect(injected.bar).to.equal(bar);
+    expect(injected.foo).to.equal(foo);
   });
 });

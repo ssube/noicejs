@@ -33,4 +33,16 @@ describeAsync('injection decorator', async () => {
       name: FooClass.name,
     }]);
   });
+
+  itAsync('should look up the prototype chain', async () => {
+    @Inject('foo')
+    class FooClass { /* noop */ }
+
+    @Inject('bar')
+    class BarClass extends FooClass { /* noop */ }
+
+    const injected = getInject(BarClass);
+    expect(injected.length).to.equal(2);
+    expect(injected[0].name, 'first injected option should be from parent class').to.equal('foo');
+  });
 });

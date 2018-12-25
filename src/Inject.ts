@@ -4,9 +4,18 @@ import { InvalidTargetError } from 'src/error/InvalidTargetError';
 
 export const injectionSymbol = Symbol('noicejs-inject');
 
-export function getInject(target: Function): Array<Dependency> {
+export function getInject(target: any): Array<Dependency> {
   if (Reflect.has(target, injectionSymbol)) {
-    return Reflect.get(target, injectionSymbol);
+    const existing = Reflect.get(target, injectionSymbol);
+    if (Array.isArray(existing)) {
+      return existing;
+    }
+  } else {
+    // first dep for this target, check prototype
+    const proto = Reflect.getPrototypeOf(target);
+    if (proto && proto !== target) {
+      return getInject(proto);
+    }
   }
 
   return [];
