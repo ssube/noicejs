@@ -21,6 +21,7 @@ build:
       - out/coverage
       - out/docs
       - out/main-bundle.*
+      - out/noicejs.d.ts
       - out/version.json
 
   script:

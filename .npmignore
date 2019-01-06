@@ -9,6 +9,9 @@ out/test-*
 out/typings/
 src/
 test/
+
+.codeclimate.yml
+.gitlab-ci.yml
 Makefile
 tsconfig.json
 yarn.lock
