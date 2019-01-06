@@ -13,18 +13,19 @@ export interface Constructor<TReturn, TOptions> {
 }
 
 // the contract for some type can be identified with...
-export type Contract<R> = string | symbol | Constructor<R, any>;
+export type ContractName = string | symbol;
+export type Contract<R> = ContractName | Constructor<R, any>;
 
 /**
  * Get the standard name for a contract (usually a constructor).
  *
  * This accepts strings and symbols, so if a function is not provably a constructor, simply pass the name.
  */
-export function contractName(c: Contract<any>): string {
+export function contractName(c: Contract<any>): ContractName {
   if (typeof c === 'function') {
     return c.name;
   } else {
-    return c.toString();
+    return c;
   }
 }
 
@@ -105,7 +106,7 @@ export class Container {
         return this.construct(contract, options, args);
       }
 
-      throw new MissingValueError(`no provider for contract: ${contractName(contract)}`);
+      throw new MissingValueError(`no provider for contract: ${contractName(contract).toString()}`);
     }
 
     this.logger.debug({ module }, 'contract provided by module');
@@ -135,7 +136,7 @@ export class Container {
   protected async provide<TReturn, TOptions extends BaseOptions>(module: Module, contract: Contract<TReturn>, options: Partial<TOptions>, args: Array<any>): Promise<TReturn> {
     const provider = module.get<TReturn>(contract);
     if (!provider) {
-      this.fail(`no known provider for contract: ${contractName(contract)}`);
+      this.fail(`no known provider for contract: ${contractName(contract).toString()}`);
     }
 
     switch (provider.type) {
@@ -171,8 +172,6 @@ export class Container {
    * Prepare a map with the dependencies for a descriptor.
    *
    * This will always inject the container itself to configure children.
-   *
-   * @TODO resolve dependencies in parallel
    */
   protected async dependencies<TOptions extends BaseOptions>(deps: Array<Dependency>, passed: Partial<TOptions>): Promise<TOptions> {
     const options: Partial<TOptions> = {};

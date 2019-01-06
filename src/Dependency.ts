@@ -1,7 +1,7 @@
-import { Constructor, Contract, contractName, isConstructor } from 'src/Container';
+import { Contract, contractName, isConstructor } from 'src/Container';
 
 export interface Dependency {
-  name: string;
+  name: string | symbol;
   contract: Contract<any>;
 }
 
@@ -33,7 +33,7 @@ export function resolveDepends(deps: Array<InjectedDependency>): Array<Dependenc
     if (typeof contract === 'symbol') {
       return {
         contract,
-        name: contractName(contract),
+        name: contract,
       };
     }
 
