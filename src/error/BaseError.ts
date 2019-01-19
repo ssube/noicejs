@@ -9,7 +9,8 @@ export class BaseError extends Error {
     this.message = message;
     this.nested = nested;
     this.stack = nested.reduce((cur, err, idx) => {
-      const indented = (err.stack || '').replace('\n', '\n  ');
+      const stack = err.stack !== undefined ? err.stack : '';
+      const indented = stack.replace('\n', '\n  ');
       return `${cur}\n  caused by (${idx + 1}/${nested.length}):\n    ${indented}`;
     }, this.stack);
   }

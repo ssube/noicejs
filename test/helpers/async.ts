@@ -1,17 +1,22 @@
-import {AsyncHook, createHook} from 'async_hooks';
+import { AsyncHook, createHook } from 'async_hooks';
+import { isNil, isString } from 'lodash';
 
 // this will pull Mocha internals out of the stacks
 // tslint:disable-next-line:no-var-requires
 const {stackTraceFilter} = require('mocha/lib/utils');
 const filterStack = stackTraceFilter();
 
-type AsyncMochaTest = (this: Mocha.ITestCallbackContext | void, done: MochaDone) => Promise<void>;
-type AsyncMochaSuite = (this: Mocha.ISuiteCallbackContext) => Promise<void>;
+type AsyncMochaTest = (this: Mocha.Context | void) => Promise<void>;
+type AsyncMochaSuite = (this: Mocha.Suite) => Promise<void>;
 
 export interface TrackedResource {
   source: string;
   triggerAsyncId: number;
   type: string;
+}
+
+function debugMode() {
+  return Reflect.has(process.env, 'DEBUG');
 }
 
 /**
@@ -21,6 +26,15 @@ export interface TrackedResource {
  * Adapted from https://gist.github.com/boneskull/7fe75b63d613fa940db7ec990a5f5843#file-async-dump-js
  */
 export class Tracker {
+  public static getStack(): string {
+    const err = new Error();
+    if (isString(err.stack)) {
+      return filterStack(err.stack);
+    } else {
+      return 'no stack trace available';
+    }
+  }
+
   private readonly hook: AsyncHook;
   private readonly resources: Map<number, TrackedResource>;
 
@@ -31,7 +45,7 @@ export class Tracker {
         this.resources.delete(id);
       },
       init: (id: number, type: string, triggerAsyncId: number) => {
-        const source = filterStack((new Error()).stack || 'unknown');
+        const source = Tracker.getStack();
         // @TODO: exclude async hooks, including this one
         this.resources.set(id, {
           source,
@@ -58,7 +72,7 @@ export class Tracker {
     console.error(`tracking ${this.resources.size} async resources`);
     this.resources.forEach((res, id) => {
       console.error(`${id}: ${res.type}`);
-      if (Reflect.has(process.env, 'DEBUG')) {
+      if (debugMode()) {
         console.error(res.source);
         console.error('\n');
       }
@@ -78,8 +92,8 @@ export class Tracker {
 /**
  * Describe a suite of async tests. This wraps mocha's describe to track async resources and report leaks.
  */
-export function describeAsync(description: string, cb: AsyncMochaSuite): Mocha.ISuite {
-  return describe(description, function trackSuite() {
+export function describeAsync(description: string, cb: AsyncMochaSuite): Mocha.Suite {
+  return describe(description, function trackSuite(this: Mocha.Suite) {
     const tracker = new Tracker();
 
     beforeEach(() => {
@@ -94,7 +108,7 @@ export function describeAsync(description: string, cb: AsyncMochaSuite): Mocha.I
       if (leaked > 1) {
         tracker.dump();
         const msg = `test leaked ${leaked - 1} async resources`;
-        if (process.env.DEBUG) {
+        if (debugMode()) {
           throw new Error(msg);
         } else {
           // tslint:disable-next-line:no-console
@@ -106,7 +120,7 @@ export function describeAsync(description: string, cb: AsyncMochaSuite): Mocha.I
     });
 
     const suite: PromiseLike<void> | undefined = cb.call(this);
-    if (!suite || !suite.then) {
+    if (isNil(suite) || !Reflect.has(suite, 'then')) {
       // tslint:disable-next-line:no-console
       console.error(`test suite '${description}' did not return a promise`);
     }
@@ -120,22 +134,18 @@ export function describeAsync(description: string, cb: AsyncMochaSuite): Mocha.I
  *
  * This function may not have any direct test coverage. It is too simple to reasonably mock.
  */
-export function itAsync(expectation: string, cb?: AsyncMochaTest): Mocha.ITest {
-  if (cb) {
-    return it(expectation, function trackTest(this: any) {
-      return new Promise<any>((res, rej) => {
-        cb.call(this).then((value: any) => {
+export function itAsync(expectation: string, cb?: AsyncMochaTest): Mocha.Test {
+  if (isNil(cb)) {
+    return it(expectation);
+  } else {
+    return it(expectation, function trackTest(this: Mocha.Context) {
+      return new Promise<unknown>((res, rej) => {
+        cb.call(this).then((value: unknown) => {
           res(value);
         }, (err: Error) => {
           rej(err);
         });
       });
     });
-  } else {
-    return it(expectation);
   }
-}
-
-export function delay(ms: number) {
-  return new Promise<void>((res) => setTimeout(() => res(), ms));
 }

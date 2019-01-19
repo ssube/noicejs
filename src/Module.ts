@@ -115,7 +115,7 @@ export abstract class Module {
   }
 
   public debug() {
-    if (!this.logger) {
+    if (this.logger === undefined) {
       throw new LoggerNotFoundError('no logger available to print debug');
     }
 
@@ -132,15 +132,16 @@ export abstract class Module {
     }
   }
 
-  protected bindPrototype(proto: any) {
-    for (const [name, desc] of Object.entries(Object.getOwnPropertyDescriptors(proto))) {
+  protected bindPrototype(proto: object) {
+    for (const [/* name */, desc] of Object.entries(Object.getOwnPropertyDescriptors(proto))) {
       if (typeof desc.value === 'function') {
         this.bindFunction(desc.value);
       }
     }
 
-    if (proto.prototype) {
-      this.bindPrototype(proto.prototype);
+    const next = Reflect.getPrototypeOf(proto);
+    if (next !== undefined && next !== null && next !== proto) {
+      this.bindPrototype(next);
     }
   }
 }

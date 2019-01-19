@@ -10,19 +10,21 @@ export class ConsoleLogger implements Logger {
     return ConsoleLogger.global;
   }
 
-  public debug(...params: Array<any>) {
+  /* tslint:disable:no-console */
+  public debug(...params: Array<unknown>) {
     console.debug(params);
   }
 
-  public info(...params: Array<any>) {
+  public info(...params: Array<unknown>) {
     console.info(params);
   }
 
-  public warn(...params: Array<any>) {
+  public warn(...params: Array<unknown>) {
     console.warn(params);
   }
 
-  public error(...params: Array<any>) {
+  public error(...params: Array<unknown>) {
     console.error(params);
   }
+  /* tslint:enable:no-console */
 }

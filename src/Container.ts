@@ -7,7 +7,7 @@ import { getInject } from 'src/Inject';
 import { Logger } from 'src/logger/Logger';
 import { NullLogger } from 'src/logger/NullLogger';
 import { Module, ProviderType } from 'src/Module';
-import { VERSION_INFO } from './version';
+import { VERSION_INFO } from 'src/version';
 
 export interface Constructor<TReturn, TOptions> {
   new(options: TOptions, ...extra: Array<any>): TReturn;
@@ -73,7 +73,10 @@ export class Container {
       throw new ContainerBoundError('container already bound');
     }
 
-    this.logger = options.logger || this.logger;
+    if (options.logger !== undefined) {
+      this.logger = options.logger;
+    }
+
     this.ready = true;
 
     for (const module of this.modules) {
