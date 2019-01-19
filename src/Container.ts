@@ -7,6 +7,7 @@ import { getInject } from 'src/Inject';
 import { Logger } from 'src/logger/Logger';
 import { NullLogger } from 'src/logger/NullLogger';
 import { Module, ProviderType } from 'src/Module';
+import { VERSION_INFO } from './version';
 
 export interface Constructor<TReturn, TOptions> {
   new(options: TOptions, ...extra: Array<any>): TReturn;
@@ -115,7 +116,7 @@ export class Container {
   }
 
   public debug() {
-    this.logger.debug('container debug');
+    this.logger.debug({ version: VERSION_INFO }, 'container debug');
     for (const m of this.modules) {
       m.debug();
     }

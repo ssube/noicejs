@@ -33,9 +33,6 @@ module.exports = {
     main: modulePath.index,
     test: [modulePath.harness, 'sinon', 'chai']
   },
-  externals: {
-    'lodash': 'commonjs lodash'
-  },
   mode: 'none',
   module: {
     noParse: [
@@ -84,6 +81,16 @@ module.exports = {
       generateStatsFile: true,
       openAnalyzer: false,
       reportFilename: 'bundles.html'
+    }),
+    new webpack.DefinePlugin({
+      // make sure to stringify these (handles quotes, escapes, etc)
+      BUILD_JOB: JSON.stringify(process.env['CI_JOB_ID']),
+      BUILD_RUNNER: JSON.stringify(process.env['CI_RUNNER_ID']),
+      GIT_BRANCH: JSON.stringify(process.env['CI_COMMIT_REF_SLUG']),
+      GIT_COMMIT: JSON.stringify(process.env['CI_COMMIT_SHA']),
+      NODE_VERSION: JSON.stringify(process.env['NODE_VERSION']),
+      RUNNER_VERSION: JSON.stringify(process.env['RUNNER_VERSION']),
+      WEBPACK_VERSION: JSON.stringify(process.env['WEBPACK_VERSION']),
     }),
     new DtsGeneratorPlugin({
       name: package.name,

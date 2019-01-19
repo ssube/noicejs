@@ -1,4 +1,4 @@
-export { Container, Contract } from 'src/Container';
+export { BaseOptions, Container, Contract, Constructor } from 'src/Container';
 export { BaseError } from 'src/error/BaseError';
 export { ContainerBoundError } from 'src/error/ContainerBoundError';
 export { ContainerNotBoundError } from 'src/error/ContainerNotBoundError';
