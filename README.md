@@ -1,15 +1,31 @@
 # noicejs
 
-extremely thin dependency injection (v2: now with async!)
-
-[![npm package](https://img.shields.io/npm/v/noicejs.svg)](https://www.npmjs.com/package/noicejs)
-[![pipeline status](https://git.apextoaster.com/ssube/noicejs/badges/master/pipeline.svg)](https://git.apextoaster.com/ssube/noicejs/commits/master)
-[![Dependency Status](https://david-dm.org/ssube/noicejs.svg)](https://david-dm.org/ssube/noicejs)
-[![devDependency Status](https://david-dm.org/ssube/noicejs/dev-status.svg)](https://david-dm.org/ssube/noicejs#info=devDependencies)
-[![Code Climate](https://codeclimate.com/github/ssube/noicejs/badges/gpa.svg)](https://codeclimate.com/github/ssube/noicejs)
+Extremely thin dependency injection. (v2: now with async!)
 
 Inspired by [Google's Guice library](https://github.com/google/guice) and written in
 [Typescript](https://www.typescriptlang.org/).
+
+## Status
+
+[![Pipeline status](https://img.shields.io/gitlab/pipeline/ssube/noicejs.svg?gitlab_url=https%3A%2F%2Fgit.apextoaster.com&logo=gitlab)](https://git.apextoaster.com/ssube/noicejs/commits/master)
+[![Test coverage](https://codecov.io/gh/ssube/noicejs/branch/master/graph/badge.svg)](https://codecov.io/gh/ssube/noicejs)
+[![MIT license](https://img.shields.io/github/license/ssube/noicejs.svg)](https://github.com/ssube/noicejs/blob/master/LICENSE.md)
+
+[![Open bug count](https://img.shields.io/github/issues-raw/ssube/noicejs/type-bug.svg)](https://github.com/ssube/noicejs/issues?q=is%3Aopen+is%3Aissue+label%3Atype%2Fbug)
+[![Open issue count](https://img.shields.io/github/issues-raw/ssube/noicejs.svg)](https://github.com/ssube/noicejs/issues?q=is%3Aopen+is%3Aissue)
+[![Closed issue count](https://img.shields.io/github/issues-closed-raw/ssube/noicejs.svg)](https://github.com/ssube/noicejs/issues?q=is%3Aissue+is%3Aclosed)
+
+[![Maintainability score](https://api.codeclimate.com/v1/badges/5d4326d6f68a2fa137cd/maintainability)](https://codeclimate.com/github/ssube/noicejs/maintainability)
+[![Technical debt ratio](https://img.shields.io/codeclimate/tech-debt/ssube/noicejs.svg)](https://codeclimate.com/github/ssube/noicejs/trends/technical_debt)
+[![Quality issues](https://img.shields.io/codeclimate/issues/ssube/noicejs.svg)](https://codeclimate.com/github/ssube/noicejs/issues)
+
+## Releases
+
+[![Github release version](https://img.shields.io/github/tag/ssube/noicejs.svg)](https://github.com/ssube/noicejs/releases)
+[![Commits since release](https://img.shields.io/github/commits-since/ssube/noicejs/v2.5.1.svg)](https://github.com/ssube/noicejs/compare/v2.5.1...master)
+
+[![npm release version](https://img.shields.io/npm/v/noicejs.svg)](https://www.npmjs.com/package/noicejs)
+[![Typescript definitions](https://img.shields.io/npm/types/noicejs.svg)](https://www.npmjs.com/package/noicejs)
 
 ## Usage
 
