@@ -44,6 +44,7 @@
     "sinon": "^7.1.1",
     "sinon-chai": "^3.0.0",
     "source-map-support": "^0.5.9",
+    "standard-version": "^4.4.0",
     "tslint": "^5.9.1",
     "tslint-clean-code": "^0.2.9",
     "tslint-consistent-codestyle": "^1.14.1",
