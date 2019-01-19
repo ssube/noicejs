@@ -6,7 +6,7 @@ extremely thin dependency injection (v2: now with async!)
 [![pipeline status](https://git.apextoaster.com/ssube/noicejs/badges/master/pipeline.svg)](https://git.apextoaster.com/ssube/noicejs/commits/master)
 [![Dependency Status](https://david-dm.org/ssube/noicejs.svg)](https://david-dm.org/ssube/noicejs)
 [![devDependency Status](https://david-dm.org/ssube/noicejs/dev-status.svg)](https://david-dm.org/ssube/noicejs#info=devDependencies)
-[![Code Climate](https://codeclimate.com/github/ssube/noicejs/badges/gpa.svg)](https://codeclimate.com/github/ssube/noicejs)
+[![Code Climate](https://codeclimate.com/github/ssube/noicejs/badges/gpa.svg)](https://codeclimate.com/github/ssube/noicejs) [![Greenkeeper badge](https://badges.greenkeeper.io/ssube/noicejs.svg)](https://greenkeeper.io/)
 
 Inspired by [Google's Guice library](https://github.com/google/guice) and written in
 [Typescript](https://www.typescriptlang.org/).
