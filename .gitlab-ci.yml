@@ -52,7 +52,6 @@ build-node:
   variables:
     GIT_SUBMODULE_STRATEGY: recursive
   script:
-    - source docs/isolex.env
     - make build-strict
 
   artifacts:
