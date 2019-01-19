@@ -1,12 +1,17 @@
 # Git
-export GIT_BRANCH 	= $(shell git rev-parse --abbrev-ref HEAD)
-export GIT_COMMIT		= $(shell git rev-parse HEAD)
-export GIT_REMOTES	= $(shell git remote -v | awk '{ print $1; }' | sort | uniq)
+export GIT_BRANCH 	?= $(shell git rev-parse --abbrev-ref HEAD)
+export GIT_COMMIT		?= $(shell git rev-parse HEAD)
+export GIT_REMOTES	?= $(shell git remote -v | awk '{ print $1; }' | sort | uniq)
+export GIT_OPTIONS  ?=
 
 # CI
 export CI_COMMIT_REF_SLUG		?= $(GIT_BRANCH)
+export CI_COMMIT_SHA ?= $(GIT_COMMIT)
 export CI_ENVIRONMENT_SLUG 	?= local
+export CI_JOB_ID ?= 0
 export CI_RUNNER_DESCRIPTION ?= $(shell hostname)
+export CI_RUNNER_ID ?= $(shell hostname)
+export CI_RUNNER_VERSION ?= 0.0.0
 
 # Debug
 export DEBUG_BIND  ?= 127.0.0.1
@@ -23,6 +28,7 @@ export TARGET_PATH	?= $(ROOT_PATH)/out
 export TARGET_LOG		?= $(TARGET_PATH)/apex-reference.log
 export TARGET_MAIN 	?= $(TARGET_PATH)/main-bundle.js
 export TEST_PATH		?= $(ROOT_PATH)/test
+export VENDOR_PATH	?= $(ROOT_PATH)/vendor
 
 # Node options
 NODE_BIN		:= $(ROOT_PATH)/node_modules/.bin
@@ -37,12 +43,24 @@ COVER_OPTS	?= --reporter=text-summary --reporter=html --report-dir="$(TARGET_PAT
 DOCS_OPTS		?= --exclude "test.+" --tsconfig "$(CONFIG_PATH)/tsconfig.json" --out "$(TARGET_PATH)/docs"
 MOCHA_MULTI ?= --reporter mocha-multi --reporter-options json="$(TARGET_PATH)/mocha.json",spec
 MOCHA_OPTS  ?= --check-leaks --colors --sort --ui bdd
+RELEASE_OPTS ?= --commit-all
+
+# Versions
+export NODE_VERSION		:= $(shell node -v)
+export RUNNER_VERSION  := $(CI_RUNNER_VERSION)
+export WEBPACK_VERSION := $(shell $(NODE_BIN)/webpack -v)
 
 all: configure bundle test docs ## builds, bundles, and tests the application
-	@echo Success! make run-terminal to launch
+	@echo Success!
 
-strict: configure bundle-check test-check docs ## builds, bundles, and tests the application with type checks and extra warnings (slow)
-	@echo Success! make run-terminal to launch
+clean: ## clean up the target directory
+	rm -rf node_modules
+	rm -rf $(TARGET_PATH)
+
+configure: ## create the target directory and other files not in git
+	mkdir -p $(TARGET_PATH)
+
+node_modules: yarn-install
 
 # from https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 help: ## print this help
@@ -50,32 +68,33 @@ help: ## print this help
 		| sed 's/^.*\/\(.*\)/\1/' \
 		| awk 'BEGIN {FS = ":[^:]*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-bundle: bundle-cover ## build the distributable version of the application
+# Build targets
+build: ## builds, bundles, and tests the application
+build: build-cover
 
-bundle-check: ## bundle the application with full type checking (stricter)
-	TEST_CHECK=true $(NODE_BIN)/webpack $(BUNDLE_OPTS)
+build-cover: ## builds, bundles, and tests the application with code coverage
+build-cover: configure node_modules bundle-cover test-cover
+
+build-strict: ## builds, bundles, and tests the application with type checks and extra warnings (slow)
+build-strict: configure node_modules bundle-strict test-cover
+
+bundle: bundle-cover ## build the distributable version of the application
 
 bundle-cover: ## bundle the application without type checking (faster)
 	TEST_CHECK=false $(NODE_BIN)/webpack $(BUNDLE_OPTS)
 
-bundle-stats: ## bundle the application and emit statistics
-	TEST_CHECK=false $(NODE_BIN)/webpack $(BUNDLE_OPTS) --json --profile > "$(TARGET_PATH)/webpack.json"
+bundle-strict: ## bundle the application with full type checking (stricter)
+	TEST_CHECK=true $(NODE_BIN)/webpack $(BUNDLE_OPTS)
+
+bundle-stats: ## bundle the application and print statistics
+	TEST_CHECK=false $(NODE_BIN)/webpack $(BUNDLE_OPTS) --json --profile |\
+		tee "$(TARGET_PATH)/webpack.json"
 
 bundle-watch: ## bundle the application and watch for changes
 	TEST_CHECK=false $(NODE_BIN)/webpack $(BUNDLE_OPTS) --watch
 
-clean: ## clean up the target directory
-	rm -rf $(TARGET_PATH)
-
-configure: ## create the target directory and other files not in git
-	mkdir -p $(TARGET_PATH)
-
-docs: ## generate html docs
+bundle-docs: ## generate html docs
 	$(NODE_BIN)/typedoc $(DOCS_OPTS)
-
-git-push: ## push to both gitlab and github (this assumes you have both remotes set up)
-	git push gitlab $(GIT_BRANCH)
-	git push github $(GIT_BRANCH)
 
 test: test-check ## run mocha unit tests
 
@@ -88,14 +107,31 @@ test-leaks: ## run mocha unit tests with coverage reports
 test-watch:
 	$(NODE_BIN)/nyc $(COVER_OPTS) $(NODE_BIN)/mocha $(MOCHA_OPTS) --watch $(TARGET_PATH)/test-bundle.js
 
-todo:
-	@echo "Remaining tasks:"
-	@echo ""
-	@grep "todo" -r src/
-	@echo ""
-	@echo "Pending tests:"
-	@echo ""
-	@grep "[[:space:]]xit" -r $(TEST_PATH)
+yarn-install: ## install dependencies from package and lock file
+	yarn
 
-update: ## check yarn for outdated packages
-	yarn upgrade -L -C -P '.*'
+yarn-update: ## check yarn for outdated packages
+	yarn upgrade-interactive --latest
+
+git-push: ## push to both gitlab and github (this assumes you have both remotes set up)
+	git push $(GIT_OPTIONS) gitlab $(GIT_BRANCH)
+	git push $(GIT_OPTIONS) github $(GIT_BRANCH)
+
+# from https://gist.github.com/amitchhajer/4461043#gistcomment-2349917
+git-stats: ## print git contributor line counts (approx, for fun)
+	git ls-files | while read f; do git blame -w -M -C -C --line-porcelain "$$f" |\
+		grep -I '^author '; done | sort -f | uniq -ic | sort -n
+
+release: ## create a release
+	$(NODE_BIN)/standard-version --sign $(RELEASE_OPTS)
+	GIT_OPTIONS=--tags $(MAKE) git-push
+
+release-dry: ## test creating a release
+	$(NODE_BIN)/standard-version --sign $(RELEASE_OPTS) --dry-run
+
+upload-climate:
+	cc-test-reporter format-coverage -t lcov -o $(TARGET_PATH)/coverage/codeclimate.json -p $(ROOT_PATH) $(TARGET_PATH)/coverage/lcov.info
+	cc-test-reporter upload-coverage --debug -i $(TARGET_PATH)/coverage/codeclimate.json -r "$(shell echo "${CODECLIMATE_SECRET}" | base64 -d)"
+
+upload-codecov:
+	codecov --disable=gcov --file=$(TARGET_PATH)/coverage/lcov.info --token=$(shell echo "${CODECOV_SECRET}" | base64 -d)
