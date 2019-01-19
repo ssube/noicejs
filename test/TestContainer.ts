@@ -1,11 +1,15 @@
 import { expect } from 'chai';
-import { match, spy } from 'sinon';
+import { ineeda } from 'ineeda';
+import { spy } from 'sinon';
 
-import { BaseError, MissingValueError } from 'src';
 import { Container } from 'src/Container';
+import { BaseError } from 'src/error/BaseError';
+import { ContainerBoundError } from 'src/error/ContainerBoundError';
 import { ContainerNotBoundError } from 'src/error/ContainerNotBoundError';
 import { InvalidProviderError } from 'src/error/InvalidProviderError';
+import { MissingValueError } from 'src/error/MissingValueError';
 import { Inject } from 'src/Inject';
+import { Logger } from 'src/logger/Logger';
 import { Module, ModuleOptions } from 'src/Module';
 
 import { describeAsync, itAsync } from 'test/helpers/async';
@@ -47,6 +51,13 @@ describeAsync('injection container', async () => {
     const container = Container.from(...modules);
 
     return expect(container.create(TestModule)).to.eventually.be.rejectedWith(ContainerNotBoundError);
+  });
+
+  itAsync('should not be configured more than once', async () => {
+    const container = Container.from();
+
+    await container.configure();
+    return expect(container.configure()).to.eventually.be.rejectedWith(ContainerBoundError);
   });
 
   itAsync('should be extended with some modules', async () => {
@@ -202,5 +213,17 @@ describeAsync('injection container', async () => {
 
     expect(injected.bar).to.equal(bar);
     expect(injected.foo).to.equal(foo);
+  });
+
+  itAsync('should log debug info', async () => {
+    const container = Container.from();
+    const debugSpy = spy();
+    await container.configure({
+      logger: ineeda<Logger>({
+        debug: debugSpy,
+      }),
+    });
+    container.debug();
+    expect(debugSpy).to.have.callCount(1);
   });
 });
