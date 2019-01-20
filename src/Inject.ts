@@ -29,7 +29,7 @@ export function Inject(...needs: Array<InjectedDependency>) {
     if (key) {
       const prop = desc || Object.getOwnPropertyDescriptor(Object.getPrototypeOf(target), key);
       if (!prop) {
-        throw new DescriptorNotFoundError('cannot get method descriptor');
+        throw new DescriptorNotFoundError('cannot get descriptor');
       }
       if (typeof prop.value !== 'function') {
         throw new InvalidTargetError('method decorator cannot inject properties');

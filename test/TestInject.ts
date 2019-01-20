@@ -1,5 +1,8 @@
 import { expect } from 'chai';
+
+import { InvalidTargetError } from 'src/error/InvalidTargetError';
 import { getInject, Inject } from 'src/Inject';
+
 import { describeAsync, itAsync } from 'test/helpers/async';
 
 describeAsync('injection decorator', async () => {
@@ -44,5 +47,13 @@ describeAsync('injection decorator', async () => {
     const injected = getInject(BarClass);
     expect(injected.length).to.equal(2);
     expect(injected[0].name, 'first injected option should be from parent class').to.equal('foo');
+  });
+
+  itAsync('should fail on missing properties', async () => {
+    class TestClass { /* noop */ }
+
+    expect(() => {
+      Inject()(TestClass, 'missing');
+    }).to.throw();
   });
 });
