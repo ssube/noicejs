@@ -15,6 +15,7 @@ Inspired by [Google's Guice library](https://github.com/google/guice) and writte
 [![Open issue count](https://img.shields.io/github/issues-raw/ssube/noicejs.svg)](https://github.com/ssube/noicejs/issues?q=is%3Aopen+is%3Aissue)
 [![Closed issue count](https://img.shields.io/github/issues-closed-raw/ssube/noicejs.svg)](https://github.com/ssube/noicejs/issues?q=is%3Aissue+is%3Aclosed)
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/ssube/noicejs.svg)](https://greenkeeper.io/)
 [![Maintainability score](https://api.codeclimate.com/v1/badges/5d4326d6f68a2fa137cd/maintainability)](https://codeclimate.com/github/ssube/noicejs/maintainability)
 [![Technical debt ratio](https://img.shields.io/codeclimate/tech-debt/ssube/noicejs.svg)](https://codeclimate.com/github/ssube/noicejs/trends/technical_debt)
 [![Quality issues](https://img.shields.io/codeclimate/issues/ssube/noicejs.svg)](https://codeclimate.com/github/ssube/noicejs/issues)
@@ -25,7 +26,7 @@ Inspired by [Google's Guice library](https://github.com/google/guice) and writte
 [![Commits since release](https://img.shields.io/github/commits-since/ssube/noicejs/v2.5.2.svg)](https://github.com/ssube/noicejs/compare/v2.5.2...master)
 
 [![npm release version](https://img.shields.io/npm/v/noicejs.svg)](https://www.npmjs.com/package/noicejs)
-[![Typescript definitions](https://img.shields.io/npm/types/noicejs.svg)](https://www.npmjs.com/package/noicejs) [![Greenkeeper badge](https://badges.greenkeeper.io/ssube/noicejs.svg)](https://greenkeeper.io/)
+[![Typescript definitions](https://img.shields.io/npm/types/noicejs.svg)](https://www.npmjs.com/package/noicejs)
 
 ## Usage
 
