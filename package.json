@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/ssube/noicejs#readme",
   "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^0.1.0",
     "@types/chai": "4.1.7",
     "@types/chai-as-promised": "7.1.0",
     "@types/mocha": "5.2.5",
@@ -58,5 +59,8 @@
     "webpack-bundle-analyzer": "3.0.3",
     "webpack-cli": "3.2.1",
     "webpack-dts-bundle": "0.0.2"
+  },
+  "nyc": {
+    "extends": "@istanbuljs/nyc-config-typescript"
   }
 }
