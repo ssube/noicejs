@@ -130,6 +130,11 @@
     reflect-metadata "^0.1.12"
     tslib "^1.8.1"
 
+"@istanbuljs/nyc-config-typescript@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@istanbuljs/nyc-config-typescript/-/nyc-config-typescript-0.1.0.tgz#4a68cade8f3cd79ebec6091d8c90725e9dc41a07"
+  integrity sha512-BZPC26BmX4MYTt8Rbv+qFm66dcjVQBUmDINHEbHzN61Tzk+V7+vXNS6e2uN3PUh4/geLwTyTqx7cjMlysVCuvQ==
+
 "@microsoft/api-extractor-model@7.3.2":
   version "7.3.2"
   resolved "https://registry.yarnpkg.com/@microsoft/api-extractor-model/-/api-extractor-model-7.3.2.tgz#71229ba80f8aafc56afe4d3ee83f19b1ce72eb24"
