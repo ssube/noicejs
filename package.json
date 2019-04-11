@@ -55,7 +55,7 @@
     "typedoc": "0.14.2",
     "typescript": "3.2.4",
     "webpack": "4.28.4",
-    "webpack-bundle-analyzer": "3.0.3",
+    "webpack-bundle-analyzer": "3.3.2",
     "webpack-cli": "3.2.1",
     "webpack-dts-bundle": "0.0.2"
   }
