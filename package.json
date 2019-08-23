@@ -28,7 +28,7 @@
     "@types/chai": "4.1.7",
     "@types/chai-as-promised": "7.1.0",
     "@types/mocha": "5.2.7",
-    "@types/node": "10.12.18",
+    "@types/node": "10.14.16",
     "@types/sinon-chai": "3.2.2",
     "@types/source-map-support": "0.4.1",
     "awesome-typescript-loader": "5.2.1",
