@@ -41,7 +41,7 @@
     "istanbul-instrumenter-loader": "3.0.1",
     "mocha": "5.2.0",
     "nyc": "13.3.0",
-    "sinon": "7.2.3",
+    "sinon": "7.4.1",
     "sinon-chai": "3.3.0",
     "source-map-support": "0.5.13",
     "standard-version": "7.0.0",
