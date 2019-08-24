@@ -56,7 +56,7 @@
     "typescript": "3.2.4",
     "webpack": "4.39.2",
     "webpack-bundle-analyzer": "3.0.3",
-    "webpack-cli": "3.2.1",
+    "webpack-cli": "3.3.7",
     "webpack-dts-bundle": "0.0.2"
   }
 }
