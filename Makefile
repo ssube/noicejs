@@ -104,6 +104,7 @@ test-check: ## run mocha unit tests with coverage reports
 test-cover: ## run mocha unit tests with coverage reports
 	$(NODE_BIN)/nyc $(COVER_OPTS) $(NODE_BIN)/mocha $(MOCHA_OPTS) $(TARGET_PATH)/test-bundle.js
 	sed -i $(TARGET_PATH)/coverage/lcov.info \
+		-e '/external ".*"$$/,/end_of_record/d' \
 		-e '/ sync$$/,/end_of_record/d' \
 		-e '/test sync/,/end_of_record/d' \
 		-e '/node_modules/,/end_of_record/d' \
