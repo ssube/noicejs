@@ -2,17 +2,17 @@ import { expect } from 'chai';
 import { ineeda } from 'ineeda';
 import { spy } from 'sinon';
 
-import { Container } from 'src/Container';
-import { BaseError } from 'src/error/BaseError';
-import { ContainerBoundError } from 'src/error/ContainerBoundError';
-import { ContainerNotBoundError } from 'src/error/ContainerNotBoundError';
-import { InvalidProviderError } from 'src/error/InvalidProviderError';
-import { MissingValueError } from 'src/error/MissingValueError';
-import { Inject } from 'src/Inject';
-import { Logger } from 'src/logger/Logger';
-import { Module, ModuleOptions } from 'src/Module';
+import { Container } from '../src/Container';
+import { BaseError } from '../src/error/BaseError';
+import { ContainerBoundError } from '../src/error/ContainerBoundError';
+import { ContainerNotBoundError } from '../src/error/ContainerNotBoundError';
+import { InvalidProviderError } from '../src/error/InvalidProviderError';
+import { MissingValueError } from '../src/error/MissingValueError';
+import { Inject } from '../src/Inject';
+import { Logger } from '../src/logger/Logger';
+import { Module, ModuleOptions } from '../src/Module';
 
-import { describeAsync, itAsync } from 'test/helpers/async';
+import { describeAsync, itAsync } from './helpers/async';
 
 const testModuleCount = 8; // the number of test modules to create
 

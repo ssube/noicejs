@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import {Module} from 'src/Module';
+import {Module} from '../../src/Module';
 
 class TestModule extends Module {
   public async configure() {

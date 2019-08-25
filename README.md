@@ -56,8 +56,8 @@ implemented, only that it meets the contract.
 
 ```typescript
 import { Container, Inject, Module } from 'noicejs';
-import { Server } from 'src/api/Server';
-import { NetworkServer } from 'src/impl/Server';
+import { Server } from './src/api/Server';
+import { NetworkServer } from './src/impl/Server';
 
 /**
  * Decorate your class with any dependencies it

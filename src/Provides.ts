@@ -1,5 +1,5 @@
-import { Dependency, InjectedDependency, resolveDepends } from 'src/Dependency';
-import { DescriptorNotFoundError } from 'src/error/DescriptorNotFoundError';
+import { Dependency, InjectedDependency, resolveDepends } from './Dependency';
+import { DescriptorNotFoundError } from './error/DescriptorNotFoundError';
 
 export const providesSymbol = Symbol('noicejs-provides');
 

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { getInject, Inject  } from 'src/Inject';
-import { itAsync } from 'test/helpers/async';
+import { getInject, Inject  } from '../../src/Inject';
+import { itAsync } from '../helpers/async';
 
 describe('inject decorator', async () => {
   itAsync('should return a function', async () => {
