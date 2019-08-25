@@ -48,7 +48,6 @@ RELEASE_OPTS ?= --commit-all
 # Versions
 export NODE_VERSION		:= $(shell node -v)
 export RUNNER_VERSION  := $(CI_RUNNER_VERSION)
-export WEBPACK_VERSION := $(shell $(NODE_BIN)/webpack -v)
 
 all: build ## builds, bundles, and tests the application
 	@echo Success!
@@ -96,13 +95,14 @@ build-bundle: node_modules
 build-docs: ## generate html docs
 	$(NODE_BIN)/typedoc $(DOCS_OPTS)
 
-test: test-check ## run mocha unit tests
+test: ## run mocha unit tests
+test: test-cover
 
 test-check: ## run mocha unit tests with coverage reports
 	$(NODE_BIN)/nyc $(COVER_OPTS) $(NODE_BIN)/mocha $(MOCHA_OPTS) $(TARGET_PATH)/test-bundle.js
 
 test-cover: ## run mocha unit tests with coverage reports
-	$(NODE_BIN)/nyc $(COVER_OPTS) $(NODE_BIN)/mocha $(MOCHA_OPTS) $(TARGET_PATH)/test-bundle.js
+test-cover: test-check
 	sed -i $(TARGET_PATH)/coverage/lcov.info \
 		-e '/external ".*"$$/,/end_of_record/d' \
 		-e '/ sync$$/,/end_of_record/d' \
@@ -112,9 +112,6 @@ test-cover: ## run mocha unit tests with coverage reports
 		-e '/universalModuleDefinition/,/end_of_record/d'
 	sed -n '/^SF/,$$p' -i $(TARGET_PATH)/coverage/lcov.info
 	sed '1s;^;TN:\n;' -i $(TARGET_PATH)/coverage/lcov.info
-
-test-leaks: ## run mocha unit tests with coverage reports
-	$(NODE_BIN)/nyc $(COVER_OPTS) $(NODE_BIN)/mocha $(MOCHA_OPTS) $(TARGET_PATH)/test-bundle.js
 
 test-watch:
 	$(NODE_BIN)/nyc $(COVER_OPTS) $(NODE_BIN)/mocha $(MOCHA_OPTS) --watch $(TARGET_PATH)/test-bundle.js
