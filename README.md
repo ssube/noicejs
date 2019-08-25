@@ -31,13 +31,13 @@ Inspired by [Google's Guice library](https://github.com/google/guice) and writte
 
 ## Usage
 
-Consider a `User` class that needs to fetch data from the `Server`, but doesn't know (or need to know) where that
-server is or what it runs on.
+Consider a `User` class that needs to fetch data from the `Server`, but doesn't know (or need to know) how `Server` is
+implemented, only that it meets the contract.
 
 ```typescript
-import {Container, Inject, Module} from 'noicejs';
-import {Server} from './abstract/Server';
-import {NetworkServer} from './network/Server';
+import { Container, Inject, Module } from 'noicejs';
+import { Server } from 'src/api/Server';
+import { NetworkServer } from 'src/impl/Server';
 
 /**
  * Decorate your class with any dependencies it
@@ -55,7 +55,7 @@ class User {
  * the implementation.
  */
 class NetworkModule extends Module {
-  configure() {
+  async configure() {
     this.bind(Server).toConstructor(NetworkServer);
   }
 }
@@ -66,6 +66,7 @@ class NetworkModule extends Module {
 const ctr = Container.from(new NetworkModule());
 const user = await ctr.create(User, {
   id: 3
+  // server will be populated by the DI container
 });
 ```
 
@@ -79,6 +80,23 @@ Any extra parameters you pass to `create` will be passed on to the constructor.
 To build a bundle and run tests:
 
 ```shell
+> make build
+
 yarn
-make
+yarn install v1.17.3
+[1/4] Resolving packages...
+success Already up-to-date.
+Done in 0.20s.
+/home/ssube/code/ssube/noicejs//node_modules/.bin/rollup --config /home/ssube/code/ssube/noicejs//config/rollup.js
+
+src/index.ts, test/harness.ts, test/**/Test*.ts → out/...
+...
+created out/ in 3.3s
+/home/ssube/code/ssube/noicejs//node_modules/.bin/api-extractor run --config /home/ssube/code/ssube/noicejs//config/api-extractor.json --local -v
+
+api-extractor 7.3.8  - https://api-extractor.com/
+...
+
+API Extractor completed successfully
+Success!
 ```
