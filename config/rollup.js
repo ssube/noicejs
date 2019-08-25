@@ -60,6 +60,7 @@ const bundle = {
 				'node_modules/lodash/lodash.js': [
 					'isNil',
 					'isString',
+					'kebabCase',
 				],
 			},
 		}),
