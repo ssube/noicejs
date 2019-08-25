@@ -1,21 +1,21 @@
 # Git
-export GIT_BRANCH 	?= $(shell git rev-parse --abbrev-ref HEAD)
-export GIT_COMMIT		?= $(shell git rev-parse HEAD)
-export GIT_REMOTES	?= $(shell git remote -v | awk '{ print $1; }' | sort | uniq)
-export GIT_OPTIONS  ?=
+export GIT_BRANCH ?= $(shell git rev-parse --abbrev-ref HEAD)
+export GIT_COMMIT ?= $(shell git rev-parse HEAD)
+export GIT_REMOTES ?= $(shell git remote -v | awk '{ print $1; }' | sort | uniq)
+export GIT_OPTIONS ?=
 
 # CI
-export CI_COMMIT_REF_SLUG		?= $(GIT_BRANCH)
+export CI_COMMIT_REF_SLUG ?= $(GIT_BRANCH)
 export CI_COMMIT_SHA ?= $(GIT_COMMIT)
-export CI_ENVIRONMENT_SLUG 	?= local
+export CI_ENVIRONMENT_SLUG ?= local
 export CI_JOB_ID ?= 0
 export CI_RUNNER_DESCRIPTION ?= $(shell hostname)
 export CI_RUNNER_ID ?= $(shell hostname)
 export CI_RUNNER_VERSION ?= 0.0.0
 
 # Debug
-export DEBUG_BIND  ?= 127.0.0.1
-export DEBUG_PORT  ?= 9229
+export DEBUG_BIND ?= 127.0.0.1
+export DEBUG_PORT ?= 9229
 
 # Paths
 # resolve the makefile's path and directory, from https://stackoverflow.com/a/18137056
@@ -31,10 +31,10 @@ export TEST_PATH		?= $(ROOT_PATH)/test
 export VENDOR_PATH	?= $(ROOT_PATH)/vendor
 
 # Node options
-NODE_BIN		:= $(ROOT_PATH)/node_modules/.bin
-NODE_CMD		?= $(shell env node)
-NODE_DEBUG	?= --inspect-brk=$(DEBUG_BIND):$(DEBUG_PORT) --nolazy
-NODE_INFO		:= $(shell node -v)
+NODE_BIN := $(ROOT_PATH)/node_modules/.bin
+NODE_CMD ?= $(shell env node)
+NODE_DEBUG ?= --inspect-brk=$(DEBUG_BIND):$(DEBUG_PORT) --nolazy
+NODE_INFO := $(shell node -v)
 
 # Tool options
 BUNDLE_OPTS	?= --config "$(CONFIG_PATH)/webpack.js" --display-optimization-bailout --display-error-details
@@ -50,11 +50,16 @@ export NODE_VERSION		:= $(shell node -v)
 export RUNNER_VERSION  := $(CI_RUNNER_VERSION)
 export WEBPACK_VERSION := $(shell $(NODE_BIN)/webpack -v)
 
-all: configure bundle test docs ## builds, bundles, and tests the application
+all: build ## builds, bundles, and tests the application
 	@echo Success!
 
-clean: ## clean up the target directory
+clean: ## clean up everything added by the default target
+clean: clean-deps clean-target
+
+clean-deps: ## clean up the node_modules directory
 	rm -rf node_modules
+
+clean-target: ## clean up the target directory
 	rm -rf $(TARGET_PATH)
 
 configure: ## create the target directory and other files not in git
@@ -68,32 +73,27 @@ help: ## print this help
 		| sed 's/^.*\/\(.*\)/\1/' \
 		| awk 'BEGIN {FS = ":[^:]*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
+todo:
+	@echo "Remaining tasks:"
+	@echo ""
+	@grep -i "todo" -r docs/ src/ test/ || true
+	@echo ""
+	@echo "Pending tests:"
+	@echo ""
+	@grep "[[:space:]]xit" -r test/ || true
+	@echo "Casts to any:"
+	@echo ""
+	@grep "as any" -r src/ test/ || true
+	@echo ""
+
 # Build targets
 build: ## builds, bundles, and tests the application
-build: build-cover
+build: build-bundle build-docs
 
-build-cover: ## builds, bundles, and tests the application with code coverage
-build-cover: configure node_modules bundle-cover test-cover
+build-bundle: node_modules
+	$(NODE_BIN)/rollup --config $(CONFIG_PATH)/rollup.js
 
-build-strict: ## builds, bundles, and tests the application with type checks and extra warnings (slow)
-build-strict: configure node_modules bundle-strict test-cover
-
-bundle: bundle-cover ## build the distributable version of the application
-
-bundle-cover: ## bundle the application without type checking (faster)
-	TEST_CHECK=false $(NODE_BIN)/webpack $(BUNDLE_OPTS)
-
-bundle-strict: ## bundle the application with full type checking (stricter)
-	TEST_CHECK=true $(NODE_BIN)/webpack $(BUNDLE_OPTS)
-
-bundle-stats: ## bundle the application and print statistics
-	TEST_CHECK=false $(NODE_BIN)/webpack $(BUNDLE_OPTS) --json --profile |\
-		tee "$(TARGET_PATH)/webpack.json"
-
-bundle-watch: ## bundle the application and watch for changes
-	TEST_CHECK=false $(NODE_BIN)/webpack $(BUNDLE_OPTS) --watch
-
-bundle-docs: ## generate html docs
+build-docs: ## generate html docs
 	$(NODE_BIN)/typedoc $(DOCS_OPTS)
 
 test: test-check ## run mocha unit tests
@@ -125,14 +125,19 @@ yarn-install: ## install dependencies from package and lock file
 yarn-update: ## check yarn for outdated packages
 	yarn upgrade-interactive --latest
 
+# release targets
 git-push: ## push to both gitlab and github (this assumes you have both remotes set up)
-	git push $(GIT_OPTIONS) gitlab $(GIT_BRANCH)
 	git push $(GIT_OPTIONS) github $(GIT_BRANCH)
+	git push $(GIT_OPTIONS) gitlab $(GIT_BRANCH)
 
 # from https://gist.github.com/amitchhajer/4461043#gistcomment-2349917
 git-stats: ## print git contributor line counts (approx, for fun)
 	git ls-files | while read f; do git blame -w -M -C -C --line-porcelain "$$f" |\
 		grep -I '^author '; done | sort -f | uniq -ic | sort -n
+
+license-check: ## check license status
+	licensed cache
+	licensed status
 
 release: ## create a release
 	$(NODE_BIN)/standard-version --sign $(RELEASE_OPTS)
