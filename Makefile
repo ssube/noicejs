@@ -93,7 +93,7 @@ build-bundle: node_modules
 	$(NODE_BIN)/rollup --config $(CONFIG_PATH)/rollup.js
 
 build-docs: ## generate html docs
-	$(NODE_BIN)/typedoc $(DOCS_OPTS)
+	$(NODE_BIN)/api-extractor run --config $(CONFIG_PATH)/api-extractor.json --local -v
 
 test: ## run mocha unit tests
 test: test-cover

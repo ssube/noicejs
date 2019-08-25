@@ -6,7 +6,6 @@ import resolve from 'rollup-plugin-node-resolve';
 import typescript from 'rollup-plugin-typescript2';
 
 const metadata = require('../package.json');
-const shebang = '#! /usr/bin/env node';
 
 const bundle = {
 	external: [
@@ -31,7 +30,7 @@ const bundle = {
 		format: 'cjs',
 		sourcemap: true,
 		banner: () => {
-			return shebang + '\n\n';
+			return '\n';
 		},
 	},
 	plugins: [
