@@ -5,6 +5,26 @@ Extremely thin dependency injection. (v2: now with async!)
 Inspired by [Google's Guice library](https://github.com/google/guice) and written in
 [Typescript](https://www.typescriptlang.org/).
 
+## Features
+
+- async dependency resolution
+- constructor and property injection
+- modular containers with inheritance
+- named dependencies using strings or unique symbols
+- typed errors
+- typescript typedefs
+- zero runtime dependencies, bundled or otherwise
+
+## Contents
+
+- [noicejs](#noicejs)
+  - [Features](#features)
+  - [Contents](#contents)
+  - [Status](#status)
+  - [Releases](#releases)
+  - [Usage](#usage)
+  - [Build](#build)
+
 ## Status
 
 [![Pipeline status](https://img.shields.io/gitlab/pipeline/ssube/noicejs.svg?gitlab_url=https%3A%2F%2Fgit.apextoaster.com&logo=gitlab)](https://git.apextoaster.com/ssube/noicejs/commits/master)
