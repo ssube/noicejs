@@ -18,21 +18,11 @@ const bundle = {
 		'test/**/Test*.ts',
 	],
 	manualChunks(id) {
-		if (id.includes('/test/') /* || id.includes('/chai/') */ || id.includes('/sinon/')) {
+		if (id.includes('/test/') || id.includes('/node_modules/')) {
 			return 'test'
 		}
 
-		if (id.includes('/node_modules/')) {
-			return 'vendor';
-		}
-
-		if (id.includes('/src/index')) {
-			return 'index';
-		}
-
-		if (id.includes('/src/')) {
-			return 'main';
-		}
+		return 'index';
 	},
 	output: {
 		dir: 'out/',
@@ -66,37 +56,15 @@ const bundle = {
 			namedExports: {
 				'node_modules/chai/index.js': [
 					'expect',
-				],
-				'node_modules/deep-diff/index.js': [
-					'applyDiff',
-					'diff',
+					'use',
 				],
 				'node_modules/lodash/lodash.js': [
-					'cloneDeep',
-					'intersection',
 					'isNil',
 					'isString',
 				],
-				'node_modules/noicejs/out/main-bundle.js': [
-					'BaseError',
-					'ConsoleLogger',
-				],
-				'node_modules/js-yaml/index.js': [
-					'DEFAULT_SAFE_SCHEMA',
-					'SAFE_SCHEMA',
-					'safeDump',
-					'safeLoad',
-					'safeLoadAll',
-					'Schema',
-					'Type',
-				],
-				'node_modules/yargs/index.js': [
-					'showCompletionScript',
-					'usage',
-				],
 			},
 		}),
-    typescript({
+    		typescript({
 			cacheRoot: 'out/cache/rts2',
 			rollupCommonJSResolveHack: true,
 		}),
