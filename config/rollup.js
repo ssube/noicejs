@@ -9,7 +9,7 @@ const metadata = require('../package.json');
 
 const bundle = {
 	external: [
-		'dtrace-provider',
+		'async_hooks',
 	],
 	input: [
 		'src/index.ts',
@@ -18,7 +18,11 @@ const bundle = {
 	],
 	manualChunks(id) {
 		if (id.includes('/test/') || id.includes('/node_modules/')) {
-			return 'test'
+			return 'test';
+		}
+
+		if (id.includes('/src/')) {
+			return 'main';
 		}
 
 		return 'index';
