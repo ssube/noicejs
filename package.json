@@ -55,7 +55,7 @@
     "tslint-sonarts": "1.9.0",
     "typedoc": "0.15.0",
     "typescript": "3.2.4",
-    "webpack": "4.39.2",
+    "webpack": "4.39.3",
     "webpack-bundle-analyzer": "3.4.1",
     "webpack-cli": "3.3.7",
     "webpack-dts-bundle": "0.0.2"
