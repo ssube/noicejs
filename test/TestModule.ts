@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import { match, spy } from 'sinon';
 
-import { BaseOptions, Container } from 'src/Container';
-import { Module, ModuleOptions, ProviderType } from 'src/Module';
-import { describeAsync, itAsync } from 'test/helpers/async';
+import { BaseOptions, Container } from '../src/Container';
+import { Module, ModuleOptions, ProviderType } from '../src/Module';
+import { describeAsync, itAsync } from './helpers/async';
 
 describeAsync('injection modules', async () => {
   itAsync('should be extendable', async () => {

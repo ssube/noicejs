@@ -1,14 +1,6 @@
-import * as chai from 'chai';
-import * as chaiAsPromised from 'chai-as-promised';
-import {ineeda} from 'ineeda';
-import * as sinonChai from 'sinon-chai';
-import * as sourceMapSupport from 'source-map-support';
-
-sourceMapSupport.install({
-  environment: 'node',
-  handleUncaughtExceptions: true,
-  hookRequire: true,
-});
+import { use } from 'chai';
+import chaiAsPromised from 'chai-as-promised';
+import sinonChai from 'sinon-chai';
 
 /**
  * This will break the whole test run if any test leaks an unhandled rejection.
@@ -21,16 +13,6 @@ process.on('unhandledRejection', (reason, promise) => {
   process.exit(1);
 });
 
-chai.use(chaiAsPromised);
-chai.use(sinonChai);
+use(chaiAsPromised);
+use(sinonChai);
 
-/* tslint:disable:no-null-keyword */
-ineeda.intercept({
-  then: null,
-  unsubscribe: null,
-});
-/* tslint:enable:no-null-keyword */
-
-const context = (require as any).context('.', true, /Test.*$/);
-context.keys().forEach(context);
-export default context;

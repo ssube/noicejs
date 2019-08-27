@@ -5,6 +5,26 @@ Extremely thin dependency injection. (v2: now with async!)
 Inspired by [Google's Guice library](https://github.com/google/guice) and written in
 [Typescript](https://www.typescriptlang.org/).
 
+## Features
+
+- async dependency resolution
+- constructor and property injection
+- modular containers with inheritance
+- named dependencies using strings or unique symbols
+- typed errors
+- typescript typedefs
+- zero runtime dependencies, bundled or otherwise
+
+## Contents
+
+- [noicejs](#noicejs)
+  - [Features](#features)
+  - [Contents](#contents)
+  - [Status](#status)
+  - [Releases](#releases)
+  - [Usage](#usage)
+  - [Build](#build)
+
 ## Status
 
 [![Pipeline status](https://img.shields.io/gitlab/pipeline/ssube/noicejs.svg?gitlab_url=https%3A%2F%2Fgit.apextoaster.com&logo=gitlab)](https://git.apextoaster.com/ssube/noicejs/commits/master)
@@ -19,6 +39,7 @@ Inspired by [Google's Guice library](https://github.com/google/guice) and writte
 [![Maintainability score](https://api.codeclimate.com/v1/badges/5d4326d6f68a2fa137cd/maintainability)](https://codeclimate.com/github/ssube/noicejs/maintainability)
 [![Technical debt ratio](https://img.shields.io/codeclimate/tech-debt/ssube/noicejs.svg)](https://codeclimate.com/github/ssube/noicejs/trends/technical_debt)
 [![Quality issues](https://img.shields.io/codeclimate/issues/ssube/noicejs.svg)](https://codeclimate.com/github/ssube/noicejs/issues)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fssube%2Fnoicejs.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fssube%2Fnoicejs?ref=badge_shield)
 
 ## Releases
 
@@ -30,13 +51,13 @@ Inspired by [Google's Guice library](https://github.com/google/guice) and writte
 
 ## Usage
 
-Consider a `User` class that needs to fetch data from the `Server`, but doesn't know (or need to know) where that
-server is or what it runs on.
+Consider a `User` class that needs to fetch data from the `Server`, but doesn't know (or need to know) how `Server` is
+implemented, only that it meets the contract.
 
 ```typescript
-import {Container, Inject, Module} from 'noicejs';
-import {Server} from './abstract/Server';
-import {NetworkServer} from './network/Server';
+import { Container, Inject, Module } from 'noicejs';
+import { Server } from './src/api/Server';
+import { NetworkServer } from './src/impl/Server';
 
 /**
  * Decorate your class with any dependencies it
@@ -54,7 +75,7 @@ class User {
  * the implementation.
  */
 class NetworkModule extends Module {
-  configure() {
+  async configure() {
     this.bind(Server).toConstructor(NetworkServer);
   }
 }
@@ -65,6 +86,7 @@ class NetworkModule extends Module {
 const ctr = Container.from(new NetworkModule());
 const user = await ctr.create(User, {
   id: 3
+  // server will be populated by the DI container
 });
 ```
 
@@ -78,6 +100,23 @@ Any extra parameters you pass to `create` will be passed on to the constructor.
 To build a bundle and run tests:
 
 ```shell
+> make build
+
 yarn
-make
+yarn install v1.17.3
+[1/4] Resolving packages...
+success Already up-to-date.
+Done in 0.20s.
+/home/ssube/code/ssube/noicejs//node_modules/.bin/rollup --config /home/ssube/code/ssube/noicejs//config/rollup.js
+
+src/index.ts, test/harness.ts, test/**/Test*.ts → out/...
+...
+created out/ in 3.3s
+/home/ssube/code/ssube/noicejs//node_modules/.bin/api-extractor run --config /home/ssube/code/ssube/noicejs//config/api-extractor.json --local -v
+
+api-extractor 7.3.8  - https://api-extractor.com/
+...
+
+API Extractor completed successfully
+Success!
 ```

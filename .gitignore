@@ -1,6 +1,7 @@
 .nyc_output/
 node_modules/
 out/
+temp/
 
 # types
 *.d.ts

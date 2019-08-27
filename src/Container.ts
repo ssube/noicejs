@@ -1,13 +1,13 @@
-import { Dependency } from 'src/Dependency';
-import { ContainerBoundError } from 'src/error/ContainerBoundError';
-import { ContainerNotBoundError } from 'src/error/ContainerNotBoundError';
-import { InvalidProviderError } from 'src/error/InvalidProviderError';
-import { MissingValueError } from 'src/error/MissingValueError';
-import { getInject } from 'src/Inject';
-import { Logger } from 'src/logger/Logger';
-import { NullLogger } from 'src/logger/NullLogger';
-import { Module, ProviderType } from 'src/Module';
-import { VERSION_INFO } from 'src/version';
+import { Dependency } from './Dependency';
+import { ContainerBoundError } from './error/ContainerBoundError';
+import { ContainerNotBoundError } from './error/ContainerNotBoundError';
+import { InvalidProviderError } from './error/InvalidProviderError';
+import { MissingValueError } from './error/MissingValueError';
+import { getInject } from './Inject';
+import { Logger } from './logger/Logger';
+import { NullLogger } from './logger/NullLogger';
+import { Module, ProviderType } from './Module';
+import { VERSION_INFO } from './version';
 
 export interface Constructor<TReturn, TOptions> {
   new(options: TOptions, ...extra: Array<any>): TReturn;

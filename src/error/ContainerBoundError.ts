@@ -1,4 +1,4 @@
-import {BaseError} from 'src/error/BaseError';
+import {BaseError} from './BaseError';
 
 export class ContainerBoundError extends BaseError {
   constructor(msg = 'container is already bound', ...nested: Array<Error>) {

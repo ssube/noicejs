@@ -52,7 +52,7 @@ build-node:
   variables:
     GIT_SUBMODULE_STRATEGY: recursive
   script:
-    - make build-strict
+    - make build test
 
   artifacts:
     expire_in: 1 week

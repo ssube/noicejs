@@ -1,6 +1,6 @@
-import { Container } from 'src/Container';
-import { Inject } from 'src/Inject';
-import { Module, ModuleOptions } from 'src/Module';
+import { Container } from '../../src/Container';
+import { Inject } from '../../src/Inject';
+import { Module, ModuleOptions } from '../../src/Module';
 
 export class Interface {
   // empty

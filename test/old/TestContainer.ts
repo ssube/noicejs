@@ -1,14 +1,14 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
 
-import { MissingValueError } from 'src';
-import { Container } from 'src/Container';
-import { Inject } from 'src/Inject';
-import { Module, ModuleOptions } from 'src/Module';
-import { Provides } from 'src/Provides';
+import { MissingValueError } from '../../src';
+import { Container } from '../../src/Container';
+import { Inject } from '../../src/Inject';
+import { Module, ModuleOptions } from '../../src/Module';
+import { Provides } from '../../src/Provides';
 
-import { itAsync } from 'test/helpers/async';
-import { Consumer, Implementation, Interface, TestModule } from 'test/old/HelperClass';
+import { itAsync } from '../helpers/async';
+import { Consumer, Implementation, Interface, TestModule } from './HelperClass';
 
 describe('container', () => {
   itAsync('should take a list of modules', async () => {

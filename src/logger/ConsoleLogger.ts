@@ -1,4 +1,4 @@
-import { Logger } from 'src/logger/Logger';
+import { Logger } from './Logger';
 
 /**
  * Logger implementation using the console.
