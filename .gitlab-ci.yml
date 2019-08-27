@@ -59,7 +59,7 @@ build-node:
     paths:
       - out/coverage
       - out/docs
-      - out/main-bundle.*
+      - out/main.js
       - out/noicejs.d.ts
       - out/version.json
   cache:
