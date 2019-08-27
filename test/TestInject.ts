@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 
-import { InvalidTargetError } from 'src/error/InvalidTargetError';
-import { getInject, Inject } from 'src/Inject';
+import { InvalidTargetError } from '../src/error/InvalidTargetError';
+import { getInject, Inject } from '../src/Inject';
 
-import { describeAsync, itAsync } from 'test/helpers/async';
+import { describeAsync, itAsync } from './helpers/async';
 
 describeAsync('injection decorator', async () => {
   itAsync('should attach dependencies', async () => {

@@ -1,13 +1,13 @@
 import { expect } from 'chai';
 import { kebabCase } from 'lodash';
 
-import { ContainerBoundError } from 'src/error/ContainerBoundError';
-import { ContainerNotBoundError } from 'src/error/ContainerNotBoundError';
-import { DescriptorNotFoundError } from 'src/error/DescriptorNotFoundError';
-import { InvalidProviderError } from 'src/error/InvalidProviderError';
-import { InvalidTargetError } from 'src/error/InvalidTargetError';
-import { LoggerNotFoundError } from 'src/error/LoggerNotFoundError';
-import { MissingValueError } from 'src/error/MissingValueError';
+import { ContainerBoundError } from '../src/error/ContainerBoundError';
+import { ContainerNotBoundError } from '../src/error/ContainerNotBoundError';
+import { DescriptorNotFoundError } from '../src/error/DescriptorNotFoundError';
+import { InvalidProviderError } from '../src/error/InvalidProviderError';
+import { InvalidTargetError } from '../src/error/InvalidTargetError';
+import { LoggerNotFoundError } from '../src/error/LoggerNotFoundError';
+import { MissingValueError } from '../src/error/MissingValueError';
 
 const errors = [
   ContainerBoundError,

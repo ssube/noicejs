@@ -1,7 +1,7 @@
 import {expect} from 'chai';
 import {spy} from 'sinon';
 
-import {describeAsync, itAsync} from 'test/helpers/async';
+import {describeAsync, itAsync} from './async';
 
 describeAsync('test helpers', async () => {
   itAsync('should wrap suites');

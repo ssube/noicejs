@@ -1,8 +1,8 @@
-import { BaseOptions, Constructor, Contract, contractName } from 'src/Container';
-import { LoggerNotFoundError } from 'src/error/LoggerNotFoundError';
-import { Logger } from 'src/logger/Logger';
-import { NullLogger } from 'src/logger/NullLogger';
-import { getProvides } from 'src/Provides';
+import { BaseOptions, Constructor, Contract, contractName } from './Container';
+import { LoggerNotFoundError } from './error/LoggerNotFoundError';
+import { Logger } from './logger/Logger';
+import { NullLogger } from './logger/NullLogger';
+import { getProvides } from './Provides';
 
 export enum ProviderType {
   None = 0,

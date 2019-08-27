@@ -3,9 +3,7 @@
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": "../",
     "declaration": true,
-    "declarationDir": "../out/typings/",
     "declarationMap": true,
     "experimentalDecorators": true,
     "importHelpers": true,
@@ -19,7 +17,7 @@
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "paths": {},
+    "outDir": "../out",
     "sourceMap": true,
     "strictNullChecks": true,
     "target": "es2017",
@@ -35,7 +33,7 @@
     ]
   },
   "exclude": [
-    "node_modules"
+    "../node_modules"
   ],
   "include": [
     "../src/**/*",

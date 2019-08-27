@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import { ineeda } from 'ineeda';
 import { spy } from 'sinon';
 
-import { Logger, logWithLevel } from 'src/logger/Logger';
+import { Logger, logWithLevel } from '../../src/logger/Logger';
 
-import { describeAsync } from 'test/helpers/async';
+import { describeAsync } from '../helpers/async';
 
 describeAsync('log level switch', async () => {
   it('should log at debug level', () => {
