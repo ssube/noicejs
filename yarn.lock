@@ -2646,9 +2646,10 @@ tslint-consistent-codestyle@1.15.1:
     tslib "^1.7.1"
     tsutils "^2.29.0"
 
-tslint-etc@1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/tslint-etc/-/tslint-etc-1.6.0.tgz#99d1ddf79dc5eaefa14ddbd94742197d0ba0ff45"
+tslint-etc@1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/tslint-etc/-/tslint-etc-1.7.0.tgz#7cd5b500bca458067c7061aad6f53e352d0872d5"
+  integrity sha512-8NOGfr4zRquMNugz8D9gr0Tz8xxNA1Zrd2OFqURaWNKV779GO4LhqHjFL572m3MusUwSxPkUOMSmsqAwkvu6qQ==
   dependencies:
     "@phenomnomnominal/tsquery" "^3.0.0"
     tslib "^1.8.0"
