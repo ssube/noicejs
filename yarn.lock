@@ -135,7 +135,7 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/nyc-config-typescript/-/nyc-config-typescript-0.1.3.tgz#944d15b3ebdb71f963a628daffaa25ade981bb86"
   integrity sha512-EzRFg92bRSD1W/zeuNkeGwph0nkWf+pP2l/lYW4/5hav7RjKKBN5kV1Ix7Tvi0CMu3pC4Wi/U7rNisiJMR3ORg==
 
-"@microsoft/api-documenter@^7.3.17":
+"@microsoft/api-documenter@7.3.17":
   version "7.3.17"
   resolved "https://registry.yarnpkg.com/@microsoft/api-documenter/-/api-documenter-7.3.17.tgz#9f344d2f2b0691397df428c8207e9501bc134d9a"
   integrity sha512-/QslG5P5DtMubFZSqPNv6fCwkBiXKgQol25EAhXEQ/TEGYwHfOUjH3bztrYfa+oJKf/8vlZ/R4wYYgxWszdToQ==
@@ -319,7 +319,7 @@
   version "5.0.7"
   resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-5.0.7.tgz#0d9f89dd0c9988c4f1505a92a3a324ee7bdb18a6"
 
-"@types/source-map-support@^0.5.0":
+"@types/source-map-support@0.5.0":
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/@types/source-map-support/-/source-map-support-0.5.0.tgz#40f47e68bc0bdf54d19dddad4550f521cdb9968c"
   integrity sha512-OrnAz5K5dXDgMdeRRoXIjDAvkodQ9ESvVJCyzrhzUJKmCkXgmYx/KLUBcVFe5eS4FiohfcY7YPxsdkmSwJz9wA==
@@ -2422,7 +2422,7 @@ sinon@7.4.1:
     nise "^1.5.1"
     supports-color "^5.5.0"
 
-source-map-support@^0.5.13:
+source-map-support@0.5.13:
   version "0.5.13"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.13.tgz#31b24a9c2e73c2de85066c0feb7d44767ed52932"
   integrity sha512-SHSKFHadjVA5oR4PPqhtAVdcBWwRYVd6g6cAXnIbRiIwc2EhPrTuKUBdSLvlEKyIP3GCf89fltvcZiP9MMFA1w==
