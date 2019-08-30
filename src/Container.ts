@@ -9,18 +9,35 @@ import { NullLogger } from './logger/NullLogger';
 import { Module, ProviderType } from './Module';
 import { VERSION_INFO } from './version';
 
+/**
+ * Some constructor taking options as the first parameter.
+ *
+ * @public
+ */
 export interface Constructor<TReturn, TOptions> {
   new(options: TOptions, ...extra: Array<any>): TReturn;
 }
 
-// the contract for some type can be identified with...
+/**
+ * The identifier for a contract of some type.
+ *
+ * @public
+ */
 export type ContractName = string | symbol;
+
+/**
+ * A contract identifier or concrete constructor.
+ *
+ * @public
+ */
 export type Contract<R> = ContractName | Constructor<R, any>;
 
 /**
  * Get the standard name for a contract (usually a constructor).
  *
  * This accepts strings and symbols, so if a function is not provably a constructor, simply pass the name.
+ *
+ * @public
  */
 export function contractName(c: Contract<any>): ContractName {
   if (typeof c === 'function') {
@@ -30,12 +47,19 @@ export function contractName(c: Contract<any>): ContractName {
   }
 }
 
+/**
+ * Typeguard for constructors. Only really validates that `it` is a function.
+ *
+ * @public
+ */
 export function isConstructor(it: any): it is Constructor<any, any> {
   return typeof it === 'function';
 }
 
 /**
- * Provider options.
+ * Base interface for all constructor options.
+ *
+ * @public
  */
 export interface BaseOptions {
   container: Container;
@@ -47,6 +71,8 @@ export interface ContainerOptions {
 
 /**
  * This is an exceptionally minimal DI container.
+ *
+ * @public
  */
 export class Container {
   public static from(...modules: Array<Module>) {

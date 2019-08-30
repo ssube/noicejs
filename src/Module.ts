@@ -4,6 +4,11 @@ import { Logger } from './logger/Logger';
 import { NullLogger } from './logger/NullLogger';
 import { getProvides } from './Provides';
 
+/**
+ * Providers for a particular contract.
+ *
+ * @public
+ */
 export enum ProviderType {
   None = 0,
   Constructor,
@@ -11,8 +16,20 @@ export enum ProviderType {
   Instance,
 }
 
+/**
+ * Factory provider signature.
+ *
+ * @public
+ */
 export type Factory<R> = (options: any) => Promise<R>;
+
+/**
+ * Concrete implementation provider signature group.
+ *
+ * @public
+ */
 export type Implementation<T> = Constructor<T, any> | Factory<T>;
+
 export type Provider<R> = {
   type: ProviderType.Constructor;
   value: Constructor<R, any>;
@@ -27,18 +44,30 @@ export type Provider<R> = {
   value: undefined;
 };
 
+/**
+ * Fluent provider binding methods.
+ *
+ * @public
+ */
 export interface FluentBinding<TContract, TReturn> {
   toConstructor(implementation: Constructor<TContract, any>): TReturn;
   toFactory(factory: Factory<TContract>): TReturn;
   toInstance(instance: TContract): TReturn;
 }
 
+/**
+ * Required options for modules.
+ *
+ * @public
+ */
 export interface ModuleOptions extends BaseOptions {
   logger: Logger;
 }
 
 /**
  * Provides a set of dependencies, bound in the `configure` method.
+ *
+ * @public
  */
 export abstract class Module {
   protected logger: Logger;
@@ -85,9 +114,9 @@ export abstract class Module {
    * Bind a provider to a contract. This is the core of the module.
    *
    * @TODO fix the any in this signature
-   * @param contract the contract to be bound
-   * @param type the type of provider
-   * @param value the class, factory, or instance to bind
+   * @param contract - the contract to be bound
+   * @param type - the type of provider
+   * @param value - the class, factory, or instance to bind
    */
   public bindTo<C, I extends C>(contract: Contract<C>, type: ProviderType.Constructor, value: Constructor<I, any>): this;
   public bindTo<C, I extends C>(contract: Contract<C>, type: ProviderType.Factory, value: Factory<I>): this;
