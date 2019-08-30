@@ -6,3 +6,5 @@ temp/
 # types
 *.d.ts
 *.swp
+
+yarn-error.log

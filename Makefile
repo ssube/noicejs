@@ -22,6 +22,7 @@ export DEBUG_PORT ?= 9229
 export MAKE_PATH		?= $(abspath $(lastword $(MAKEFILE_LIST)))
 export ROOT_PATH		?= $(dir $(MAKE_PATH))
 export CONFIG_PATH 	?= $(ROOT_PATH)/config
+export DOCS_PATH	  ?= $(ROOT_PATH)/docs
 export SCRIPT_PATH 	?= $(ROOT_PATH)/scripts
 export SOURCE_PATH 	?= $(ROOT_PATH)/src
 export TARGET_PATH	?= $(ROOT_PATH)/out
@@ -94,6 +95,7 @@ build-bundle: node_modules
 
 build-docs: ## generate html docs
 	$(NODE_BIN)/api-extractor run --config $(CONFIG_PATH)/api-extractor.json --local -v
+	$(NODE_BIN)/api-documenter markdown -i $(TARGET_PATH)/api -o $(DOCS_PATH)/api
 
 test: ## run mocha unit tests
 test: test-cover
