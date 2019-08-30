@@ -15,4 +15,3 @@ process.on('unhandledRejection', (reason, promise) => {
 
 use(chaiAsPromised);
 use(sinonChai);
-
