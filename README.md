@@ -119,4 +119,7 @@ api-extractor 7.3.8  - https://api-extractor.com/
 
 API Extractor completed successfully
 Success!
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fssube%2Fnoicejs.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fssube%2Fnoicejs?ref=badge_large)
 ```
