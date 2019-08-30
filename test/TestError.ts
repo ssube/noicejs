@@ -26,6 +26,12 @@ describe('errors', () => {
         const err = new errorType();
         expect(err.message).to.not.equal('');
       });
+
+      it('should include nested errors in the stack trace', () => {
+        const inner = new Error('inner error');
+        const err = new errorType('outer error', inner);
+        expect(err.stack).to.include('inner', 'inner error message').and.include('outer', 'outer error message');
+      });
     });
   }
 });
