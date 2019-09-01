@@ -4,6 +4,8 @@
 
 ## ConsoleLogger.global property
 
+Global instance for users needing no customization.
+
 <b>Signature:</b>
 
 ```typescript

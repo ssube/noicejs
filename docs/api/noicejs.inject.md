@@ -16,7 +16,7 @@ export declare function Inject(...needs: Array<InjectedDependency>): (target: an
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  needs | <code>Array&lt;InjectedDependency&gt;</code> |  |
+|  needs | <code>Array&lt;InjectedDependency&gt;</code> | dependencies required by the decorated target |
 
 <b>Returns:</b>
 

@@ -4,6 +4,8 @@
 
 ## Provider type
 
+Provider definitions.
+
 <b>Signature:</b>
 
 ```typescript

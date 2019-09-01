@@ -4,6 +4,8 @@
 
 ## ConsoleLogger.info() method
 
+Log a message at info level.
+
 <b>Signature:</b>
 
 ```typescript

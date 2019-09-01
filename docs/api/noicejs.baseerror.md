@@ -4,6 +4,8 @@
 
 ## BaseError class
 
+Base class for typed errors, adding nested errors (causes) to the stack.
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,13 +16,13 @@ export declare class BaseError extends Error
 
 |  Constructor | Modifiers | Description |
 |  --- | --- | --- |
-|  [(constructor)(message, nested)](./noicejs.baseerror._constructor_.md) |  | Constructs a new instance of the <code>BaseError</code> class |
+|  [(constructor)(message, nested)](./noicejs.baseerror._constructor_.md) |  | Create a new typed error. |
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [length](./noicejs.baseerror.length.md) |  | <code>number</code> |  |
+|  [length](./noicejs.baseerror.length.md) |  | <code>number</code> | Get the number of nested errors. |
 |  [message](./noicejs.baseerror.message.md) |  | <code>string</code> |  |
 |  [nested](./noicejs.baseerror.nested.md) |  | <code>Array&lt;Error&gt;</code> |  |
 |  [stack](./noicejs.baseerror.stack.md) |  | <code>string</code> |  |
@@ -29,5 +31,5 @@ export declare class BaseError extends Error
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [cause()](./noicejs.baseerror.cause.md) |  |  |
+|  [cause()](./noicejs.baseerror.cause.md) |  | Get the cause of this error: the first nested error. |
 

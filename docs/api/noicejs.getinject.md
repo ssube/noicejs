@@ -4,6 +4,8 @@
 
 ## getInject() function
 
+Get attached dependencies.
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,7 +16,7 @@ export declare function getInject(target: any): Array<Dependency>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  target | <code>any</code> |  |
+|  target | <code>any</code> | the previously-decorated target |
 
 <b>Returns:</b>
 

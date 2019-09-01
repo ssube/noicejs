@@ -8,8 +8,8 @@
 
 |  Class | Description |
 |  --- | --- |
-|  [BaseError](./noicejs.baseerror.md) |  |
-|  [ConsoleLogger](./noicejs.consolelogger.md) | Logger implementation using the console. |
+|  [BaseError](./noicejs.baseerror.md) | Base class for typed errors, adding nested errors (causes) to the stack. |
+|  [ConsoleLogger](./noicejs.consolelogger.md) | Logger implementation using the console.<!-- -->Works in the browser or node. |
 |  [Container](./noicejs.container.md) | This is an exceptionally minimal DI container. |
 |  [ContainerBoundError](./noicejs.containerbounderror.md) |  |
 |  [ContainerNotBoundError](./noicejs.containernotbounderror.md) |  |
@@ -27,11 +27,11 @@
 
 |  Function | Description |
 |  --- | --- |
-|  [getInject(target)](./noicejs.getinject.md) |  |
-|  [getProvides(target)](./noicejs.getprovides.md) |  |
+|  [getInject(target)](./noicejs.getinject.md) | Get attached dependencies. |
+|  [getProvides(target)](./noicejs.getprovides.md) | Get dependencies provided by this previously-decorated target. |
 |  [Inject(needs)](./noicejs.inject.md) | Injection decorator for classes. |
 |  [logWithLevel(logger, level, options, msg)](./noicejs.logwithlevel.md) | Switch helper to invoke log methods based on variable log level. |
-|  [Provides(provides)](./noicejs.provides.md) | Injection decorator for classes. |
+|  [Provides(provides)](./noicejs.provides.md) | Decorator for methods that can resolve or provide some dependency. |
 
 ## Interfaces
 
@@ -48,5 +48,5 @@
 |  --- | --- |
 |  [Contract](./noicejs.contract.md) | A contract identifier or concrete constructor. |
 |  [LogLevel](./noicejs.loglevel.md) |  |
-|  [Provider](./noicejs.provider.md) |  |
+|  [Provider](./noicejs.provider.md) | Provider definitions. |
 

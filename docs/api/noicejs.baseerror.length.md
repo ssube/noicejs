@@ -4,6 +4,8 @@
 
 ## BaseError.length property
 
+Get the number of nested errors.
+
 <b>Signature:</b>
 
 ```typescript

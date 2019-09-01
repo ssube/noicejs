@@ -4,6 +4,8 @@
 
 ## ConsoleLogger.debug() method
 
+Log a message at debug level.
+
 <b>Signature:</b>
 
 ```typescript

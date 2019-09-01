@@ -4,6 +4,8 @@
 
 ## ConsoleLogger.warn() method
 
+Log a message at warning level.
+
 <b>Signature:</b>
 
 ```typescript

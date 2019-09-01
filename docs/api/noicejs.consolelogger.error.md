@@ -4,6 +4,10 @@
 
 ## ConsoleLogger.error() method
 
+Log a message at error level.
+
+Writes to stdout in node, appears as a red message in chrome, etc.
+
 <b>Signature:</b>
 
 ```typescript

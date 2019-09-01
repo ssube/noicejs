@@ -4,7 +4,7 @@
 
 ## BaseError.(constructor)
 
-Constructs a new instance of the `BaseError` class
+Create a new typed error.
 
 <b>Signature:</b>
 
@@ -16,6 +16,6 @@ constructor(message: string, ...nested: Array<Error>);
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  message | <code>string</code> |  |
-|  nested | <code>Array&lt;Error&gt;</code> |  |
+|  message | <code>string</code> | error message |
+|  nested | <code>Array&lt;Error&gt;</code> | internal errors (causes) |
 

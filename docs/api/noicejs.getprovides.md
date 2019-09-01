@@ -4,6 +4,8 @@
 
 ## getProvides() function
 
+Get dependencies provided by this previously-decorated target.
+
 <b>Signature:</b>
 
 ```typescript
@@ -14,7 +16,7 @@ export declare function getProvides(target: any): Array<Dependency>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  target | <code>any</code> |  |
+|  target | <code>any</code> | the decorated target |
 
 <b>Returns:</b>
 

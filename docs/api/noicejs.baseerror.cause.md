@@ -4,6 +4,8 @@
 
 ## BaseError.cause() method
 
+Get the cause of this error: the first nested error.
+
 <b>Signature:</b>
 
 ```typescript

@@ -6,6 +6,8 @@
 
 Logger implementation using the console.
 
+Works in the browser or node.
+
 <b>Signature:</b>
 
 ```typescript
@@ -16,15 +18,15 @@ export declare class ConsoleLogger implements Logger
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [global](./noicejs.consolelogger.global.md) | <code>static</code> | <code>ConsoleLogger</code> |  |
+|  [global](./noicejs.consolelogger.global.md) | <code>static</code> | <code>ConsoleLogger</code> | Global instance for users needing no customization. |
 
 ## Methods
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [child()](./noicejs.consolelogger.child.md) |  |  |
-|  [debug(params)](./noicejs.consolelogger.debug.md) |  |  |
-|  [error(params)](./noicejs.consolelogger.error.md) |  |  |
-|  [info(params)](./noicejs.consolelogger.info.md) |  |  |
-|  [warn(params)](./noicejs.consolelogger.warn.md) |  |  |
+|  [child()](./noicejs.consolelogger.child.md) |  | Create a child logger. |
+|  [debug(params)](./noicejs.consolelogger.debug.md) |  | Log a message at debug level. |
+|  [error(params)](./noicejs.consolelogger.error.md) |  | Log a message at error level.<!-- -->Writes to stdout in node, appears as a red message in chrome, etc. |
+|  [info(params)](./noicejs.consolelogger.info.md) |  | Log a message at info level. |
+|  [warn(params)](./noicejs.consolelogger.warn.md) |  | Log a message at warning level. |
 

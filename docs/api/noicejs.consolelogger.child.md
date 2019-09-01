@@ -4,6 +4,8 @@
 
 ## ConsoleLogger.child() method
 
+Create a child logger.
+
 <b>Signature:</b>
 
 ```typescript

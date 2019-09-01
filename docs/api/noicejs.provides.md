@@ -4,7 +4,7 @@
 
 ## Provides() function
 
-Injection decorator for classes.
+Decorator for methods that can resolve or provide some dependency.
 
 <b>Signature:</b>
 
