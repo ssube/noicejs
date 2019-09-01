@@ -9,16 +9,16 @@ Returns the best provided value for the request contract.
 <b>Signature:</b>
 
 ```typescript
-create<TReturn, TOptions>(contract: Contract<TReturn>, options?: Partial<TOptions>, ...args: Array<any>): Promise<TReturn>;
+create<TReturn, TOptions extends BaseOptions>(contract: Contract<TReturn, TOptions>, options?: Partial<TOptions>, ...args: Array<unknown>): Promise<TReturn>;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  contract | <code>Contract&lt;TReturn&gt;</code> |  |
+|  contract | <code>Contract&lt;TReturn, TOptions&gt;</code> |  |
 |  options | <code>Partial&lt;TOptions&gt;</code> |  |
-|  args | <code>Array&lt;any&gt;</code> |  |
+|  args | <code>Array&lt;unknown&gt;</code> |  |
 
 <b>Returns:</b>
 

@@ -11,14 +11,14 @@ Indicate if this module provides a dependency and if so, how.
 <b>Signature:</b>
 
 ```typescript
-has<C>(contract: Contract<C>): boolean;
+has<C, O extends BaseOptions>(contract: Contract<C, O>): boolean;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  contract | <code>Contract&lt;C&gt;</code> |  |
+|  contract | <code>Contract&lt;C, O&gt;</code> |  |
 
 <b>Returns:</b>
 

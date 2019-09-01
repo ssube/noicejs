@@ -13,18 +13,18 @@ export type LogLevel = 'debug' | 'error' | 'info' | 'warn';
 export interface Logger {
   child(options: any): Logger;
 
-  debug(msg: string, ...params: Array<any>): void;
-  debug(options: object, msg: string, ...params: Array<any>): void;
+  debug(msg: string, ...params: Array<unknown>): void;
+  debug(options: object, msg: string, ...params: Array<unknown>): void;
 
-  error(msg: string, ...params: Array<any>): void;
-  error(err: Error, msg: string, ...params: Array<any>): void;
-  error(options: object, msg: string, ...params: Array<any>): void;
+  error(msg: string, ...params: Array<unknown>): void;
+  error(err: Error, msg: string, ...params: Array<unknown>): void;
+  error(options: object, msg: string, ...params: Array<unknown>): void;
 
-  info(msg: string, ...params: Array<any>): void;
-  info(options: object, msg: string, ...params: Array<any>): void;
+  info(msg: string, ...params: Array<unknown>): void;
+  info(options: object, msg: string, ...params: Array<unknown>): void;
 
-  warn(msg: string, ...params: Array<any>): void;
-  warn(options: object, msg: string, ...params: Array<any>): void;
+  warn(msg: string, ...params: Array<unknown>): void;
+  warn(options: object, msg: string, ...params: Array<unknown>): void;
 }
 
 /**

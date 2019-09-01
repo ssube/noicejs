@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-protected apply<TReturn, TOptions extends BaseOptions>(impl: Function, thisArg: Module | undefined, options: Partial<TOptions>, args: any): Promise<any>;
+apply<TReturn, TOptions extends BaseOptions>(impl: Function, thisArg: Module | undefined, options: Partial<TOptions>, args: any): Promise<any>;
 ```
 
 ## Parameters

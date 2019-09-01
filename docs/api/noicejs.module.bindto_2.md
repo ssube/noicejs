@@ -7,14 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-bindTo<C, I extends C>(contract: Contract<C>, type: ProviderType.Instance, value: I): this;
+bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: ProviderType.Instance, value: I): this;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  contract | <code>Contract&lt;C&gt;</code> |  |
+|  contract | <code>Contract&lt;C, O&gt;</code> |  |
 |  type | <code>ProviderType.Instance</code> |  |
 |  value | <code>I</code> |  |
 

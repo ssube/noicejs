@@ -9,12 +9,13 @@ Required options for modules.
 <b>Signature:</b>
 
 ```typescript
-export interface ModuleOptions extends BaseOptions 
+export interface ModuleOptions 
 ```
 
 ## Properties
 
 |  Property | Type | Description |
 |  --- | --- | --- |
+|  [container](./noicejs.moduleoptions.container.md) | <code>Container</code> |  |
 |  [logger](./noicejs.moduleoptions.logger.md) | <code>Logger</code> |  |
 

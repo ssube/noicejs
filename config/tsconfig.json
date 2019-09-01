@@ -19,6 +19,7 @@
     "noImplicitThis": true,
     "outDir": "../out",
     "sourceMap": true,
+    "strict": true,
     "strictNullChecks": true,
     "target": "es2017",
     "types": [

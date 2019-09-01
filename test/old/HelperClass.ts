@@ -1,4 +1,3 @@
-import { Container } from '../../src/Container';
 import { Inject } from '../../src/Inject';
 import { Module, ModuleOptions } from '../../src/Module';
 

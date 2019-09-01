@@ -9,5 +9,5 @@ A contract identifier or concrete constructor.
 <b>Signature:</b>
 
 ```typescript
-export declare type Contract<R> = ContractName | Constructor<R, any>;
+export declare type Contract<TReturn, TOptions extends BaseOptions> = ContractName | Constructor<TReturn, TOptions>;
 ```

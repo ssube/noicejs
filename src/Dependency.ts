@@ -2,14 +2,14 @@ import { Contract, contractName, isConstructor } from './Container';
 
 export interface Dependency {
   name: string | symbol;
-  contract: Contract<any>;
+  contract: Contract<any, any>;
 }
 
 export interface Descriptor {
   requires: Array<Dependency>;
 }
 
-export type InjectedDependency = Dependency | Contract<any>;
+export type InjectedDependency = Dependency | Contract<any, any>;
 
 /**
  * Convert an InjectedDependency into a regular Dependency

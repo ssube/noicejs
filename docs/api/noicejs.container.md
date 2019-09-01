@@ -9,7 +9,7 @@ This is an exceptionally minimal DI container.
 <b>Signature:</b>
 
 ```typescript
-export declare class Container 
+export declare class Container implements ContainerOptions 
 ```
 
 ## Constructors

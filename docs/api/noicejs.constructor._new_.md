@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-new (options: TOptions, ...extra: Array<any>): TReturn;
+new (options: TOptions, ...extra: Array<unknown>): TReturn;
 ```
 
 ## Parameters
@@ -15,7 +15,7 @@ new (options: TOptions, ...extra: Array<any>): TReturn;
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  options | <code>TOptions</code> |  |
-|  extra | <code>Array&lt;any&gt;</code> |  |
+|  extra | <code>Array&lt;unknown&gt;</code> |  |
 
 <b>Returns:</b>
 

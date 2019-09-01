@@ -11,14 +11,14 @@ Register a class as the provider for a particular contract. The class will be in
 <b>Signature:</b>
 
 ```typescript
-bind<C, I extends C>(contract: Contract<C>): FluentBinding<I, this>;
+bind<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>): FluentBinding<I, this>;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  contract | <code>Contract&lt;C&gt;</code> |  |
+|  contract | <code>Contract&lt;C, O&gt;</code> |  |
 
 <b>Returns:</b>
 

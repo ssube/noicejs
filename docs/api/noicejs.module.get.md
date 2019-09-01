@@ -7,14 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-get<C>(contract: Contract<C>): Provider<C>;
+get<C, O extends BaseOptions>(contract: Contract<C, O>): Provider<C>;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  contract | <code>Contract&lt;C&gt;</code> |  |
+|  contract | <code>Contract&lt;C, O&gt;</code> |  |
 
 <b>Returns:</b>
 

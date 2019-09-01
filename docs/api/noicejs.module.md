@@ -9,7 +9,7 @@ Provides a set of dependencies, bound in the `configure` method.
 <b>Signature:</b>
 
 ```typescript
-export declare abstract class Module 
+export declare abstract class Module implements ModuleOptions 
 ```
 
 ## Constructors
@@ -22,8 +22,9 @@ export declare abstract class Module
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
+|  [container](./noicejs.module.container.md) |  | <code>Container</code> |  |
 |  [logger](./noicejs.module.logger.md) |  | <code>Logger</code> |  |
-|  [providers](./noicejs.module.providers.md) |  | <code>Map&lt;Contract&lt;any&gt;, Provider&lt;any&gt;&gt;</code> |  |
+|  [providers](./noicejs.module.providers.md) |  | <code>Map&lt;Contract&lt;any, any&gt;, Provider&lt;any&gt;&gt;</code> |  |
 |  [size](./noicejs.module.size.md) |  | <code>number</code> |  |
 
 ## Methods

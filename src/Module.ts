@@ -1,4 +1,4 @@
-import { BaseOptions, Constructor, Contract, contractName } from './Container';
+import { BaseOptions, Constructor, Container, Contract, contractName } from './Container';
 import { LoggerNotFoundError } from './error/LoggerNotFoundError';
 import { Logger } from './logger/Logger';
 import { NullLogger } from './logger/NullLogger';
@@ -65,8 +65,9 @@ export interface FluentBinding<TContract, TReturn> {
  *
  * @public
  */
-export interface ModuleOptions extends BaseOptions {
-  logger: Logger;
+export interface ModuleOptions {
+  container?: Container;
+  logger?: Logger;
 }
 
 /**
@@ -74,9 +75,10 @@ export interface ModuleOptions extends BaseOptions {
  *
  * @public
  */
-export abstract class Module {
-  protected logger: Logger;
-  protected providers: Map<Contract<any>, Provider<any>>;
+export abstract class Module implements ModuleOptions {
+  public container?: Container;
+  public logger?: Logger;
+  protected providers: Map<Contract<any, any>, Provider<any>>;
 
   constructor() {
     this.logger = NullLogger.global;
@@ -84,16 +86,23 @@ export abstract class Module {
   }
 
   public async configure(options: ModuleOptions): Promise<void> {
+    this.container = options.container;
     this.logger = options.logger;
-    this.logger.debug({ module: this }, 'configuring module');
+
+    if (this.logger !== undefined) {
+      this.logger.debug({ module: this }, 'configuring module');
+    }
+
     this.bindPrototype(Reflect.getPrototypeOf(this));
   }
 
-  public get<C>(contract: Contract<C>): Provider<C> {
+  public get<C, O extends BaseOptions>(contract: Contract<C, O>): Provider<C> {
     const name = contractName(contract);
     const provider = this.providers.get(contract) as Provider<C>;
 
-    this.logger.debug({ contract: name, provider }, 'fetching contract from module');
+    if (this.logger !== undefined) {
+      this.logger.debug({ contract: name, provider }, 'fetching contract from module');
+    }
 
     return provider;
   }
@@ -103,10 +112,12 @@ export abstract class Module {
    *
    * @todo Memoize this if performance becomes a problem.
    */
-  public has<C>(contract: Contract<C>): boolean {
+  public has<C, O extends BaseOptions>(contract: Contract<C, O>): boolean {
     const name = contractName(contract);
 
-    this.logger.debug({ contract: name }, 'searching module for contract');
+    if (this.logger !== undefined) {
+      this.logger.debug({ contract: name }, 'searching module for contract');
+    }
 
     return this.providers.has(contract);
   }
@@ -123,13 +134,17 @@ export abstract class Module {
    * @param type - the type of provider
    * @param value - the class, factory, or instance to bind
    */
-  public bindTo<C, I extends C>(contract: Contract<C>, type: ProviderType.Constructor, value: Constructor<I, any>): this;
-  public bindTo<C, I extends C>(contract: Contract<C>, type: ProviderType.Factory, value: Factory<I>): this;
-  public bindTo<C, I extends C>(contract: Contract<C>, type: ProviderType.Instance, value: I): this;
-  public bindTo<C, I extends C>(contract: Contract<C>, type: ProviderType.None): this;
-  public bindTo<C, I extends C>(contract: Contract<C>, type: any, value?: any): this {
+  public bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: ProviderType.Constructor, value: Constructor<I, O>): this;
+  public bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: ProviderType.Factory, value: Factory<I>): this;
+  public bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: ProviderType.Instance, value: I): this;
+  public bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: ProviderType.None): this;
+  public bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: any, value?: any): this {
     const name = contractName(contract);
-    this.logger.debug({ contract: name, type, value }, 'binding contract');
+
+    if (this.logger !== undefined) {
+      this.logger.debug({ contract: name, type, value }, 'binding contract');
+    }
+
     this.providers.set(contract, { type, value });
     return this;
   }
@@ -140,7 +155,7 @@ export abstract class Module {
    *
    * @todo this should be protected
    */
-  public bind<C, I extends C>(contract: Contract<C>): FluentBinding<I, this> {
+  public bind<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>): FluentBinding<I, this> {
     return {
       toConstructor: (constructor) => this.bindTo(contract, ProviderType.Constructor, constructor),
       toFactory: (factory) => this.bindTo(contract, ProviderType.Factory, factory),

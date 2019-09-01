@@ -9,7 +9,7 @@ Some constructor taking options as the first parameter.
 <b>Signature:</b>
 
 ```typescript
-export interface Constructor<TReturn, TOptions> 
+export interface Constructor<TReturn, TOptions extends BaseOptions> 
 ```
 
 ## Methods

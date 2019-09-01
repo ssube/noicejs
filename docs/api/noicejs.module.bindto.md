@@ -11,16 +11,16 @@ Bind a provider to a contract. This is the core of the module.
 <b>Signature:</b>
 
 ```typescript
-bindTo<C, I extends C>(contract: Contract<C>, type: ProviderType.Constructor, value: Constructor<I, any>): this;
+bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: ProviderType.Constructor, value: Constructor<I, O>): this;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  contract | <code>Contract&lt;C&gt;</code> | the contract to be bound |
+|  contract | <code>Contract&lt;C, O&gt;</code> | the contract to be bound |
 |  type | <code>ProviderType.Constructor</code> | the type of provider |
-|  value | <code>Constructor&lt;I, any&gt;</code> | the class, factory, or instance to bind |
+|  value | <code>Constructor&lt;I, O&gt;</code> | the class, factory, or instance to bind |
 
 <b>Returns:</b>
 

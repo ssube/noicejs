@@ -5,17 +5,17 @@ import { InvalidProviderError } from './error/InvalidProviderError';
 import { MissingValueError } from './error/MissingValueError';
 import { getInject } from './Inject';
 import { Logger } from './logger/Logger';
-import { NullLogger } from './logger/NullLogger';
 import { Module, ProviderType } from './Module';
 import { VERSION_INFO } from './version';
+import { LoggerNotFoundError } from './error/LoggerNotFoundError';
 
 /**
  * Some constructor taking options as the first parameter.
  *
  * @public
  */
-export interface Constructor<TReturn, TOptions> {
-  new(options: TOptions, ...extra: Array<any>): TReturn;
+export interface Constructor<TReturn, TOptions extends BaseOptions> {
+  new(options: TOptions, ...extra: Array<unknown>): TReturn;
 }
 
 /**
@@ -30,7 +30,7 @@ export type ContractName = string | symbol;
  *
  * @public
  */
-export type Contract<R> = ContractName | Constructor<R, any>;
+export type Contract<TReturn, TOptions extends BaseOptions> = ContractName | Constructor<TReturn, TOptions>;
 
 /**
  * Get the standard name for a contract (usually a constructor).
@@ -39,7 +39,7 @@ export type Contract<R> = ContractName | Constructor<R, any>;
  *
  * @public
  */
-export function contractName(c: Contract<any>): ContractName {
+export function contractName(c: Contract<any, any>): ContractName {
   if (typeof c === 'function') {
     return c.name;
   } else {
@@ -74,17 +74,16 @@ export interface ContainerOptions {
  *
  * @public
  */
-export class Container {
+export class Container implements ContainerOptions {
   public static from(...modules: Array<Module>) {
     return new Container(modules);
   }
 
-  protected logger: Logger;
+  public logger?: Logger;
   protected modules: Array<Module>;
   protected ready: boolean;
 
   constructor(modules: Iterable<Module>) {
-    this.logger = NullLogger.global;
     this.modules = Array.from(modules);
     this.ready = false;
   }
@@ -118,7 +117,11 @@ export class Container {
   /**
    * Returns the best provided value for the request contract.
    */
-  public async create<TReturn, TOptions>(contract: Contract<TReturn>, options: Partial<TOptions> = {}, ...args: Array<any>): Promise<TReturn> {
+  public async create<TReturn, TOptions extends BaseOptions>(
+    contract: Contract<TReturn, TOptions>,
+    options: Partial<TOptions> = {},
+    ...args: Array<unknown>
+  ): Promise<TReturn> {
     if (!this.ready) {
       throw new ContainerNotBoundError('container has not been configured yet');
     }
@@ -126,7 +129,9 @@ export class Container {
       throw new MissingValueError('missing contract');
     }
 
-    this.logger.debug({ contract }, 'container create contract');
+    if (this.logger !== undefined) {
+      this.logger.debug({ contract }, 'container create contract');
+    }
 
     const module = this.modules.find((item) => {
       return item.has(contract);
@@ -136,15 +141,21 @@ export class Container {
         return this.construct(contract, options, args);
       }
 
-      throw new MissingValueError(`no provider for contract: ${contractName(contract).toString()}`);
+      throw new MissingValueError(`container has no provider for contract: ${contractName(contract).toString()}`);
     }
 
-    this.logger.debug({ module }, 'contract provided by module');
+    if (this.logger !== undefined) {
+      this.logger.debug({ module }, 'contract provided by module');
+    }
 
     return this.provide(module, contract, options, args);
   }
 
   public debug() {
+    if (this.logger === undefined) {
+      throw new LoggerNotFoundError('logger required for container debugging');
+    }
+
     this.logger.debug({ version: VERSION_INFO }, 'container debug');
     for (const m of this.modules) {
       m.debug();
@@ -163,10 +174,15 @@ export class Container {
     return new Container(merged);
   }
 
-  protected async provide<TReturn, TOptions extends BaseOptions>(module: Module, contract: Contract<TReturn>, options: Partial<TOptions>, args: Array<any>): Promise<TReturn> {
-    const provider = module.get<TReturn>(contract);
+  public async provide<TReturn, TOptions extends BaseOptions>(
+    module: Module,
+    contract: Contract<TReturn, TOptions>,
+    options: Partial<TOptions>,
+    args: Array<unknown>
+  ): Promise<TReturn> {
+    const provider = module.get<TReturn, TOptions>(contract);
     if (!provider) {
-      this.fail(`no known provider for contract: ${contractName(contract).toString()}`);
+      this.fail(`module has no provider for contract: ${contractName(contract).toString()}`);
     }
 
     switch (provider.type) {
@@ -181,21 +197,24 @@ export class Container {
     }
   }
 
-  protected async construct<TReturn, TOptions extends BaseOptions>(ctor: Constructor<TReturn, TOptions>, options: Partial<TOptions>, args: any) {
+  public async construct<TReturn, TOptions extends BaseOptions>(ctor: Constructor<TReturn, TOptions>, options: Partial<TOptions>, args: any) {
     const deps = await this.dependencies(getInject(ctor), options);
     return Reflect.construct(ctor, [deps].concat(args));
   }
 
-  protected async apply<TReturn, TOptions extends BaseOptions>(impl: Function, thisArg: Module | undefined, options: Partial<TOptions>, args: any) {
+  public async apply<TReturn, TOptions extends BaseOptions>(impl: Function, thisArg: Module | undefined, options: Partial<TOptions>, args: any) {
     const deps = await this.dependencies(getInject(impl), options);
     return Reflect.apply(impl, thisArg, [deps].concat(args));
   }
 
   protected fail(msg: string): never {
     const error = new MissingValueError(msg);
-    this.logger.error(error, msg);
-    throw error;
 
+    if (this.logger !== undefined) {
+      this.logger.error(error, msg);
+    }
+
+    throw error;
   }
 
   /**
@@ -208,7 +227,7 @@ export class Container {
     for (const dependency of deps) {
       const { contract, name } = dependency;
       if (!Reflect.has(passed, name)) {
-        const dep = await this.create(contract);
+        const dep = await this.create<any, any>(contract);
         options[name as keyof TOptions] = dep;
       }
     }
@@ -225,8 +244,8 @@ export class Container {
  * @public
  */
 export function withContainer(container: Container) {
-  return function<TInner, TOptions extends BaseOptions>(target: Constructor<TInner, TOptions>): Constructor<TInner, TOptions> {
-    const ctor = function(options: TOptions, ...others: Array<unknown>): TInner {
+  return function <TInner, TOptions extends BaseOptions>(target: Constructor<TInner, TOptions>): Constructor<TInner, TOptions> {
+    const ctor = function (options: TOptions, ...others: Array<unknown>): TInner {
       return new target({
         ...options,
         container,

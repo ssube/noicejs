@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-protected construct<TReturn, TOptions extends BaseOptions>(ctor: Constructor<TReturn, TOptions>, options: Partial<TOptions>, args: any): Promise<any>;
+construct<TReturn, TOptions extends BaseOptions>(ctor: Constructor<TReturn, TOptions>, options: Partial<TOptions>, args: any): Promise<any>;
 ```
 
 ## Parameters

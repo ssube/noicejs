@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { ineeda } from 'ineeda';
 import { spy } from 'sinon';
 
+import { LoggerNotFoundError } from '../src';
 import { BaseOptions, Container, withContainer } from '../src/Container';
 import { BaseError } from '../src/error/BaseError';
 import { ContainerBoundError } from '../src/error/ContainerBoundError';
@@ -15,7 +16,7 @@ import { describeAsync, itAsync } from './helpers/async';
 
 const testModuleCount = 8; // the number of test modules to create
 
-describeAsync('injection container', async () => {
+describeAsync('container', async () => {
   itAsync('should configure modules', async () => {
     class TestModule extends Module {
       public async configure() { /* noop */ }
@@ -151,13 +152,16 @@ describeAsync('injection container', async () => {
   });
 
   itAsync('should inject named dependencies', async () => {
+    interface FooOptions extends BaseOptions {
+      foo: FooClass;
+    }
     class FooClass { /* noop */ }
 
     @Inject({contract: FooClass, name: 'foo'})
     class TestClass {
       public readonly foo: FooClass;
 
-      constructor(options: {foo: FooClass}) {
+      constructor(options: FooOptions) {
         this.foo  = options.foo;
       }
     }
@@ -224,6 +228,24 @@ describeAsync('injection container', async () => {
     });
     container.debug();
     expect(debugSpy).to.have.callCount(1);
+  });
+
+  itAsync('should throw on debug without logger', async () => {
+    const container = Container.from();
+    expect(() => {
+      container.debug();
+    }).to.throw(LoggerNotFoundError);
+  });
+
+  itAsync('should throw when a module is missing a provider', async () => {
+    const module = ineeda<Module>({
+      get() {
+        return null;
+      }
+    });
+    const container = Container.from(module);
+
+    return expect(container.provide(module, '', {}, [])).to.eventually.be.rejectedWith(MissingValueError);
   });
 });
 

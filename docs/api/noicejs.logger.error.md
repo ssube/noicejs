@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-error(msg: string, ...params: Array<any>): void;
+error(msg: string, ...params: Array<unknown>): void;
 ```
 
 ## Parameters
@@ -15,7 +15,7 @@ error(msg: string, ...params: Array<any>): void;
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  msg | <code>string</code> |  |
-|  params | <code>Array&lt;any&gt;</code> |  |
+|  params | <code>Array&lt;unknown&gt;</code> |  |
 
 <b>Returns:</b>
 

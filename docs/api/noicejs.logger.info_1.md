@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-info(options: object, msg: string, ...params: Array<any>): void;
+info(options: object, msg: string, ...params: Array<unknown>): void;
 ```
 
 ## Parameters
@@ -16,7 +16,7 @@ info(options: object, msg: string, ...params: Array<any>): void;
 |  --- | --- | --- |
 |  options | <code>object</code> |  |
 |  msg | <code>string</code> |  |
-|  params | <code>Array&lt;any&gt;</code> |  |
+|  params | <code>Array&lt;unknown&gt;</code> |  |
 
 <b>Returns:</b>
 

@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-protected logger: Logger;
+logger?: Logger;
 ```
