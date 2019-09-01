@@ -7,8 +7,15 @@
 <b>Signature:</b>
 
 ```typescript
-info(): void;
+info(...data: Array<unknown>): void;
 ```
+
+## Parameters
+
+|  Parameter | Type | Description |
+|  --- | --- | --- |
+|  data | <code>Array&lt;unknown&gt;</code> |  |
+
 <b>Returns:</b>
 
 `void`

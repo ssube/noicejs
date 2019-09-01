@@ -10,19 +10,19 @@ export class NullLogger implements Logger {
     return NullLogger.global;
   }
 
-  public debug() {
+  public debug(...data: Array<unknown>) {
     /* noop */
   }
 
-  public info() {
+  public info(...data: Array<unknown>) {
     /* noop */
   }
 
-  public warn() {
+  public warn(...data: Array<unknown>) {
     /* noop */
   }
 
-  public error() {
+  public error(...data: Array<unknown>) {
     /* noop */
   }
 }

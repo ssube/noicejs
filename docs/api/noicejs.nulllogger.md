@@ -23,8 +23,8 @@ export declare class NullLogger implements Logger
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
 |  [child()](./noicejs.nulllogger.child.md) |  |  |
-|  [debug()](./noicejs.nulllogger.debug.md) |  |  |
-|  [error()](./noicejs.nulllogger.error.md) |  |  |
-|  [info()](./noicejs.nulllogger.info.md) |  |  |
-|  [warn()](./noicejs.nulllogger.warn.md) |  |  |
+|  [debug(data)](./noicejs.nulllogger.debug.md) |  |  |
+|  [error(data)](./noicejs.nulllogger.error.md) |  |  |
+|  [info(data)](./noicejs.nulllogger.info.md) |  |  |
+|  [warn(data)](./noicejs.nulllogger.warn.md) |  |  |
 

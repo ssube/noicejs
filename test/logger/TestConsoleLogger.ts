@@ -17,6 +17,10 @@ describeAsync('console logger', async () => {
     restore();
   });
 
+  it('should return the global singleton for children', () => {
+    expect(ConsoleLogger.global.child()).to.equal(ConsoleLogger.global);
+  });
+
   it('should log at debug level', () => {
     const data = {};
     const msg = 'debug';
