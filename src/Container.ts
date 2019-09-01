@@ -218,3 +218,21 @@ export class Container {
     return options as TOptions;
   }
 }
+
+/**
+ * Permanently attach a container to all instances of this class.
+ *
+ * @public
+ */
+export function withContainer(container: Container) {
+  return function<TInner, TOptions extends BaseOptions>(target: Constructor<TInner, TOptions>): Constructor<TInner, TOptions> {
+    const ctor = function(options: TOptions, ...others: Array<unknown>): TInner {
+      return new target({
+        ...options,
+        container,
+      }, ...others);
+    }
+    Reflect.setPrototypeOf(ctor, Reflect.getPrototypeOf(target));
+    return ctor as any;
+  };
+}

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { ineeda } from 'ineeda';
 import { spy } from 'sinon';
 
-import { Container } from '../src/Container';
+import { BaseOptions, Container, withContainer } from '../src/Container';
 import { BaseError } from '../src/error/BaseError';
 import { ContainerBoundError } from '../src/error/ContainerBoundError';
 import { ContainerNotBoundError } from '../src/error/ContainerNotBoundError';
@@ -11,7 +11,6 @@ import { MissingValueError } from '../src/error/MissingValueError';
 import { Inject } from '../src/Inject';
 import { Logger } from '../src/logger/Logger';
 import { Module, ModuleOptions } from '../src/Module';
-
 import { describeAsync, itAsync } from './helpers/async';
 
 const testModuleCount = 8; // the number of test modules to create
@@ -225,5 +224,24 @@ describeAsync('injection container', async () => {
     });
     container.debug();
     expect(debugSpy).to.have.callCount(1);
+  });
+});
+
+describeAsync('with container decorator', async () => {
+  itAsync('should attach a container', async () => {
+    const ctr = Container.from();
+    await ctr.configure();
+
+    @withContainer(ctr)
+    class TestClass {
+      public readonly container: Container;
+
+      constructor(options: BaseOptions) {
+        this.container = options.container;
+      }
+    }
+
+    const instance = new TestClass({} as any);
+    expect(instance.container).to.equal(ctr);
   });
 });
