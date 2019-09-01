@@ -30,6 +30,11 @@ export type Factory<R> = (options: any) => Promise<R>;
  */
 export type Implementation<T> = Constructor<T, any> | Factory<T>;
 
+/**
+ * Provider definitions.
+ *
+ * @public
+ */
 export type Provider<R> = {
   type: ProviderType.Constructor;
   value: Constructor<R, any>;
@@ -96,7 +101,7 @@ export abstract class Module {
   /**
    * Indicate if this module provides a dependency and if so, how.
    *
-   * @TODO Memoize this if performance becomes a problem.
+   * @todo Memoize this if performance becomes a problem.
    */
   public has<C>(contract: Contract<C>): boolean {
     const name = contractName(contract);
@@ -113,7 +118,7 @@ export abstract class Module {
   /**
    * Bind a provider to a contract. This is the core of the module.
    *
-   * @TODO fix the any in this signature
+   * @todo fix the any in this signature
    * @param contract - the contract to be bound
    * @param type - the type of provider
    * @param value - the class, factory, or instance to bind
@@ -133,7 +138,7 @@ export abstract class Module {
    * Register a class as the provider for a particular contract. The class will be instantiated after having
    * dependencies resolved, its parameters being the dependencies and any additional arguments passed to the container.
    *
-   * @TODO this should be protected
+   * @todo this should be protected
    */
   public bind<C, I extends C>(contract: Contract<C>): FluentBinding<I, this> {
     return {

@@ -3,6 +3,13 @@ import { DescriptorNotFoundError } from './error/DescriptorNotFoundError';
 
 export const providesSymbol = Symbol('noicejs-provides');
 
+/**
+ * Get dependencies provided by this previously-decorated target.
+ *
+ * @param target - the decorated target
+ *
+ * @public
+ */
 export function getProvides(target: any): Array<Dependency> {
   if (Reflect.has(target, providesSymbol)) {
     return Reflect.get(target, providesSymbol);
@@ -12,7 +19,9 @@ export function getProvides(target: any): Array<Dependency> {
 }
 
 /**
- * Injection decorator for classes.
+ * Decorator for methods that can resolve or provide some dependency.
+ *
+ * @public
  */
 export function Provides<TInjected>(...provides: Array<InjectedDependency>) {
   return (target: any, key: string, desc?: PropertyDescriptor) => {

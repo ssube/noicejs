@@ -4,6 +4,13 @@ import { InvalidTargetError } from './error/InvalidTargetError';
 
 export const injectionSymbol = Symbol('noicejs-inject');
 
+/**
+ * Get attached dependencies.
+ *
+ * @param target - the previously-decorated target
+ *
+ * @public
+ */
 export function getInject(target: any): Array<Dependency> {
   if (Reflect.has(target, injectionSymbol)) {
     const existing = Reflect.get(target, injectionSymbol);
@@ -23,6 +30,10 @@ export function getInject(target: any): Array<Dependency> {
 
 /**
  * Injection decorator for classes.
+ *
+ * @param needs - dependencies required by the decorated target
+ *
+ * @public
  */
 export function Inject(...needs: Array<InjectedDependency>) {
   return (target: any, key?: string, desc?: PropertyDescriptor) => {

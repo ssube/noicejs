@@ -1,8 +1,19 @@
+/**
+ * Base class for typed errors, adding nested errors (causes) to the stack.
+ *
+ * @public
+ */
 export class BaseError extends Error {
   public message: string;
   public stack?: string;
   protected nested: Array<Error>;
 
+  /**
+   * Create a new typed error.
+   * 
+   * @param message - error message
+   * @param nested - internal errors (causes)
+   */
   constructor(message: string, ...nested: Array<Error>) {
     super(message);
 
@@ -15,10 +26,16 @@ export class BaseError extends Error {
     }, this.stack);
   }
 
+  /**
+   * Get the cause of this error: the first nested error.
+   */
   public cause(): Error | undefined {
     return this.nested[0];
   }
 
+  /**
+   * Get the number of nested errors.
+   */
   get length() {
     return this.nested.length;
   }
