@@ -1,7 +1,14 @@
+/**
+ * Available log levels.
+ *
+ * @public
+ */
 export type LogLevel = 'debug' | 'error' | 'info' | 'warn';
 
 /**
  * Log interface to fit console or bunyan.
+ *
+ * @public
  */
 export interface Logger {
   child(options: any): Logger;
@@ -21,7 +28,10 @@ export interface Logger {
 }
 
 /**
- * Switch helper to invoke log methods based on variable log level.
+ * Switch helper to invoke log methods based on variable log level. Dispatches a call to the appropriate log level
+ * method.
+ *
+ * @public
  */
 export function logWithLevel(logger: Logger, level: LogLevel, options: Error | object, msg: string) {
   switch (level) {

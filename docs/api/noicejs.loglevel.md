@@ -4,6 +4,8 @@
 
 ## LogLevel type
 
+Available log levels.
+
 <b>Signature:</b>
 
 ```typescript

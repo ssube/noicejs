@@ -2,6 +2,8 @@ import { Logger } from './Logger';
 
 /**
  * Logger implementation that consumes input and produces no output.
+ *
+ * @public
  */
 export class NullLogger implements Logger {
   public static readonly global = new NullLogger();

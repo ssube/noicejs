@@ -11,9 +11,13 @@
 |  [BaseError](./noicejs.baseerror.md) | Base class for typed errors, adding nested errors (causes) to the stack. |
 |  [ConsoleLogger](./noicejs.consolelogger.md) | Logger implementation using the console.<!-- -->Works in the browser or node. |
 |  [Container](./noicejs.container.md) | This is an exceptionally minimal DI container. |
-|  [ContainerBoundError](./noicejs.containerbounderror.md) |  |
-|  [ContainerNotBoundError](./noicejs.containernotbounderror.md) |  |
-|  [MissingValueError](./noicejs.missingvalueerror.md) |  |
+|  [ContainerBoundError](./noicejs.containerbounderror.md) | Container is already bound and cannot be bound again. |
+|  [ContainerNotBoundError](./noicejs.containernotbounderror.md) | Container is not bound yet and not ready to be used. |
+|  [DescriptorNotFoundError](./noicejs.descriptornotfounderror.md) | The decorator property has no descriptor on the decorator target.<!-- -->This should not normally occur and may be an artifact of syntax errors. |
+|  [InvalidProviderError](./noicejs.invalidprovidererror.md) | Container does not understand the provider it found.<!-- -->This should not normally occur, unless custom provider types are in use. |
+|  [InvalidTargetError](./noicejs.invalidtargeterror.md) | The decorator target is not valid. |
+|  [LoggerNotFoundError](./noicejs.loggernotfounderror.md) | No logger has been registered for debugging. |
+|  [MissingValueError](./noicejs.missingvalueerror.md) | A required value is missing. |
 |  [Module](./noicejs.module.md) | Provides a set of dependencies, bound in the <code>configure</code> method. |
 |  [NullLogger](./noicejs.nulllogger.md) | Logger implementation that consumes input and produces no output. |
 
@@ -30,7 +34,7 @@
 |  [getInject(target)](./noicejs.getinject.md) | Get attached dependencies. |
 |  [getProvides(target)](./noicejs.getprovides.md) | Get dependencies provided by this previously-decorated target. |
 |  [Inject(needs)](./noicejs.inject.md) | Injection decorator for classes. |
-|  [logWithLevel(logger, level, options, msg)](./noicejs.logwithlevel.md) | Switch helper to invoke log methods based on variable log level. |
+|  [logWithLevel(logger, level, options, msg)](./noicejs.logwithlevel.md) | Switch helper to invoke log methods based on variable log level. Dispatches a call to the appropriate log level method. |
 |  [Provides(provides)](./noicejs.provides.md) | Decorator for methods that can resolve or provide some dependency. |
 
 ## Interfaces
@@ -47,6 +51,6 @@
 |  Type Alias | Description |
 |  --- | --- |
 |  [Contract](./noicejs.contract.md) | A contract identifier or concrete constructor. |
-|  [LogLevel](./noicejs.loglevel.md) |  |
+|  [LogLevel](./noicejs.loglevel.md) | Available log levels. |
 |  [Provider](./noicejs.provider.md) | Provider definitions. |
 

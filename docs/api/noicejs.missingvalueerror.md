@@ -4,6 +4,8 @@
 
 ## MissingValueError class
 
+A required value is missing.
+
 <b>Signature:</b>
 
 ```typescript

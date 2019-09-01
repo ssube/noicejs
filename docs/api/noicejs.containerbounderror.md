@@ -4,6 +4,8 @@
 
 ## ContainerBoundError class
 
+Container is already bound and cannot be bound again.
+
 <b>Signature:</b>
 
 ```typescript

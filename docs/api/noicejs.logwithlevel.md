@@ -4,7 +4,7 @@
 
 ## logWithLevel() function
 
-Switch helper to invoke log methods based on variable log level.
+Switch helper to invoke log methods based on variable log level. Dispatches a call to the appropriate log level method.
 
 <b>Signature:</b>
 

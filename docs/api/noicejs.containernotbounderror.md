@@ -4,6 +4,8 @@
 
 ## ContainerNotBoundError class
 
+Container is not bound yet and not ready to be used.
+
 <b>Signature:</b>
 
 ```typescript
