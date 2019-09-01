@@ -26,21 +26,21 @@ export class ConsoleLogger implements Logger {
    * Log a message at debug level.
    */
   public debug(...params: Array<unknown>) {
-    console.debug(params);
+    console.debug(...params);
   }
 
   /**
    * Log a message at info level.
    */
   public info(...params: Array<unknown>) {
-    console.info(params);
+    console.info(...params);
   }
 
   /**
    * Log a message at warning level.
    */
   public warn(...params: Array<unknown>) {
-    console.warn(params);
+    console.warn(...params);
   }
 
   /**
@@ -49,7 +49,7 @@ export class ConsoleLogger implements Logger {
    * Writes to stdout in node, appears as a red message in chrome, etc.
    */
   public error(...params: Array<unknown>) {
-    console.error(params);
+    console.error(...params);
   }
   /* tslint:enable:no-console */
 }
