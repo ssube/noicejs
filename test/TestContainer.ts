@@ -3,7 +3,7 @@ import { ineeda } from 'ineeda';
 import { spy } from 'sinon';
 
 import { LoggerNotFoundError } from '../src';
-import { BaseOptions, Container, withContainer } from '../src/Container';
+import { BaseOptions, Container, withContainer, Contract } from '../src/Container';
 import { BaseError } from '../src/error/BaseError';
 import { ContainerBoundError } from '../src/error/ContainerBoundError';
 import { ContainerNotBoundError } from '../src/error/ContainerNotBoundError';
@@ -200,7 +200,7 @@ describeAsync('container', async () => {
     }
 
     const module = new TestModule();
-    module.has = spy(module.has);
+    module.has = spy(module.has) as (contract: Contract<any, any>) => boolean;
 
     const container = Container.from(module);
     await container.configure();
