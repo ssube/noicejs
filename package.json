@@ -9,6 +9,9 @@
     "build": "make build",
     "test": "make test"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ssube/noicejs.git"

@@ -5,6 +5,7 @@
 config/
 deploy/
 node_modules/
+out/cache/
 out/coverage/
 out/coverage-*
 out/docs/
@@ -15,6 +16,7 @@ out/*.json
 out/test-*
 scripts/
 src/
+temp/
 test/
 vendor/
 
