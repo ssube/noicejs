@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-2](https://github.com/ssube/noicejs/compare/v3.0.0-1...v3.0.0-2) (2019-09-08)
+
+
+### Features
+
+* export constructor type guard ([ce1cfe4](https://github.com/ssube/noicejs/commit/ce1cfe4))
+
 ## [3.0.0-1](https://github.com/ssube/noicejs/compare/v3.0.0-0...v3.0.0-1) (2019-09-08)
 
 
