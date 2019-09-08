@@ -31,9 +31,11 @@
 
 |  Function | Description |
 |  --- | --- |
+|  [contractName(c)](./noicejs.contractname.md) | Get the standard name for a contract (usually a constructor).<!-- -->This accepts strings and symbols, so if a function is not provably a constructor, simply pass the name. |
 |  [getInject(target)](./noicejs.getinject.md) | Get attached dependencies. |
 |  [getProvides(target)](./noicejs.getprovides.md) | Get dependencies provided by this previously-decorated target. |
 |  [Inject(needs)](./noicejs.inject.md) | Injection decorator for classes. |
+|  [isConstructor(it)](./noicejs.isconstructor.md) | Typeguard for constructors. Only really validates that <code>it</code> is a function. |
 |  [logWithLevel(logger, level, options, msg)](./noicejs.logwithlevel.md) | Switch helper to invoke log methods based on variable log level. Dispatches a call to the appropriate log level method. |
 |  [Provides(provides)](./noicejs.provides.md) | Decorator for methods that can resolve or provide some dependency. |
 
