@@ -1,5 +1,7 @@
 import { Contract, contractName, isConstructor } from './Container';
 
+/* tslint:disable:no-any */
+
 export interface Dependency {
   name: string | symbol;
   contract: Contract<any, any>;

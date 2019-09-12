@@ -10,7 +10,7 @@ export class BaseError extends Error {
 
   /**
    * Create a new typed error.
-   * 
+   *
    * @param message - error message
    * @param nested - internal errors (causes)
    */

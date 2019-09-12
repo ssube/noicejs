@@ -1,6 +1,7 @@
 import { Dependency, InjectedDependency, resolveDepends } from './Dependency';
 import { DescriptorNotFoundError } from './error/DescriptorNotFoundError';
 import { InvalidTargetError } from './error/InvalidTargetError';
+import { isNil } from './utils';
 
 export const injectionSymbol = Symbol('noicejs-inject');
 
@@ -11,6 +12,7 @@ export const injectionSymbol = Symbol('noicejs-inject');
  *
  * @public
  */
+/* tslint:disable-next-line:no-any */
 export function getInject(target: any): Array<Dependency> {
   if (Reflect.has(target, injectionSymbol)) {
     const existing = Reflect.get(target, injectionSymbol);
@@ -20,7 +22,7 @@ export function getInject(target: any): Array<Dependency> {
   } else {
     // first dep for this target, check prototype
     const proto = Reflect.getPrototypeOf(target);
-    if (proto && proto !== target) {
+    if (!isNil(proto) && proto !== target) {
       return getInject(proto);
     }
   }
@@ -36,12 +38,22 @@ export function getInject(target: any): Array<Dependency> {
  * @public
  */
 export function Inject(...needs: Array<InjectedDependency>) {
+  /* tslint:disable-next-line:no-any */
   return (target: any, key?: string, desc?: PropertyDescriptor) => {
-    if (key) {
-      const prop = desc || Object.getOwnPropertyDescriptor(Object.getPrototypeOf(target), key);
-      if (!prop) {
+    if (isNil(key)) {
+      const prev = getInject(target);
+      const next = resolveDepends(needs);
+      Reflect.set(target, injectionSymbol, prev.concat(next));
+    } else {
+      let prop = desc;
+      if (isNil(prop)) {
+        prop = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(target), key);
+      }
+
+      if (isNil(prop)) {
         throw new DescriptorNotFoundError('cannot get descriptor');
       }
+
       if (typeof prop.value !== 'function') {
         throw new InvalidTargetError('method decorator cannot inject properties');
       }
@@ -49,10 +61,6 @@ export function Inject(...needs: Array<InjectedDependency>) {
       const prev = getInject(prop.value);
       const next = resolveDepends(needs);
       Reflect.set(prop.value, injectionSymbol, prev.concat(next));
-    } else {
-      const prev = getInject(target);
-      const next = resolveDepends(needs);
-      Reflect.set(target, injectionSymbol, prev.concat(next));
     }
   };
 }

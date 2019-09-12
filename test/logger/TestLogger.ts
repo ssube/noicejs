@@ -6,6 +6,8 @@ import { Logger, logWithLevel } from '../../src/logger/Logger';
 
 import { describeAsync } from '../helpers/async';
 
+/* tslint:disable:no-unbound-method */
+
 describeAsync('log level switch', async () => {
   it('should log at debug level', () => {
     const logger = ineeda<Logger>({

@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { isNil } from 'lodash';
 import { spy } from 'sinon';
 
 import { MissingValueError } from '../../src';
@@ -6,9 +7,10 @@ import { Container } from '../../src/Container';
 import { Inject } from '../../src/Inject';
 import { Module, ModuleOptions } from '../../src/Module';
 import { Provides } from '../../src/Provides';
-
 import { itAsync } from '../helpers/async';
 import { Consumer, Implementation, Interface, TestModule } from './HelperClass';
+
+/* tslint:disable:no-any no-big-function */
 
 describe('container', () => {
   itAsync('should take a list of modules', async () => {
@@ -51,7 +53,7 @@ describe('container', () => {
 
     @Inject('outerface')
     class FailingConsumer {
-      private di: any;
+      private readonly di: any;
 
       constructor(di: any) {
         this.di = di;
@@ -77,7 +79,12 @@ describe('container', () => {
       @Provides(Interface)
       public async create() {
         modSpy();
-        return ctr.create(Implementation);
+
+        if (isNil(this.container)) {
+          throw new Error('missing container');
+        } else {
+          return this.container.create(Implementation);
+        }
       }
     }
 
@@ -109,7 +116,12 @@ describe('container', () => {
         }
 
         modSpy(outer);
-        return ctr.create(Implementation, outer as any);
+        if (isNil(this.container)) {
+          throw new Error('missing container');
+        } else {
+          return this.container.create(Implementation, outer as any);
+        }
+
       }
     }
 
@@ -129,7 +141,7 @@ describe('container', () => {
     class SubModule extends Module {
       public async configure() {
         this.bind(Interface).toFactory(async (deps: any, ...args: Array<any>) => {
-          ++counter;
+          counter += 1;
           return new Implementation(deps, ...args);
         });
       }

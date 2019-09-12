@@ -6,6 +6,8 @@ import { getProvides, Provides } from '../../src/Provides';
 
 import { itAsync } from '../helpers/async';
 
+/* tslint:disable:no-unbound-method */
+
 describe('provides decorator', () => {
   itAsync('should return a function', async () => {
     expect(Provides()).to.be.a('function');

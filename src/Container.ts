@@ -2,12 +2,15 @@ import { Dependency } from './Dependency';
 import { ContainerBoundError } from './error/ContainerBoundError';
 import { ContainerNotBoundError } from './error/ContainerNotBoundError';
 import { InvalidProviderError } from './error/InvalidProviderError';
+import { LoggerNotFoundError } from './error/LoggerNotFoundError';
 import { MissingValueError } from './error/MissingValueError';
 import { getInject } from './Inject';
 import { Logger } from './logger/Logger';
 import { Module, ProviderType } from './Module';
+import { isNil } from './utils';
 import { VERSION_INFO } from './version';
-import { LoggerNotFoundError } from './error/LoggerNotFoundError';
+
+/* tslint:disable:no-any */
 
 /**
  * Some constructor taking options as the first parameter.
@@ -15,6 +18,7 @@ import { LoggerNotFoundError } from './error/LoggerNotFoundError';
  * @public
  */
 export interface Constructor<TReturn, TOptions extends BaseOptions> {
+  /* tslint:disable-next-line:callable-types */
   new(options: TOptions, ...extra: Array<unknown>): TReturn;
 }
 
@@ -98,7 +102,7 @@ export class Container implements ContainerOptions {
       throw new ContainerBoundError('container already bound');
     }
 
-    if (options.logger !== undefined) {
+    if (!isNil(options.logger)) {
       this.logger = options.logger;
     }
 
@@ -125,7 +129,7 @@ export class Container implements ContainerOptions {
     if (!this.ready) {
       throw new ContainerNotBoundError('container has not been configured yet');
     }
-    if (!contract) {
+    if (isNil(contract)) {
       throw new MissingValueError('missing contract');
     }
 
@@ -136,7 +140,7 @@ export class Container implements ContainerOptions {
     const module = this.modules.find((item) => {
       return item.has(contract);
     });
-    if (!module) {
+    if (isNil(module)) {
       if (isConstructor(contract)) {
         return this.construct(contract, options, args);
       }
@@ -181,7 +185,7 @@ export class Container implements ContainerOptions {
     args: Array<unknown>
   ): Promise<TReturn> {
     const provider = module.get<TReturn, TOptions>(contract);
-    if (!provider) {
+    if (isNil(provider)) {
       this.fail(`module has no provider for contract: ${contractName(contract).toString()}`);
     }
 
@@ -244,14 +248,15 @@ export class Container implements ContainerOptions {
  * @public
  */
 export function withContainer(container: Container) {
-  return function <TInner, TOptions extends BaseOptions>(target: Constructor<TInner, TOptions>): Constructor<TInner, TOptions> {
-    const ctor = function (options: TOptions, ...others: Array<unknown>): TInner {
-      return new target({
-        ...options,
-        container,
-      }, ...others);
+  return <TInner, TOptions extends BaseOptions>(target: Constructor<TInner, TOptions>): Constructor<TInner, TOptions> => {
+    class WrappedTarget extends (target as Constructor<any, TOptions>) {
+      constructor(options: TOptions, ...others: Array<unknown>) {
+        super({
+          ...options,
+          container,
+         }, ...others);
+      }
     }
-    Reflect.setPrototypeOf(ctor, Reflect.getPrototypeOf(target));
-    return ctor as any;
+    return WrappedTarget as Constructor<TInner, TOptions>;
   };
 }

@@ -4,6 +4,8 @@ import { restore, spy } from 'sinon';
 import { ConsoleLogger } from '../../src/logger/ConsoleLogger';
 import { describeAsync } from '../helpers/async';
 
+/* tslint:disable:no-console no-unbound-method */
+
 describeAsync('console logger', async () => {
   beforeEach(() => {
     spy(console, 'debug');

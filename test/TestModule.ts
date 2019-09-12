@@ -1,9 +1,12 @@
 import { expect } from 'chai';
+import { isNil } from 'lodash';
 import { match, spy } from 'sinon';
 
 import { BaseOptions, Container } from '../src/Container';
 import { Module, ModuleOptions, ProviderType } from '../src/Module';
 import { describeAsync, itAsync } from './helpers/async';
+
+/* tslint:disable:no-unbound-method */
 
 describeAsync('injection modules', async () => {
   itAsync('should be extendable', async () => {
@@ -82,7 +85,7 @@ describeAsync('injection modules', async () => {
       }
 
       public async getInstance(options: BaseOptions): Promise<TestInstance> {
-        if (!instance) {
+        if (isNil(instance)) {
           instance = await options.container.create(TestInstance);
         }
 

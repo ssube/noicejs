@@ -3,6 +3,9 @@ import { LoggerNotFoundError } from './error/LoggerNotFoundError';
 import { Logger } from './logger/Logger';
 import { NullLogger } from './logger/NullLogger';
 import { getProvides } from './Provides';
+import { isNil } from './utils';
+
+/* tslint:disable:no-any */
 
 /**
  * Providers for a particular contract.
@@ -189,7 +192,7 @@ export abstract class Module implements ModuleOptions {
     }
 
     const next = Reflect.getPrototypeOf(proto);
-    if (next !== undefined && next !== null && next !== proto) {
+    if (!isNil(next) && next !== proto) {
       this.bindPrototype(next);
     }
   }

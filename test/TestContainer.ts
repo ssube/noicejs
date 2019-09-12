@@ -3,7 +3,7 @@ import { ineeda } from 'ineeda';
 import { spy } from 'sinon';
 
 import { LoggerNotFoundError } from '../src';
-import { BaseOptions, Container, withContainer, Contract } from '../src/Container';
+import { BaseOptions, Container, Contract, withContainer } from '../src/Container';
 import { BaseError } from '../src/error/BaseError';
 import { ContainerBoundError } from '../src/error/ContainerBoundError';
 import { ContainerNotBoundError } from '../src/error/ContainerNotBoundError';
@@ -13,6 +13,9 @@ import { Inject } from '../src/Inject';
 import { Logger } from '../src/logger/Logger';
 import { Module, ModuleOptions } from '../src/Module';
 import { describeAsync, itAsync } from './helpers/async';
+
+// @TODO: lint these tests properly :(
+/* tslint:disable:no-any no-big-function no-null-keyword no-unbound-method */
 
 const testModuleCount = 8; // the number of test modules to create
 
@@ -141,8 +144,7 @@ describeAsync('container', async () => {
     const module = new TestModule();
     const container = Container.from(module);
     await container.configure();
-
-    const injected = await container.create(TestClass);
+    await container.create(TestClass);
 
     expect(ctorSpy).to.have.been.called.callCount(1);
     expect(ctorSpy).to.have.been.calledWithExactly({
@@ -241,7 +243,7 @@ describeAsync('container', async () => {
     const module = ineeda<Module>({
       get() {
         return null;
-      }
+      },
     });
     const container = Container.from(module);
 

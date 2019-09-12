@@ -1,3 +1,5 @@
+/* tslint:disable:no-any unified-signatures */
+
 /**
  * Available log levels.
  *
@@ -33,15 +35,20 @@ export interface Logger {
  *
  * @public
  */
-export function logWithLevel(logger: Logger, level: LogLevel, options: Error | object, msg: string) {
+export function logWithLevel(logger: Logger, level: LogLevel, options: Error | object, msg: string): void {
   switch (level) {
     case 'debug':
-      return logger.debug(options, msg);
-    case 'error':
-      return logger.error(options, msg);
+      logger.debug(options, msg);
+      return;
     case 'info':
-      return logger.info(options, msg);
+      logger.info(options, msg);
+      return;
     case 'warn':
-      return logger.warn(options, msg);
+      logger.warn(options, msg);
+      return;
+    case 'error':
+    default:
+      logger.error(options, msg);
+      return;
   }
 }
