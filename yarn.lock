@@ -2903,10 +2903,10 @@ tslib@1.10.0, tslib@^1.7.1, tslib@^1.8.0, tslib@^1.8.1:
   resolved "https://artifacts.apextoaster.com/repository/group-npm/tslib/-/tslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
   integrity sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
 
-tslint-clean-code@0.2.9:
-  version "0.2.9"
-  resolved "https://artifacts.apextoaster.com/repository/group-npm/tslint-clean-code/-/tslint-clean-code-0.2.9.tgz#4accfdf92cc701b7dd783e736559e90905c68f6c"
-  integrity sha512-h9BqZIUsvqtns46IIto5fbouaERFd9Iu0NupTZ9s80frdm5eGhOWDp2VjfOx4LqgnvchMFX1xrj+dfWs4bVYog==
+tslint-clean-code@0.2.10:
+  version "0.2.10"
+  resolved "https://registry.yarnpkg.com/tslint-clean-code/-/tslint-clean-code-0.2.10.tgz#eaba79fb92d52bebf5ee1177054f056b2233fafa"
+  integrity sha512-MjfU3TVDB+oidhI/uAN/p0ncaqFnPq4L6nYtPvNp/MaFxM52jYtgx1qxf+uTIaQ7KZWZB/P9CpbL7/8WWSzQJg==
   dependencies:
     memoize-decorator "^1.0.2"
     tsutils "2.7.1"
