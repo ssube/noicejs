@@ -11,6 +11,8 @@ const metadata = require('../package.json');
 const bundle = {
 	external: [
 		'async_hooks',
+		'chai',
+		'sinon',
 	],
 	input: [
 		'src/index.ts',

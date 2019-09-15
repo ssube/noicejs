@@ -1,6 +1,5 @@
 import { Dependency, InjectedDependency, resolveDepends } from './Dependency';
-import { DescriptorNotFoundError } from './error/DescriptorNotFoundError';
-import { isNil } from './utils';
+import { resolveDescriptor } from './utils';
 
 export const providesSymbol = Symbol('noicejs-provides');
 
@@ -27,11 +26,8 @@ export function getProvides(target: any): Array<Dependency> {
  */
 export function Provides<TInjected>(...provides: Array<InjectedDependency>) {
   /* tslint:disable-next-line:no-any */
-  return (target: any, key: string, desc?: PropertyDescriptor) => {
-    if (isNil(desc)) {
-      throw new DescriptorNotFoundError();
-    }
-
+  return (target: any, key: string, providedDesc?: PropertyDescriptor) => {
+    const desc = resolveDescriptor(target, key, providedDesc);
     const prev = getProvides(target);
     const next = resolveDepends(provides);
     Reflect.set(desc.value, providesSymbol, prev.concat(next));

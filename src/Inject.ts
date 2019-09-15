@@ -1,7 +1,6 @@
 import { Dependency, InjectedDependency, resolveDepends } from './Dependency';
-import { DescriptorNotFoundError } from './error/DescriptorNotFoundError';
 import { InvalidTargetError } from './error/InvalidTargetError';
-import { isNil } from './utils';
+import { doesExist, isNil, resolveDescriptor } from './utils';
 
 export const injectionSymbol = Symbol('noicejs-inject');
 
@@ -22,7 +21,7 @@ export function getInject(target: any): Array<Dependency> {
   } else {
     // first dep for this target, check prototype
     const proto = Reflect.getPrototypeOf(target);
-    if (!isNil(proto) && proto !== target) {
+    if (doesExist(proto) && proto !== target) {
       return getInject(proto);
     }
   }
@@ -39,28 +38,20 @@ export function getInject(target: any): Array<Dependency> {
  */
 export function Inject(...needs: Array<InjectedDependency>) {
   /* tslint:disable-next-line:no-any */
-  return (target: any, key?: string, desc?: PropertyDescriptor) => {
+  return (target: any, key?: string, providedDesc?: PropertyDescriptor) => {
     if (isNil(key)) {
       const prev = getInject(target);
       const next = resolveDepends(needs);
       Reflect.set(target, injectionSymbol, prev.concat(next));
     } else {
-      let prop = desc;
-      if (isNil(prop)) {
-        prop = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(target), key);
-      }
-
-      if (isNil(prop)) {
-        throw new DescriptorNotFoundError('cannot get descriptor');
-      }
-
-      if (typeof prop.value !== 'function') {
+      const desc = resolveDescriptor(target, key, providedDesc);
+      if (typeof desc.value !== 'function') {
         throw new InvalidTargetError('method decorator cannot inject properties');
       }
 
-      const prev = getInject(prop.value);
+      const prev = getInject(desc.value);
       const next = resolveDepends(needs);
-      Reflect.set(prop.value, injectionSymbol, prev.concat(next));
+      Reflect.set(desc.value, injectionSymbol, prev.concat(next));
     }
   };
 }

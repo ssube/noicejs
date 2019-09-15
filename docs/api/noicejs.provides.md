@@ -9,7 +9,7 @@ Decorator for methods that can resolve or provide some dependency.
 <b>Signature:</b>
 
 ```typescript
-export declare function Provides<TInjected>(...provides: Array<InjectedDependency>): (target: any, key: string, desc?: PropertyDescriptor | undefined) => void;
+export declare function Provides<TInjected>(...provides: Array<InjectedDependency>): (target: any, key: string, providedDesc?: PropertyDescriptor | undefined) => void;
 ```
 
 ## Parameters
@@ -20,5 +20,5 @@ export declare function Provides<TInjected>(...provides: Array<InjectedDependenc
 
 <b>Returns:</b>
 
-`(target: any, key: string, desc?: PropertyDescriptor | undefined) => void`
+`(target: any, key: string, providedDesc?: PropertyDescriptor | undefined) => void`
 

@@ -3,7 +3,7 @@ import { LoggerNotFoundError } from './error/LoggerNotFoundError';
 import { Logger } from './logger/Logger';
 import { NullLogger } from './logger/NullLogger';
 import { getProvides } from './Provides';
-import { isNil } from './utils';
+import { doesExist, isNil } from './utils';
 
 /* tslint:disable:no-any */
 
@@ -167,8 +167,8 @@ export abstract class Module implements ModuleOptions {
   }
 
   public debug() {
-    if (this.logger === undefined) {
-      throw new LoggerNotFoundError('no logger available to print debug');
+    if (isNil(this.logger)) {
+      throw new LoggerNotFoundError('module has no logger');
     }
 
     this.logger.debug('module debug');
@@ -192,7 +192,7 @@ export abstract class Module implements ModuleOptions {
     }
 
     const next = Reflect.getPrototypeOf(proto);
-    if (!isNil(next) && next !== proto) {
+    if (doesExist(next) && next !== proto) {
       this.bindPrototype(next);
     }
   }

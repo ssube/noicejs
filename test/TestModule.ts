@@ -1,10 +1,10 @@
 import { expect } from 'chai';
-import { isNil } from 'lodash';
 import { match, spy } from 'sinon';
 
-import { NullLogger, Provides } from '../src';
+import { LoggerNotFoundError, NullLogger, Provides } from '../src';
 import { BaseOptions, Container } from '../src/Container';
 import { Module, ModuleOptions, ProviderType } from '../src/Module';
+import { isNil } from '../src/utils';
 import { describeAsync, itAsync } from './helpers/async';
 
 /* tslint:disable:no-unbound-method */
@@ -172,5 +172,17 @@ describeAsync('injection modules', async () => {
     await container.configure();
 
     expect(module.size).to.equal(2);
+  });
+
+  itAsync('should throw if it has no logger', async () => {
+    class TestModule extends Module { }
+
+    const module = new TestModule();
+    const container = Container.from(module);
+    await container.configure();
+
+    expect(() => {
+      module.debug();
+    }).to.throw(LoggerNotFoundError);
   });
 });

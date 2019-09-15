@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import { isNil } from 'lodash';
 import { spy } from 'sinon';
 
 import { MissingValueError } from '../../src';
@@ -7,6 +6,7 @@ import { Container } from '../../src/Container';
 import { Inject } from '../../src/Inject';
 import { Module, ModuleOptions } from '../../src/Module';
 import { Provides } from '../../src/Provides';
+import { isNil } from '../../src/utils';
 import { itAsync } from '../helpers/async';
 import { Consumer, Implementation, Interface, TestModule } from './HelperClass';
 

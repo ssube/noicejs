@@ -1,8 +1,7 @@
 import { expect } from 'chai';
 
-import { InvalidTargetError } from '../src/error/InvalidTargetError';
+import { BaseOptions, Container, DescriptorNotFoundError, Module } from '../src';
 import { getInject, Inject } from '../src/Inject';
-
 import { describeAsync, itAsync } from './helpers/async';
 
 describeAsync('injection decorator', async () => {
@@ -55,5 +54,52 @@ describeAsync('injection decorator', async () => {
     expect(() => {
       Inject()(TestClass, 'missing');
     }).to.throw();
+  });
+
+  itAsync('should work when applied to methods', async () => {
+    class TestClass {
+      public foo: string;
+
+      constructor() {
+        this.foo = '';
+      }
+
+      @Inject('foo')
+      public bar(options: { foo: string }) {
+        this.foo = options.foo;
+      }
+    }
+
+    class TestModule extends Module {
+      public async configure(options: BaseOptions) {
+        await super.configure(options);
+
+        this.bind('foo').toInstance('test');
+      }
+    }
+
+    const ctr = Container.from(new TestModule());
+    await ctr.configure();
+
+    const foo = new TestClass();
+    /* tslint:disable-next-line:no-unbound-method */
+    await ctr.apply(foo.bar, foo, {}, []);
+    expect(foo.foo).to.equal('test');
+  });
+
+  itAsync('cannot be applied to non-function properties', async () => {
+    expect(() => {
+      class TestClass {
+        @Inject('foo')
+        public readonly foo: string = '';
+
+        constructor() {
+          this.foo = 'foo';
+        }
+      }
+
+      const foo = new TestClass();
+      expect(foo).to.equal(undefined);
+    }).to.throw(DescriptorNotFoundError);
   });
 });

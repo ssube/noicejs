@@ -9,7 +9,7 @@ Injection decorator for classes.
 <b>Signature:</b>
 
 ```typescript
-export declare function Inject(...needs: Array<InjectedDependency>): (target: any, key?: string | undefined, desc?: PropertyDescriptor | undefined) => void;
+export declare function Inject(...needs: Array<InjectedDependency>): (target: any, key?: string | undefined, providedDesc?: PropertyDescriptor | undefined) => void;
 ```
 
 ## Parameters
@@ -20,5 +20,5 @@ export declare function Inject(...needs: Array<InjectedDependency>): (target: an
 
 <b>Returns:</b>
 
-`(target: any, key?: string | undefined, desc?: PropertyDescriptor | undefined) => void`
+`(target: any, key?: string | undefined, providedDesc?: PropertyDescriptor | undefined) => void`
 

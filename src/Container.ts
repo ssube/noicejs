@@ -106,10 +106,7 @@ export class Container implements ContainerOptions {
       throw new ContainerBoundError('container already bound');
     }
 
-    if (!isNil(options.logger)) {
-      this.logger = options.logger;
-    }
-
+    this.logger = options.logger;
     this.ready = true;
 
     for (const module of this.modules) {
@@ -160,8 +157,8 @@ export class Container implements ContainerOptions {
   }
 
   public debug() {
-    if (this.logger === undefined) {
-      throw new LoggerNotFoundError('logger required for container debugging');
+    if (isNil(this.logger)) {
+      throw new LoggerNotFoundError('container has no logger');
     }
 
     this.logger.debug({ version: VERSION_INFO }, 'container debug');
@@ -210,9 +207,9 @@ export class Container implements ContainerOptions {
     return Reflect.construct(ctor, [deps].concat(args));
   }
 
-  public async apply<TReturn, TOptions extends BaseOptions>(impl: Function, thisArg: Module | undefined, options: Partial<TOptions>, args: any) {
+  public async apply<TReturn, TOptions extends BaseOptions>(impl: Function, thisArg: any, options: Partial<TOptions>, args: any): Promise<TReturn> {
     const deps = await this.dependencies(getInject(impl), options);
-    return Reflect.apply(impl, thisArg, [deps].concat(args));
+    return Reflect.apply(impl, thisArg, [deps].concat(args)) as TReturn;
   }
 
   protected fail(msg: string): never {

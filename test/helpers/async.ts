@@ -1,5 +1,6 @@
 import { AsyncHook, createHook } from 'async_hooks';
-import { isNil, isString } from 'lodash';
+
+import { isNil } from '../../src/utils';
 
 // this will pull Mocha internals out of the stacks
 // tslint:disable-next-line:no-var-requires
@@ -28,10 +29,10 @@ function debugMode() {
 export class Tracker {
   public static getStack(): string {
     const err = new Error();
-    if (isString(err.stack)) {
-      return filterStack(err.stack);
-    } else {
+    if (isNil(err.stack)) {
       return 'no stack trace available';
+    } else {
+      return filterStack(err.stack);
     }
   }
 

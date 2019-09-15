@@ -4,8 +4,9 @@
  * @public
  */
 export class BaseError extends Error {
-  public message: string;
-  public stack?: string;
+  public readonly message: string;
+  public readonly stack?: string;
+
   protected nested: Array<Error>;
 
   /**
@@ -19,11 +20,14 @@ export class BaseError extends Error {
 
     this.message = message;
     this.nested = nested;
-    this.stack = nested.reduce((cur, err, idx) => {
+
+    // using `isNil` here will cause a circular dependency between errors/BaseError and utils/index
+    const base = this.stack === undefined ? '' : this.stack;
+    this.stack = this.nested.reduce((cur, err, idx) => {
       const stack = err.stack !== undefined ? err.stack : '';
       const indented = stack.replace('\n', '\n  ');
-      return `${cur}\n  caused by (${idx + 1}/${nested.length}):\n    ${indented}`;
-    }, this.stack);
+      return `${cur}\n  caused by (${idx + 1}/${this.nested.length}):\n    ${indented}`;
+    }, base);
   }
 
   /**
