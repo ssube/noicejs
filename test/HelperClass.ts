@@ -1,5 +1,5 @@
-import { Inject } from '../../src/Inject';
-import { Module, ModuleOptions } from '../../src/Module';
+import { Inject } from '../src/Inject';
+import { Module, ModuleOptions } from '../src/Module';
 
 /* tslint:disable:no-any */
 

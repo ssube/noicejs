@@ -10,7 +10,7 @@ import { getTestLogger } from './helpers/logger';
 
 /* tslint:disable:no-unbound-method */
 
-describeLeaks('injection modules', async () => {
+describeLeaks('module', async () => {
   itLeaks('should be extendable', async () => {
     class TestModule extends Module {
       public async configure(options: ModuleOptions) { /* noop */ }

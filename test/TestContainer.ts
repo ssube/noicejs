@@ -12,6 +12,8 @@ import { MissingValueError } from '../src/error/MissingValueError';
 import { Inject } from '../src/Inject';
 import { Logger } from '../src/logger/Logger';
 import { Module, ModuleOptions } from '../src/Module';
+import { isNil } from '../src/utils';
+import { Consumer, Implementation, Interface, TestModule } from './HelperClass';
 import { describeLeaks, itLeaks } from './helpers/async';
 import { getTestLogger } from './helpers/logger';
 
@@ -26,11 +28,21 @@ const TEST_MODULE_COUNT = 8; // the number of test modules to create
 const TEST_STRING = 'test';
 
 describeLeaks('container', async () => {
-  itLeaks('should configure modules', async () => {
-    class TestModule extends Module {
-      public async configure() { /* noop */ }
+  itLeaks('should take a list of modules', async () => {
+    class SubModule extends Module {
+      public async configure() {
+        // noop
+      }
     }
 
+    const modules = [new SubModule(), new SubModule()];
+    const ctr = Container.from(...modules);
+    await ctr.configure();
+
+    expect(ctr.getModules()).to.deep.equal(modules);
+  });
+
+  itLeaks('should configure modules', async () => {
     const module = new TestModule();
     spy(module, 'configure');
 
@@ -41,10 +53,6 @@ describeLeaks('container', async () => {
   });
 
   itLeaks('should be created from some modules', async () => {
-    class TestModule extends Module {
-      public async configure() { /* noop */ }
-    }
-
     const modules = Array(TEST_MODULE_COUNT).fill(null).map(() => new TestModule());
     const container = Container.from(...modules);
 
@@ -52,10 +60,6 @@ describeLeaks('container', async () => {
   });
 
   itLeaks('should be configured before being used', async () => {
-    class TestModule extends Module {
-      public async configure() { /* noop */ }
-    }
-
     const modules = Array(TEST_MODULE_COUNT).fill(null).map(() => new TestModule());
     const container = Container.from(...modules);
 
@@ -70,10 +74,6 @@ describeLeaks('container', async () => {
   });
 
   itLeaks('should be extended with some modules', async () => {
-    class TestModule extends Module {
-      public async configure() { /* noop */ }
-    }
-
     const modules = Array(TEST_MODULE_COUNT).fill(null).map(() => new TestModule());
     const container = Container.from(...modules);
 
@@ -87,7 +87,7 @@ describeLeaks('container', async () => {
   });
 
   itLeaks('should handle a module returning bad providers', async () => {
-    class TestModule extends Module {
+    class BadModule extends Module {
       public async configure(options: ModuleOptions) {
         this.bind('d').toInstance({});
       }
@@ -100,7 +100,7 @@ describeLeaks('container', async () => {
       }
     }
 
-    const module = new TestModule();
+    const module = new BadModule();
     const container = Container.from(module);
     await container.configure();
 
@@ -115,12 +115,6 @@ describeLeaks('container', async () => {
   });
 
   itLeaks('should throw when the contract has no provider', async () => {
-    class TestModule extends Module {
-      public async configure(options: ModuleOptions) {
-        this.bind('c').toInstance({});
-      }
-    }
-
     const module = new TestModule();
     const container = Container.from(module);
     await container.configure();
@@ -141,13 +135,13 @@ describeLeaks('container', async () => {
       }
     }
 
-    class TestModule extends Module {
+    class FooModule extends Module {
       public async configure(options: ModuleOptions) {
         this.bind(FooClass).toInstance(instance);
       }
     }
 
-    const module = new TestModule();
+    const module = new FooModule();
     const container = Container.from(module);
     await container.configure();
     await container.create(TestClass);
@@ -174,18 +168,173 @@ describeLeaks('container', async () => {
       }
     }
 
-    class TestModule extends Module {
+    class FooModule extends Module {
       public async configure(options: ModuleOptions) {
         this.bind(FooClass).toConstructor(FooClass);
       }
     }
 
-    const module = new TestModule();
+    const module = new FooModule();
     const container = Container.from(module);
     await container.configure();
 
     const injected = await container.create(TestClass);
     expect(injected.foo).to.be.an.instanceof(FooClass);
+  });
+
+  itLeaks('should pass arguments to the constructor', async () => {
+    const ctr = Container.from(new TestModule());
+    await ctr.configure();
+
+    const args = ['a', 'b', 'c'];
+    const impl = await ctr.create(Consumer, {}, ...args);
+    expect(impl.args).to.deep.equal(args);
+  });
+
+  itLeaks('should call provider methods', async () => {
+    const modSpy = spy();
+
+    class SubModule extends Module {
+      @Provides(Interface)
+      public async create() {
+        modSpy();
+
+        if (isNil(this.container)) {
+          throw new Error('missing container');
+        } else {
+          return this.container.create(Implementation);
+        }
+      }
+    }
+
+    const mod = new SubModule();
+    const ctr = Container.from(mod);
+    await ctr.configure();
+
+    const impl = await ctr.create(Consumer);
+    expect(modSpy).to.have.been.called.callCount(1);
+    expect(impl.deps[Interface.name]).to.be.an.instanceof(Implementation);
+  });
+
+  itLeaks('should call provider methods with dependencies', async () => {
+    class Outerface { /* empty */ }
+    const outerInstance = new Outerface();
+
+    const modSpy = spy();
+    class SubModule extends Module {
+      public async configure(options: ModuleOptions) {
+        await super.configure(options);
+        this.bind(Outerface).toInstance(outerInstance);
+      }
+
+      @Inject(Outerface)
+      @Provides(Interface)
+      public async create(outer: { outerface: Outerface }) {
+        if (this.logger !== undefined) {
+          this.logger.debug({ outer }, 'submodule create');
+        }
+
+        modSpy(outer);
+        if (isNil(this.container)) {
+          throw new Error('missing container');
+        } else {
+          return this.container.create(Implementation, outer as any);
+        }
+
+      }
+    }
+
+    const ctr = Container.from(new SubModule());
+    await ctr.configure();
+
+    const impl = await ctr.create(Consumer);
+
+    expect(modSpy).to.have.been.called.callCount(1);
+    expect(impl.deps[Interface.name]).to.be.an.instanceOf(Implementation);
+    expect(impl.deps[Interface.name].deps[Outerface.name]).to.equal(outerInstance);
+  });
+
+  itLeaks('should call bound factories', async () => {
+    let counter = 0;
+
+    class SubModule extends Module {
+      public async configure() {
+        this.bind(Interface).toFactory(async (deps: any, ...args: Array<any>) => {
+          counter += 1;
+          return new Implementation(deps, ...args);
+        });
+      }
+    }
+
+    const ctr = Container.from(new SubModule());
+    await ctr.configure();
+
+    const impl = await ctr.create(Consumer);
+
+    expect(impl.deps[Interface.name]).to.be.an.instanceof(Implementation);
+    expect(counter).to.equal(1);
+  });
+
+  itLeaks('should return bound instances', async () => {
+    const name = 'foobar';
+    const inst = {};
+
+    class SubModule extends Module {
+      public async configure() {
+        this.bind(name).toInstance(inst);
+      }
+    }
+
+    const ctr = Container.from(new SubModule());
+    await ctr.configure();
+
+    @Inject(name)
+    class NameConsumer {
+      public deps: any;
+
+      constructor(deps: any) {
+        this.deps = deps;
+      }
+    }
+
+    const impl = await ctr.create(NameConsumer);
+    expect(impl.deps[name]).to.equal(inst);
+  });
+
+  itLeaks('should invoke constructors', async () => {
+    class Other { }
+    class SubModule extends Module {
+      public async configure() {
+        this.bind(Interface).toConstructor(Implementation);
+      }
+    }
+
+    const ctr = Container.from(new SubModule());
+    await ctr.configure();
+
+    const impl = await ctr.create(Interface);
+    expect(impl).to.be.an.instanceof(Implementation);
+
+    const other = await ctr.create(Other);
+    expect(other).to.be.an.instanceof(Other);
+  });
+
+  itLeaks('should invoke factories', async () => {
+    class SubModule extends Module {
+      public async createInterface(deps: any, ...args: Array<any>) {
+        return new Implementation(deps, ...args);
+      }
+
+      public async configure() {
+        this.bind(Interface).toFactory((deps: any, ...args: Array<any>) => this.createInterface(deps, ...args));
+      }
+    }
+
+    const ctr = Container.from(new SubModule());
+    await ctr.configure();
+
+    const impl = await ctr.create(Interface);
+    expect(impl).to.be.an.instanceof(Implementation);
   });
 
   itLeaks('should not look up dependencies passed in options', async () => {
@@ -201,13 +350,13 @@ describeLeaks('container', async () => {
     }
 
     const foo = {};
-    class TestModule extends Module {
+    class FooModule extends Module {
       public async configure(options: ModuleOptions) {
         this.bind('foo').toInstance(foo);
       }
     }
 
-    const module = new TestModule();
+    const module = new FooModule();
     module.has = spy(module.has) as (contract: Contract<any, any>) => boolean;
 
     const container = Container.from(module);
@@ -226,6 +375,23 @@ describeLeaks('container', async () => {
     expect(injected.foo).to.equal(foo);
   });
 
+  itLeaks('should inject a dependency from a module', async () => {
+    const ctr = Container.from(new TestModule());
+    await ctr.configure();
+
+    const impl = await ctr.create(Consumer);
+    expect(impl.deps[Interface.name]).to.be.an.instanceof(Implementation);
+  });
+
+  itLeaks('should inject a dependency into a factory method', async () => {
+    const ctr = Container.from(new TestModule());
+    await ctr.configure();
+
+    const impl = await ctr.create(Consumer, {}, 3);
+    expect(impl.args).to.deep.equal([3]);
+    expect(impl.deps[Interface.name]).to.be.an.instanceof(Implementation);
+  });
+
   itLeaks('should log debug info', async () => {
     const container = Container.from();
     const debugSpy = spy();
@@ -236,6 +402,23 @@ describeLeaks('container', async () => {
     });
     container.debug();
     expect(debugSpy).to.have.callCount(1);
+  });
+
+  itLeaks('should throw on missing dependencies', async () => {
+    // TestModule does not provide outerface
+    const ctr = Container.from(new TestModule());
+    await ctr.configure();
+
+    @Inject('outerface')
+    class FailingConsumer {
+      private readonly di: any;
+
+      constructor(di: any) {
+        this.di = di;
+      }
+    }
+
+    expect(ctr.create(FailingConsumer)).to.eventually.be.rejectedWith(MissingValueError);
   });
 
   itLeaks('should throw on debug without logger', async () => {
@@ -257,7 +440,7 @@ describeLeaks('container', async () => {
   });
 
   itLeaks('should print debug logs', async () => {
-    class TestModule extends Module {
+    class FooModule extends Module {
       @Provides('foo')
       public async createFoo() {
         return {};
@@ -267,7 +450,7 @@ describeLeaks('container', async () => {
     const logger = getTestLogger();
     spy(logger, 'debug');
 
-    const module = new TestModule();
+    const module = new FooModule();
     const container = Container.from(module);
     await container.configure({
       logger,

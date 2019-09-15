@@ -1,10 +1,9 @@
 import { expect } from 'chai';
 
-import { Container } from '../../src/Container';
-import { Module } from '../../src/Module';
-import { getProvides, Provides } from '../../src/Provides';
-
-import { itLeaks } from '../helpers/async';
+import { Container } from '../src/Container';
+import { Module } from '../src/Module';
+import { getProvides, Provides } from '../src/Provides';
+import { itLeaks } from './helpers/async';
 
 /* tslint:disable:no-unbound-method */
 
@@ -31,7 +30,7 @@ describe('provides decorator', () => {
       @Provides(Target)
       public foo() {
         return 2;
-       }
+      }
     }
 
     const module = new TestModule();

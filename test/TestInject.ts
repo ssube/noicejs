@@ -4,7 +4,31 @@ import { BaseOptions, Container, DescriptorNotFoundError, Module } from '../src'
 import { getInject, Inject } from '../src/Inject';
 import { describeLeaks, itLeaks } from './helpers/async';
 
-describeLeaks('injection decorator', async () => {
+describeLeaks('inject decorator', async () => {
+  itLeaks('should be a decorator factory', async () => {
+    expect(Inject()).to.be.a('function');
+  });
+
+  itLeaks('should work as a class decorator', async () => {
+    const params = [{
+      contract: 'a',
+      name: 'a',
+    }, {
+      contract: 'b',
+      name: 'b',
+    }, {
+      contract: 'c',
+      name: 'c',
+    }];
+
+    @Inject(...params)
+    class Target {
+      private method() { /* noop */ }
+    }
+
+    expect(getInject(Target)).to.deep.equal(params);
+  });
+
   itLeaks('should attach dependencies', async () => {
     class FooClass { /* noop */ }
     const dep = {
