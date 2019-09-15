@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-3](https://github.com/ssube/noicejs/compare/v3.0.0-2...v3.0.0-3) (2019-09-15)
+
+
+### Bug Fixes
+
+* **build:** add tslint, fix errors ([c8eb91c](https://github.com/ssube/noicejs/commit/c8eb91c))
+* **build:** bump coverage requirements ([31233de](https://github.com/ssube/noicejs/commit/31233de))
+* **docs:** readme formatting ([f6da95e](https://github.com/ssube/noicejs/commit/f6da95e))
+* **error:** remove redundant check for undefined stack traces ([10fdf66](https://github.com/ssube/noicejs/commit/10fdf66))
+* **test:** improve debug coverage, error docs ([a616c71](https://github.com/ssube/noicejs/commit/a616c71))
+* **tests:** test error cases better, clean up negated conditionals ([6108ab3](https://github.com/ssube/noicejs/commit/6108ab3))
+
+
+### Features
+
+* **decorator:** split constructor and function wrappers ([44f3531](https://github.com/ssube/noicejs/commit/44f3531))
+
 ## [3.0.0-2](https://github.com/ssube/noicejs/compare/v3.0.0-1...v3.0.0-2) (2019-09-08)
 
 
