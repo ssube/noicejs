@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-4](https://github.com/ssube/noicejs/compare/v3.0.0-3...v3.0.0-4) (2019-09-15)
+
+
+### Bug Fixes
+
+* **options:** remove base type ([8633ad4](https://github.com/ssube/noicejs/commit/8633ad4))
+* **test:** add test logger helper, improve test helper naming ([5064dd2](https://github.com/ssube/noicejs/commit/5064dd2))
+* **tests:** merge old tests into new suites ([49360c8](https://github.com/ssube/noicejs/commit/49360c8))
+
 ## [3.0.0-3](https://github.com/ssube/noicejs/compare/v3.0.0-2...v3.0.0-3) (2019-09-15)
 
 
