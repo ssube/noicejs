@@ -7,13 +7,13 @@ import { Inject } from '../../src/Inject';
 import { Module, ModuleOptions } from '../../src/Module';
 import { Provides } from '../../src/Provides';
 import { isNil } from '../../src/utils';
-import { itAsync } from '../helpers/async';
+import { itLeaks } from '../helpers/async';
 import { Consumer, Implementation, Interface, TestModule } from './HelperClass';
 
 /* tslint:disable:no-any no-big-function */
 
 describe('container', () => {
-  itAsync('should take a list of modules', async () => {
+  itLeaks('should take a list of modules', async () => {
     class SubModule extends Module {
       public async configure() {
         // noop
@@ -27,7 +27,7 @@ describe('container', () => {
     expect(ctr.getModules()).to.deep.equal(modules);
   });
 
-  itAsync('should inject a dependency from a module', async () => {
+  itLeaks('should inject a dependency from a module', async () => {
     const ctr = Container.from(new TestModule());
     await ctr.configure();
 
@@ -35,7 +35,7 @@ describe('container', () => {
     expect(impl.deps[Interface.name]).to.be.an.instanceof(Implementation);
   });
 
-  itAsync('should inject a dependency into a factory method', async () => {
+  itLeaks('should inject a dependency into a factory method', async () => {
     const ctr = Container.from(new TestModule());
     await ctr.configure();
 
@@ -44,7 +44,7 @@ describe('container', () => {
     expect(impl.deps[Interface.name]).to.be.an.instanceof(Implementation);
   });
 
-  itAsync('should throw on missing dependencies', async () => {
+  itLeaks('should throw on missing dependencies', async () => {
     class Outerface { /* empty */ }
 
     // TestModule does not provide Outerface (it can't possibly)
@@ -63,7 +63,7 @@ describe('container', () => {
     expect(ctr.create(FailingConsumer)).to.eventually.be.rejectedWith(MissingValueError);
   });
 
-  itAsync('should pass arguments to the constructor', async () => {
+  itLeaks('should pass arguments to the constructor', async () => {
     const ctr = Container.from(new TestModule());
     await ctr.configure();
 
@@ -72,7 +72,7 @@ describe('container', () => {
     expect(impl.args).to.deep.equal(args);
   });
 
-  itAsync('should execute providers', async () => {
+  itLeaks('should execute providers', async () => {
     const modSpy = spy();
 
     class SubModule extends Module {
@@ -97,7 +97,7 @@ describe('container', () => {
     expect(impl.deps[Interface.name]).to.be.an.instanceof(Implementation);
   });
 
-  itAsync('should provide dependencies to providers', async () => {
+  itLeaks('should provide dependencies to providers', async () => {
     class Outerface { /* empty */ }
     const outerInstance = new Outerface();
 
@@ -135,7 +135,7 @@ describe('container', () => {
     expect(impl.deps[Interface.name].deps[Outerface.name]).to.equal(outerInstance);
   });
 
-  itAsync('should invoke binding functions', async () => {
+  itLeaks('should invoke binding functions', async () => {
     let counter = 0;
 
     class SubModule extends Module {
@@ -156,7 +156,7 @@ describe('container', () => {
     expect(counter).to.equal(1);
   });
 
-  itAsync('should allow named bindings', async () => {
+  itLeaks('should allow named bindings', async () => {
     const name = 'foobar';
     const inst = {};
 
@@ -182,7 +182,7 @@ describe('container', () => {
     expect(impl.deps[name]).to.equal(inst);
   });
 
-  itAsync('should resolve constructors', async () => {
+  itLeaks('should resolve constructors', async () => {
     class Other { }
     class SubModule extends Module {
       public async configure() {
@@ -200,7 +200,7 @@ describe('container', () => {
     expect(other).to.be.an.instanceof(Other);
   });
 
-  itAsync('should resolve providers', async () => {
+  itLeaks('should resolve providers', async () => {
     class Other { }
     class SubModule extends Module {
       public async createInterface(deps: any, ...args: Array<any>) {

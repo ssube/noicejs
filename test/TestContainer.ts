@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { ineeda } from 'ineeda';
 import { spy } from 'sinon';
 
-import { LoggerNotFoundError, NullLogger, Provides } from '../src';
+import { LoggerNotFoundError, Provides } from '../src';
 import { BaseOptions, constructWithContainer, Container, Contract, invokeWithContainer } from '../src/Container';
 import { BaseError } from '../src/error/BaseError';
 import { ContainerBoundError } from '../src/error/ContainerBoundError';
@@ -12,7 +12,8 @@ import { MissingValueError } from '../src/error/MissingValueError';
 import { Inject } from '../src/Inject';
 import { Logger } from '../src/logger/Logger';
 import { Module, ModuleOptions } from '../src/Module';
-import { describeAsync, itAsync } from './helpers/async';
+import { describeLeaks, itLeaks } from './helpers/async';
+import { getTestLogger } from './helpers/logger';
 
 // @TODO: lint these tests properly :(
 /* tslint:disable:no-any no-big-function no-null-keyword no-unbound-method */
@@ -24,8 +25,8 @@ interface SubOptions extends BaseOptions {
 const TEST_MODULE_COUNT = 8; // the number of test modules to create
 const TEST_STRING = 'test';
 
-describeAsync('container', async () => {
-  itAsync('should configure modules', async () => {
+describeLeaks('container', async () => {
+  itLeaks('should configure modules', async () => {
     class TestModule extends Module {
       public async configure() { /* noop */ }
     }
@@ -39,7 +40,7 @@ describeAsync('container', async () => {
     expect(module.configure).to.have.been.called.callCount(1);
   });
 
-  itAsync('should be created from some modules', async () => {
+  itLeaks('should be created from some modules', async () => {
     class TestModule extends Module {
       public async configure() { /* noop */ }
     }
@@ -50,7 +51,7 @@ describeAsync('container', async () => {
     expect(container.getModules()).to.deep.equal(modules);
   });
 
-  itAsync('should be configured before being used', async () => {
+  itLeaks('should be configured before being used', async () => {
     class TestModule extends Module {
       public async configure() { /* noop */ }
     }
@@ -61,14 +62,14 @@ describeAsync('container', async () => {
     return expect(container.create(TestModule)).to.eventually.be.rejectedWith(ContainerNotBoundError);
   });
 
-  itAsync('should not be configured more than once', async () => {
+  itLeaks('should not be configured more than once', async () => {
     const container = Container.from();
 
     await container.configure();
     return expect(container.configure()).to.eventually.be.rejectedWith(ContainerBoundError);
   });
 
-  itAsync('should be extended with some modules', async () => {
+  itLeaks('should be extended with some modules', async () => {
     class TestModule extends Module {
       public async configure() { /* noop */ }
     }
@@ -85,7 +86,7 @@ describeAsync('container', async () => {
     expect(extendedModules).to.include.members(extension);
   });
 
-  itAsync('should handle a module returning bad providers', async () => {
+  itLeaks('should handle a module returning bad providers', async () => {
     class TestModule extends Module {
       public async configure(options: ModuleOptions) {
         this.bind('d').toInstance({});
@@ -106,14 +107,14 @@ describeAsync('container', async () => {
     expect(container.create('d')).to.be.rejectedWith(InvalidProviderError);
   });
 
-  itAsync('should throw when no contract was passed', async () => {
+  itLeaks('should throw when no contract was passed', async () => {
     const container = Container.from();
     await container.configure();
 
     expect(container.create(null as any)).to.be.rejectedWith(BaseError);
   });
 
-  itAsync('should throw when the contract has no provider', async () => {
+  itLeaks('should throw when the contract has no provider', async () => {
     class TestModule extends Module {
       public async configure(options: ModuleOptions) {
         this.bind('c').toInstance({});
@@ -127,7 +128,7 @@ describeAsync('container', async () => {
     expect(container.create('d')).to.be.rejectedWith(MissingValueError);
   });
 
-  itAsync('should provide injected dependencies', async () => {
+  itLeaks('should provide injected dependencies', async () => {
     const ctorSpy = spy();
     const instance = {};
 
@@ -158,7 +159,7 @@ describeAsync('container', async () => {
     });
   });
 
-  itAsync('should inject named dependencies', async () => {
+  itLeaks('should inject named dependencies', async () => {
     interface FooOptions extends BaseOptions {
       foo: FooClass;
     }
@@ -187,7 +188,7 @@ describeAsync('container', async () => {
     expect(injected.foo).to.be.an.instanceof(FooClass);
   });
 
-  itAsync('should not look up dependencies passed in options', async () => {
+  itLeaks('should not look up dependencies passed in options', async () => {
     @Inject('foo', 'bar')
     class TestClass {
       public foo: any;
@@ -225,7 +226,7 @@ describeAsync('container', async () => {
     expect(injected.foo).to.equal(foo);
   });
 
-  itAsync('should log debug info', async () => {
+  itLeaks('should log debug info', async () => {
     const container = Container.from();
     const debugSpy = spy();
     await container.configure({
@@ -237,14 +238,14 @@ describeAsync('container', async () => {
     expect(debugSpy).to.have.callCount(1);
   });
 
-  itAsync('should throw on debug without logger', async () => {
+  itLeaks('should throw on debug without logger', async () => {
     const container = Container.from();
     expect(() => {
       container.debug();
     }).to.throw(LoggerNotFoundError);
   });
 
-  itAsync('should throw when a module is missing a provider', async () => {
+  itLeaks('should throw when a module is missing a provider', async () => {
     const module = ineeda<Module>({
       get() {
         return null;
@@ -255,7 +256,7 @@ describeAsync('container', async () => {
     return expect(container.provide(module, '', {}, [])).to.eventually.be.rejectedWith(MissingValueError);
   });
 
-  itAsync('should print debug logs', async () => {
+  itLeaks('should print debug logs', async () => {
     class TestModule extends Module {
       @Provides('foo')
       public async createFoo() {
@@ -263,7 +264,7 @@ describeAsync('container', async () => {
       }
     }
 
-    const logger = new NullLogger();
+    const logger = getTestLogger();
     spy(logger, 'debug');
 
     const module = new TestModule();
@@ -278,9 +279,9 @@ describeAsync('container', async () => {
   });
 });
 
-describeAsync('container decorators', async () => {
-  describeAsync('construct with', async () => {
-    itAsync('should attach a container', async () => {
+describeLeaks('container decorators', async () => {
+  describeLeaks('construct with', async () => {
+    itLeaks('should attach a container', async () => {
       const ctr = Container.from();
       await ctr.configure();
 
@@ -297,7 +298,7 @@ describeAsync('container decorators', async () => {
       expect(instance.container).to.equal(ctr);
     });
 
-    itAsync('should pass on any other options', async () => {
+    itLeaks('should pass on any other options', async () => {
       const ctr = Container.from();
       await ctr.configure();
 
@@ -318,7 +319,7 @@ describeAsync('container decorators', async () => {
       expect(instance.other).to.equal(TEST_STRING);
     });
 
-    itAsync('should pass on any other arguments', async () => {
+    itLeaks('should pass on any other arguments', async () => {
       const ctr = Container.from();
       await ctr.configure();
 
@@ -343,8 +344,8 @@ describeAsync('container decorators', async () => {
     });
   });
 
-  describeAsync('invoke with', async () => {
-    itAsync('should attach a container', async () => {
+  describeLeaks('invoke with', async () => {
+    itLeaks('should attach a container', async () => {
       const ctr = Container.from();
       await ctr.configure();
 
@@ -355,7 +356,7 @@ describeAsync('container decorators', async () => {
       expect(fn({})).to.equal(ctr);
     });
 
-    itAsync('should pass on any other options', async () => {
+    itLeaks('should pass on any other options', async () => {
       const ctr = Container.from();
       await ctr.configure();
 
@@ -368,7 +369,7 @@ describeAsync('container decorators', async () => {
       })).to.equal(TEST_STRING);
     });
 
-    itAsync('should pass on any other arguments', async () => {
+    itLeaks('should pass on any other arguments', async () => {
       const ctr = Container.from();
       await ctr.configure();
 

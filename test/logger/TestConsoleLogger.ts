@@ -2,11 +2,11 @@ import { expect } from 'chai';
 import { restore, spy } from 'sinon';
 
 import { ConsoleLogger } from '../../src/logger/ConsoleLogger';
-import { describeAsync } from '../helpers/async';
+import { describeLeaks } from '../helpers/async';
 
 /* tslint:disable:no-console no-unbound-method */
 
-describeAsync('console logger', async () => {
+describeLeaks('console logger', async () => {
   beforeEach(() => {
     spy(console, 'debug');
     spy(console, 'error');

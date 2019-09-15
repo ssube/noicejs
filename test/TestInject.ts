@@ -2,10 +2,10 @@ import { expect } from 'chai';
 
 import { BaseOptions, Container, DescriptorNotFoundError, Module } from '../src';
 import { getInject, Inject } from '../src/Inject';
-import { describeAsync, itAsync } from './helpers/async';
+import { describeLeaks, itLeaks } from './helpers/async';
 
-describeAsync('injection decorator', async () => {
-  itAsync('should attach dependencies', async () => {
+describeLeaks('injection decorator', async () => {
+  itLeaks('should attach dependencies', async () => {
     class FooClass { /* noop */ }
     const dep = {
       contract: FooClass,
@@ -18,13 +18,13 @@ describeAsync('injection decorator', async () => {
     expect(getInject(TestClass)).to.deep.equal([dep]);
   });
 
-  itAsync('should handle missing dependencies', async () => {
+  itLeaks('should handle missing dependencies', async () => {
     class TestClass { /* noop */ }
 
     expect(getInject(TestClass)).to.deep.equal([]);
   });
 
-  itAsync('should flatten dependencies', async () => {
+  itLeaks('should flatten dependencies', async () => {
     class FooClass { /* noop */ }
 
     @Inject(FooClass)
@@ -36,7 +36,7 @@ describeAsync('injection decorator', async () => {
     }]);
   });
 
-  itAsync('should look up the prototype chain', async () => {
+  itLeaks('should look up the prototype chain', async () => {
     @Inject('foo')
     class FooClass { /* noop */ }
 
@@ -48,7 +48,7 @@ describeAsync('injection decorator', async () => {
     expect(injected[0].name, 'first injected option should be from parent class').to.equal('foo');
   });
 
-  itAsync('should fail on missing properties', async () => {
+  itLeaks('should fail on missing properties', async () => {
     class TestClass { /* noop */ }
 
     expect(() => {
@@ -56,7 +56,7 @@ describeAsync('injection decorator', async () => {
     }).to.throw();
   });
 
-  itAsync('should work when applied to methods', async () => {
+  itLeaks('should work when applied to methods', async () => {
     class TestClass {
       public foo: string;
 
@@ -87,7 +87,7 @@ describeAsync('injection decorator', async () => {
     expect(foo.foo).to.equal('test');
   });
 
-  itAsync('cannot be applied to non-function properties', async () => {
+  itLeaks('cannot be applied to non-function properties', async () => {
     expect(() => {
       class TestClass {
         @Inject('foo')

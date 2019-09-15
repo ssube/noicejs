@@ -1,16 +1,17 @@
 import { expect } from 'chai';
 import { match, spy } from 'sinon';
 
-import { LoggerNotFoundError, NullLogger, Provides } from '../src';
+import { LoggerNotFoundError, Provides } from '../src';
 import { BaseOptions, Container } from '../src/Container';
 import { Module, ModuleOptions, ProviderType } from '../src/Module';
 import { isNil } from '../src/utils';
-import { describeAsync, itAsync } from './helpers/async';
+import { describeLeaks, itLeaks } from './helpers/async';
+import { getTestLogger } from './helpers/logger';
 
 /* tslint:disable:no-unbound-method */
 
-describeAsync('injection modules', async () => {
-  itAsync('should be extendable', async () => {
+describeLeaks('injection modules', async () => {
+  itLeaks('should be extendable', async () => {
     class TestModule extends Module {
       public async configure(options: ModuleOptions) { /* noop */ }
     }
@@ -25,7 +26,7 @@ describeAsync('injection modules', async () => {
     expect(module.configure).to.have.been.calledWithMatch(match.has('container', container));
   });
 
-  itAsync('should report bindings', async () => {
+  itLeaks('should report bindings', async () => {
     class TestModule extends Module {
       public async configure(options: ModuleOptions) {
         this.bind('a').toConstructor(TestModule);
@@ -44,7 +45,7 @@ describeAsync('injection modules', async () => {
     expect(module.has('d'), 'does not have').to.equal(false);
   });
 
-  itAsync('should get the same instance each time', async () => {
+  itLeaks('should get the same instance each time', async () => {
     class TestModule extends Module {
       public async configure(options: ModuleOptions) {
         this.bind('c').toInstance({});
@@ -61,7 +62,7 @@ describeAsync('injection modules', async () => {
     expect(check).to.equal(again);
   });
 
-  itAsync('should convert contract names', async () => {
+  itLeaks('should convert contract names', async () => {
     class TestClass { /* noop */ }
     class TestModule extends Module {
       public async configure(options: ModuleOptions) {
@@ -76,7 +77,7 @@ describeAsync('injection modules', async () => {
     expect(module.has(TestClass.name), 'has a constructor').to.equal(false);
   });
 
-  itAsync('should invoke complex factories', async () => {
+  itLeaks('should invoke complex factories', async () => {
     class TestInstance { }
     let instance: TestInstance;
 
@@ -111,7 +112,7 @@ describeAsync('injection modules', async () => {
     expect(ref, 'return the same instance').to.equal(await container.create('a'));
   });
 
-  itAsync('should invoke factories with the module scope', async () => {
+  itLeaks('should invoke factories with the module scope', async () => {
     let scope: Module | undefined;
     class TestModule extends Module {
       public async configure(options: ModuleOptions) {
@@ -132,12 +133,12 @@ describeAsync('injection modules', async () => {
     expect(scope).to.equal(module);
   });
 
-  itAsync('should print debug logs', async () => {
+  itLeaks('should print debug logs', async () => {
     class TestModule extends Module {
       public debug() { /* noop */ }
     }
 
-    const logger = new NullLogger();
+    const logger = getTestLogger();
     spy(logger, 'debug');
 
     const module = new TestModule();
@@ -153,7 +154,7 @@ describeAsync('injection modules', async () => {
     expect(module.debug).to.have.callCount(1);
   });
 
-  itAsync('should count provider methods', async () => {
+  itLeaks('should count provider methods', async () => {
     class TestModule extends Module {
       public async configure(options: BaseOptions) {
         await super.configure(options);
@@ -174,7 +175,7 @@ describeAsync('injection modules', async () => {
     expect(module.size).to.equal(2);
   });
 
-  itAsync('should throw if it has no logger', async () => {
+  itLeaks('should throw if it has no logger', async () => {
     class TestModule extends Module { }
 
     const module = new TestModule();

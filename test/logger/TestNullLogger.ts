@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import { restore, spy } from 'sinon';
 
 import { NullLogger } from '../../src/logger/NullLogger';
-import { describeAsync } from '../helpers/async';
+import { describeLeaks } from '../helpers/async';
 
-describeAsync('console logger', async () => {
+describeLeaks('console logger', async () => {
   beforeEach(() => {
     spy(console, 'debug');
     spy(console, 'error');

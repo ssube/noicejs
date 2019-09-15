@@ -4,16 +4,16 @@ import { Container } from '../../src/Container';
 import { Module } from '../../src/Module';
 import { getProvides, Provides } from '../../src/Provides';
 
-import { itAsync } from '../helpers/async';
+import { itLeaks } from '../helpers/async';
 
 /* tslint:disable:no-unbound-method */
 
 describe('provides decorator', () => {
-  itAsync('should return a function', async () => {
+  itLeaks('should return a function', async () => {
     expect(Provides()).to.be.a('function');
   });
 
-  itAsync('should register the method on the class', async () => {
+  itLeaks('should register the method on the class', async () => {
     class Target { }
     class TestModule extends Module {
       public foo() { /* noop */ }
@@ -25,7 +25,7 @@ describe('provides decorator', () => {
     expect(provides[0].contract).to.deep.equal(Target);
   });
 
-  itAsync('should work as a method decorator', async () => {
+  itLeaks('should work as a method decorator', async () => {
     class Target { }
     class TestModule extends Module {
       @Provides(Target)
