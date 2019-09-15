@@ -60,12 +60,16 @@ export function isConstructor(it: any): it is Constructor<any, any> {
   return typeof it === 'function';
 }
 
+export interface Dictionary<TValue> {
+  [key: string]: TValue;
+}
+
 /**
  * Base interface for all constructor options.
  *
  * @public
  */
-export interface BaseOptions {
+export interface BaseOptions extends Dictionary<unknown> {
   container: Container;
 }
 
@@ -242,21 +246,43 @@ export class Container implements ContainerOptions {
   }
 }
 
+export type WrappedConstructor<TInner, TOptions extends BaseOptions> = new (options: Omit<TOptions, 'container'>) => TInner;
 /**
  * Permanently attach a container to all instances of this class.
  *
  * @public
  */
-export function withContainer(container: Container) {
+export function constructWithContainer(container: Container) {
   return <TInner, TOptions extends BaseOptions>(target: Constructor<TInner, TOptions>): Constructor<TInner, TOptions> => {
     class WrappedTarget extends (target as Constructor<any, TOptions>) {
       constructor(options: TOptions, ...others: Array<unknown>) {
         super({
           ...options,
           container,
-         }, ...others);
+        }, ...others);
       }
     }
     return WrappedTarget as Constructor<TInner, TOptions>;
+  };
+}
+
+/**
+ * The required signature for a function to be invoked by the wrapper.
+ *
+ * @public
+ * @todo remove container from `options`
+ */
+export type InvokableFunction<TOptions, TReturn> = (options: TOptions, ...others: Array<unknown>) => TReturn;
+
+export function invokeWithContainer<TReturn, TOptions extends BaseOptions>(
+  container: Container,
+  target: InvokableFunction<TOptions, TReturn>
+): InvokableFunction<Omit<TOptions, 'container'>, TReturn> {
+  return function wrapper(this: unknown, options: Omit<TOptions, 'container'>, ...others: Array<unknown>): TReturn {
+    const completeOptions: BaseOptions = {
+      ...options,
+      container,
+    };
+    return target.apply(this, [completeOptions as TOptions, ...others]);
   };
 }

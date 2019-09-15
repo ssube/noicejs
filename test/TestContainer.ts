@@ -3,7 +3,7 @@ import { ineeda } from 'ineeda';
 import { spy } from 'sinon';
 
 import { LoggerNotFoundError } from '../src';
-import { BaseOptions, Container, Contract, withContainer } from '../src/Container';
+import { BaseOptions, constructWithContainer, Container, Contract, invokeWithContainer } from '../src/Container';
 import { BaseError } from '../src/error/BaseError';
 import { ContainerBoundError } from '../src/error/ContainerBoundError';
 import { ContainerNotBoundError } from '../src/error/ContainerNotBoundError';
@@ -17,7 +17,12 @@ import { describeAsync, itAsync } from './helpers/async';
 // @TODO: lint these tests properly :(
 /* tslint:disable:no-any no-big-function no-null-keyword no-unbound-method */
 
-const testModuleCount = 8; // the number of test modules to create
+interface SubOptions extends BaseOptions {
+  other: string;
+}
+
+const TEST_MODULE_COUNT = 8; // the number of test modules to create
+const TEST_STRING = 'test';
 
 describeAsync('container', async () => {
   itAsync('should configure modules', async () => {
@@ -39,7 +44,7 @@ describeAsync('container', async () => {
       public async configure() { /* noop */ }
     }
 
-    const modules = Array(testModuleCount).fill(null).map(() => new TestModule());
+    const modules = Array(TEST_MODULE_COUNT).fill(null).map(() => new TestModule());
     const container = Container.from(...modules);
 
     expect(container.getModules()).to.deep.equal(modules);
@@ -50,7 +55,7 @@ describeAsync('container', async () => {
       public async configure() { /* noop */ }
     }
 
-    const modules = Array(testModuleCount).fill(null).map(() => new TestModule());
+    const modules = Array(TEST_MODULE_COUNT).fill(null).map(() => new TestModule());
     const container = Container.from(...modules);
 
     return expect(container.create(TestModule)).to.eventually.be.rejectedWith(ContainerNotBoundError);
@@ -68,14 +73,14 @@ describeAsync('container', async () => {
       public async configure() { /* noop */ }
     }
 
-    const modules = Array(testModuleCount).fill(null).map(() => new TestModule());
+    const modules = Array(TEST_MODULE_COUNT).fill(null).map(() => new TestModule());
     const container = Container.from(...modules);
 
-    const extension = Array(testModuleCount).fill(null).map(() => new TestModule());
+    const extension = Array(TEST_MODULE_COUNT).fill(null).map(() => new TestModule());
     const extended = container.with(...extension);
 
     const extendedModules = extended.getModules();
-    expect(extendedModules.length).to.equal(testModuleCount * 2); // look ma, no magic numbers
+    expect(extendedModules.length).to.equal(TEST_MODULE_COUNT * 2); // look ma, no magic numbers
     expect(extendedModules).to.include.members(modules);
     expect(extendedModules).to.include.members(extension);
   });
@@ -159,12 +164,12 @@ describeAsync('container', async () => {
     }
     class FooClass { /* noop */ }
 
-    @Inject({contract: FooClass, name: 'foo'})
+    @Inject({ contract: FooClass, name: 'foo' })
     class TestClass {
       public readonly foo: FooClass;
 
       constructor(options: FooOptions) {
-        this.foo  = options.foo;
+        this.foo = options.foo;
       }
     }
 
@@ -251,21 +256,107 @@ describeAsync('container', async () => {
   });
 });
 
-describeAsync('with container decorator', async () => {
-  itAsync('should attach a container', async () => {
-    const ctr = Container.from();
-    await ctr.configure();
+describeAsync('container decorators', async () => {
+  describeAsync('construct with', async () => {
+    itAsync('should attach a container', async () => {
+      const ctr = Container.from();
+      await ctr.configure();
 
-    @withContainer(ctr)
-    class TestClass {
-      public readonly container: Container;
+      @constructWithContainer(ctr)
+      class TestClass {
+        public readonly container: Container;
 
-      constructor(options: BaseOptions) {
-        this.container = options.container;
+        constructor(options: BaseOptions) {
+          this.container = options.container;
+        }
       }
-    }
 
-    const instance = new TestClass({} as any);
-    expect(instance.container).to.equal(ctr);
+      const instance = new TestClass({} as any);
+      expect(instance.container).to.equal(ctr);
+    });
+
+    itAsync('should pass on any other options', async () => {
+      const ctr = Container.from();
+      await ctr.configure();
+
+      @constructWithContainer(ctr)
+      class TestClass {
+        public readonly container: Container;
+        public readonly other: string;
+
+        constructor(options: SubOptions) {
+          this.container = options.container;
+          this.other = options.other;
+        }
+      }
+
+      const instance = new TestClass({
+        other: TEST_STRING,
+      } as any);
+      expect(instance.other).to.equal(TEST_STRING);
+    });
+
+    itAsync('should pass on any other arguments', async () => {
+      const ctr = Container.from();
+      await ctr.configure();
+
+      @constructWithContainer(ctr)
+      class TestClass {
+        public readonly container: Container;
+        public readonly param1: any;
+        public readonly param2: any;
+
+        constructor(options: BaseOptions, param1: any, param2: any) {
+          this.container = options.container;
+          this.param1 = param1;
+          this.param2 = param2;
+        }
+      }
+
+      const arg1 = {};
+      const arg2 = {};
+      const instance = new TestClass({} as any, arg1, arg2);
+      expect(instance.param1).to.equal(arg1);
+      expect(instance.param2).to.equal(arg2);
+    });
+  });
+
+  describeAsync('invoke with', async () => {
+    itAsync('should attach a container', async () => {
+      const ctr = Container.from();
+      await ctr.configure();
+
+      const fn = invokeWithContainer(ctr, (options: BaseOptions) => {
+        return options.container;
+      });
+
+      expect(fn({})).to.equal(ctr);
+    });
+
+    itAsync('should pass on any other options', async () => {
+      const ctr = Container.from();
+      await ctr.configure();
+
+      const fn = invokeWithContainer(ctr, (options: SubOptions) => {
+        return options.other;
+      });
+
+      expect(fn({
+        other: TEST_STRING,
+      })).to.equal(TEST_STRING);
+    });
+
+    itAsync('should pass on any other arguments', async () => {
+      const ctr = Container.from();
+      await ctr.configure();
+
+      const fn = invokeWithContainer(ctr, (options: Partial<BaseOptions>, param1: any, param2: any) => {
+        return [param1, param2];
+      });
+
+      const arg1 = {};
+      const arg2 = {};
+      expect(fn({}, arg1, arg2)).to.deep.equal([arg1, arg2]);
+    });
   });
 });

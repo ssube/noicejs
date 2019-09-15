@@ -9,7 +9,7 @@ Base interface for all constructor options.
 <b>Signature:</b>
 
 ```typescript
-export interface BaseOptions 
+export interface BaseOptions extends Dictionary<unknown> 
 ```
 
 ## Properties
