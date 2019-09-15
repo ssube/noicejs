@@ -60,16 +60,12 @@ export function isConstructor(it: any): it is Constructor<any, any> {
   return typeof it === 'function';
 }
 
-export interface Dictionary<TValue> {
-  [key: string]: TValue;
-}
-
 /**
  * Base interface for all constructor options.
  *
  * @public
  */
-export interface BaseOptions extends Dictionary<unknown> {
+export interface BaseOptions {
   container: Container;
 }
 
