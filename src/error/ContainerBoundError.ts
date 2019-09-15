@@ -1,7 +1,7 @@
 import { BaseError } from './BaseError';
 
 /**
- * Container is already bound and cannot be bound again.
+ * Error indicating that this container is already bound and cannot be bound again.
  *
  * @public
  */

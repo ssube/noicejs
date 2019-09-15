@@ -4,7 +4,7 @@
 
 ## MissingValueError class
 
-A required value is missing.
+Error indicating that a required value is missing.
 
 <b>Signature:</b>
 

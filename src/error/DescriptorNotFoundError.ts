@@ -1,9 +1,7 @@
 import { BaseError } from './BaseError';
 
 /**
- * The decorator property has no descriptor on the decorator target.
- *
- * This should not normally occur and may be an artifact of syntax errors.
+ * Error indicating that the target descriptor could not be found on the decorator target.
  *
  * @public
  */

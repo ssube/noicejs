@@ -4,12 +4,12 @@
 
 ## LoggerNotFoundError class
 
-No logger has been registered for debugging.
+Error indicating that a debug method has been called, but no logger was registered for debugging.
 
 <b>Signature:</b>
 
 ```typescript
-export declare class LoggerNotFoundError extends BaseError 
+export declare class LoggerNotFoundError extends MissingValueError 
 ```
 
 ## Constructors

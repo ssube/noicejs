@@ -247,6 +247,7 @@ export class Container implements ContainerOptions {
 }
 
 export type WrappedConstructor<TInner, TOptions extends BaseOptions> = new (options: Omit<TOptions, 'container'>) => TInner;
+
 /**
  * Permanently attach a container to all instances of this class.
  *
@@ -274,6 +275,11 @@ export function constructWithContainer(container: Container) {
  */
 export type InvokableFunction<TOptions, TReturn> = (options: TOptions, ...others: Array<unknown>) => TReturn;
 
+/**
+ * Permanently attach a container to all invocations of this function.
+ *
+ * @public
+ */
 export function invokeWithContainer<TReturn, TOptions extends BaseOptions>(
   container: Container,
   target: InvokableFunction<TOptions, TReturn>

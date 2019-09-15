@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { ineeda } from 'ineeda';
 import { spy } from 'sinon';
 
-import { LoggerNotFoundError } from '../src';
+import { LoggerNotFoundError, NullLogger, Provides } from '../src';
 import { BaseOptions, constructWithContainer, Container, Contract, invokeWithContainer } from '../src/Container';
 import { BaseError } from '../src/error/BaseError';
 import { ContainerBoundError } from '../src/error/ContainerBoundError';
@@ -253,6 +253,28 @@ describeAsync('container', async () => {
     const container = Container.from(module);
 
     return expect(container.provide(module, '', {}, [])).to.eventually.be.rejectedWith(MissingValueError);
+  });
+
+  itAsync('should print debug logs', async () => {
+    class TestModule extends Module {
+      @Provides('foo')
+      public async createFoo() {
+        return {};
+      }
+    }
+
+    const logger = new NullLogger();
+    spy(logger, 'debug');
+
+    const module = new TestModule();
+    const container = Container.from(module);
+    await container.configure({
+      logger,
+    });
+    container.debug();
+    await container.create('foo');
+
+    expect(logger.debug).to.have.callCount(9);
   });
 });
 

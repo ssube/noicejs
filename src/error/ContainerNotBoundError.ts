@@ -1,7 +1,7 @@
 import { BaseError } from './BaseError';
 
 /**
- * Container is not bound yet and not ready to be used.
+ * Error indicating that this container is not bound yet and not ready to be used.
  *
  * @public
  */

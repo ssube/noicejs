@@ -1,4 +1,13 @@
-export { BaseOptions, Container, Contract, Constructor, contractName, isConstructor } from './Container';
+export {
+  BaseOptions,
+  Container,
+  Contract,
+  Constructor,
+  contractName,
+  isConstructor,
+  constructWithContainer,
+  invokeWithContainer,
+} from './Container';
 export { BaseError } from './error/BaseError';
 export { ContainerBoundError } from './error/ContainerBoundError';
 export { ContainerNotBoundError } from './error/ContainerNotBoundError';

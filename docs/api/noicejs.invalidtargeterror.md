@@ -4,7 +4,7 @@
 
 ## InvalidTargetError class
 
-The decorator target is not valid.
+Error indicating that the decorator target is not valid.
 
 <b>Signature:</b>
 

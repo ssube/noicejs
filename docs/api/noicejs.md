@@ -11,13 +11,13 @@
 |  [BaseError](./noicejs.baseerror.md) | Base class for typed errors, adding nested errors (causes) to the stack. |
 |  [ConsoleLogger](./noicejs.consolelogger.md) | Logger implementation using the console.<!-- -->Works in the browser or node. |
 |  [Container](./noicejs.container.md) | This is an exceptionally minimal DI container. |
-|  [ContainerBoundError](./noicejs.containerbounderror.md) | Container is already bound and cannot be bound again. |
-|  [ContainerNotBoundError](./noicejs.containernotbounderror.md) | Container is not bound yet and not ready to be used. |
-|  [DescriptorNotFoundError](./noicejs.descriptornotfounderror.md) | The decorator property has no descriptor on the decorator target.<!-- -->This should not normally occur and may be an artifact of syntax errors. |
-|  [InvalidProviderError](./noicejs.invalidprovidererror.md) | Container does not understand the provider it found.<!-- -->This should not normally occur, unless custom provider types are in use. |
-|  [InvalidTargetError](./noicejs.invalidtargeterror.md) | The decorator target is not valid. |
-|  [LoggerNotFoundError](./noicejs.loggernotfounderror.md) | No logger has been registered for debugging. |
-|  [MissingValueError](./noicejs.missingvalueerror.md) | A required value is missing. |
+|  [ContainerBoundError](./noicejs.containerbounderror.md) | Error indicating that this container is already bound and cannot be bound again. |
+|  [ContainerNotBoundError](./noicejs.containernotbounderror.md) | Error indicating that this container is not bound yet and not ready to be used. |
+|  [DescriptorNotFoundError](./noicejs.descriptornotfounderror.md) | Error indicating that the target descriptor could not be found on the decorator target. |
+|  [InvalidProviderError](./noicejs.invalidprovidererror.md) | Error indicating that the container was able to find a provider, but did not understand the provider type and could not use it to fulfill the dependency.<!-- -->This should not normally occur, unless custom provider types are in use. |
+|  [InvalidTargetError](./noicejs.invalidtargeterror.md) | Error indicating that the decorator target is not valid. |
+|  [LoggerNotFoundError](./noicejs.loggernotfounderror.md) | Error indicating that a debug method has been called, but no logger was registered for debugging. |
+|  [MissingValueError](./noicejs.missingvalueerror.md) | Error indicating that a required value is missing. |
 |  [Module](./noicejs.module.md) | Provides a set of dependencies, bound in the <code>configure</code> method. |
 |  [NullLogger](./noicejs.nulllogger.md) | Logger implementation that consumes input and produces no output. |
 
@@ -31,10 +31,12 @@
 
 |  Function | Description |
 |  --- | --- |
+|  [constructWithContainer(container)](./noicejs.constructwithcontainer.md) | Permanently attach a container to all instances of this class. |
 |  [contractName(c)](./noicejs.contractname.md) | Get the standard name for a contract (usually a constructor).<!-- -->This accepts strings and symbols, so if a function is not provably a constructor, simply pass the name. |
 |  [getInject(target)](./noicejs.getinject.md) | Get attached dependencies. |
 |  [getProvides(target)](./noicejs.getprovides.md) | Get dependencies provided by this previously-decorated target. |
 |  [Inject(needs)](./noicejs.inject.md) | Injection decorator for classes. |
+|  [invokeWithContainer(container, target)](./noicejs.invokewithcontainer.md) | Permanently attach a container to all invocations of this function. |
 |  [isConstructor(it)](./noicejs.isconstructor.md) | Typeguard for constructors. Only really validates that <code>it</code> is a function. |
 |  [logWithLevel(logger, level, options, msg)](./noicejs.logwithlevel.md) | Switch helper to invoke log methods based on variable log level. Dispatches a call to the appropriate log level method. |
 |  [Provides(provides)](./noicejs.provides.md) | Decorator for methods that can resolve or provide some dependency. |

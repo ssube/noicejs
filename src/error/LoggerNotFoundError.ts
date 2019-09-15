@@ -1,11 +1,11 @@
-import { BaseError } from './BaseError';
+import { MissingValueError } from './MissingValueError';
 
 /**
- * No logger has been registered for debugging.
+ * Error indicating that a debug method has been called, but no logger was registered for debugging.
  *
  * @public
  */
-export class LoggerNotFoundError extends BaseError {
+export class LoggerNotFoundError extends MissingValueError {
   constructor(msg = 'logger not found', ...nested: Array<Error>) {
     super(msg, ...nested);
   }

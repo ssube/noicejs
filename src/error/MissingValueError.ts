@@ -1,7 +1,7 @@
 import { BaseError } from './BaseError';
 
 /**
- * A required value is missing.
+ * Error indicating that a required value is missing.
  *
  * @public
  */

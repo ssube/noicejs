@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { isNil } from 'lodash';
 import { match, spy } from 'sinon';
 
+import { NullLogger, Provides } from '../src';
 import { BaseOptions, Container } from '../src/Container';
 import { Module, ModuleOptions, ProviderType } from '../src/Module';
 import { describeAsync, itAsync } from './helpers/async';
@@ -129,5 +130,47 @@ describeAsync('injection modules', async () => {
     await container.create('test');
 
     expect(scope).to.equal(module);
+  });
+
+  itAsync('should print debug logs', async () => {
+    class TestModule extends Module {
+      public debug() { /* noop */ }
+    }
+
+    const logger = new NullLogger();
+    spy(logger, 'debug');
+
+    const module = new TestModule();
+    spy(module, 'debug');
+
+    const container = Container.from(module);
+    await container.configure({
+      logger,
+    });
+    container.debug();
+
+    expect(logger.debug).to.have.callCount(2);
+    expect(module.debug).to.have.callCount(1);
+  });
+
+  itAsync('should count provider methods', async () => {
+    class TestModule extends Module {
+      public async configure(options: BaseOptions) {
+        await super.configure(options);
+
+        this.bind('foo').toInstance({});
+      }
+
+      @Provides('bar')
+      public async counted() {
+        /* noop */
+      }
+    }
+
+    const module = new TestModule();
+    const container = Container.from(module);
+    await container.configure();
+
+    expect(module.size).to.equal(2);
   });
 });
