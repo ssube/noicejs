@@ -14,6 +14,7 @@ out/*.db
 out/*.html
 out/*.json
 out/test-*
+out/tmp/
 scripts/
 src/
 temp/
@@ -21,6 +22,7 @@ test/
 vendor/
 
 .codeclimate.yml
+.dockerignore
 .gitlab-ci.yml
 .gitmodules
 .mdlrc
@@ -28,5 +30,6 @@ vendor/
 Dockerfile
 licensed.yml
 Makefile
+renovate.json
 tsconfig.json
 yarn-*
