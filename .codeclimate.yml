@@ -1,8 +1,8 @@
 version: "2"
 
 exclude_patterns:
+  - docs/api/
   - src/migration/
-  - test/old/
   - vendor/
 
 plugins:

@@ -4,8 +4,6 @@ import sinonChai from 'sinon-chai';
 
 /**
  * This will break the whole test run if any test leaks an unhandled rejection.
- *
- * To ensure only a single test breaks, make sure to wrap each test with the `handleRejection` helper.
  */
 process.on('unhandledRejection', (reason, promise) => {
   // tslint:disable-next-line:no-console

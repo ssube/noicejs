@@ -1,21 +1,9 @@
 # Git
 export GIT_BRANCH ?= $(shell git rev-parse --abbrev-ref HEAD)
 export GIT_COMMIT ?= $(shell git rev-parse HEAD)
-export GIT_REMOTES ?= $(shell git remote -v | awk '{ print $1; }' | sort | uniq)
 export GIT_OPTIONS ?=
-
-# CI
-export CI_COMMIT_REF_SLUG ?= $(GIT_BRANCH)
-export CI_COMMIT_SHA ?= $(GIT_COMMIT)
-export CI_ENVIRONMENT_SLUG ?= local
-export CI_JOB_ID ?= 0
-export CI_RUNNER_DESCRIPTION ?= $(shell hostname)
-export CI_RUNNER_ID ?= $(shell hostname)
-export CI_RUNNER_VERSION ?= 0.0.0
-
-# Debug
-export DEBUG_BIND ?= 127.0.0.1
-export DEBUG_PORT ?= 9229
+export GIT_REMOTES ?= $(shell git remote -v | awk '{ print $1; }' | sort | uniq)
+export GIT_TAG ?= $(shell git tag -l --points-at HEAD | head -1)
 
 # Paths
 # resolve the makefile's path and directory, from https://stackoverflow.com/a/18137056
@@ -31,6 +19,26 @@ export TARGET_MAIN 	?= $(TARGET_PATH)/main-bundle.js
 export TEST_PATH		?= $(ROOT_PATH)/test
 export VENDOR_PATH	?= $(ROOT_PATH)/vendor
 
+# CI
+export CI_COMMIT_REF_SLUG ?= $(GIT_BRANCH)
+export CI_COMMIT_SHA ?= $(GIT_COMMIT)
+export CI_COMMIT_TAG ?= $(GIT_TAG)
+export CI_ENVIRONMENT_SLUG ?= local
+export CI_JOB_ID ?= 0
+export CI_PROJECT_PATH ?= $(shell ROOT_PATH=$(ROOT_PATH) ${SCRIPT_PATH}/ci-project-path.sh)
+export CI_RUNNER_DESCRIPTION ?= $(shell hostname)
+export CI_RUNNER_ID ?= $(shell hostname)
+export CI_RUNNER_VERSION ?= 0.0.0
+
+# Debug
+export DEBUG_BIND ?= 127.0.0.1
+export DEBUG_PORT ?= 9229
+
+# Versions
+export NODE_VERSION		:= $(shell node -v || echo "none")
+export RUNNER_VERSION  := $(CI_RUNNER_VERSION)
+
+
 # Node options
 NODE_BIN := $(ROOT_PATH)/node_modules/.bin
 NODE_CMD ?= $(shell env node)
@@ -38,17 +46,13 @@ NODE_DEBUG ?= --inspect-brk=$(DEBUG_BIND):$(DEBUG_PORT) --nolazy
 NODE_INFO := $(shell node -v)
 
 # Tool options
-BUNDLE_OPTS	?= --config "$(CONFIG_PATH)/webpack.js" --display-optimization-bailout --display-error-details
-COVER_CHECK ?= --check-coverage --branches 90 --functions 100 --lines 95 --statements 95 	# increase this every so often
 COVER_OPTS	?= --reporter=lcov --reporter=text-summary --reporter=html --report-dir="$(TARGET_PATH)/coverage" --exclude-after-remap
-DOCS_OPTS		?= --exclude "test.+" --tsconfig "$(CONFIG_PATH)/tsconfig.json" --out "$(TARGET_PATH)/docs"
-MOCHA_MULTI ?= --reporter mocha-multi --reporter-options json="$(TARGET_PATH)/mocha.json",spec
 MOCHA_OPTS  ?= --check-leaks --colors --sort --ui bdd
 RELEASE_OPTS ?= --commit-all
 
-# Versions
-export NODE_VERSION		:= $(shell node -v)
-export RUNNER_VERSION  := $(CI_RUNNER_VERSION)
+.PHONY: all clean clean-deps clean-target configure help todo
+.PHONY: build build-bundle build-docs build-image test test-check test-cover test-watch
+.PHONY: yarn-install yarn-upgrade git-push git-stats license-check release release-dry upload-climate upload-codecov
 
 all: build test ## builds, bundles, and tests the application
 	@echo Success!
@@ -96,6 +100,9 @@ build-bundle: node_modules
 build-docs: ## generate html docs
 	$(NODE_BIN)/api-extractor run --config $(CONFIG_PATH)/api-extractor.json --local -v
 	$(NODE_BIN)/api-documenter markdown -i $(TARGET_PATH)/api -o $(DOCS_PATH)/api
+
+build-image: ## build a docker image
+	$(SCRIPT_PATH)/docker-build.sh
 
 test: ## run mocha unit tests
 test: test-cover
