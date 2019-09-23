@@ -1,6 +1,7 @@
 version: "2"
 
 exclude_patterns:
+  - CHANGELOG.md
   - docs/api/
   - src/migration/
   - vendor/
