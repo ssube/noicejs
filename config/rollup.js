@@ -9,7 +9,6 @@ import typescript from 'rollup-plugin-typescript2';
 
 const metadata = require('../package.json');
 const namedExports = require('./rollup-named.json');
-const shebang = '#! /usr/bin/env node\n\n';
 
 const rootPath = process.env['ROOT_PATH'];
 const targetPath = process.env['TARGET_PATH'];
@@ -48,9 +47,6 @@ const bundle = {
 		entryFileNames: 'entry-[name].js',
 		format: 'cjs',
 		sourcemap: true,
-		banner: () => {
-			return ''; // @TODO: return shebang for executable scripts
-		},
 	},
 	plugins: [
 		multiEntry(),
