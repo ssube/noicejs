@@ -8,10 +8,10 @@ IMAGE_FULL="${IMAGE_NAME}:${IMAGE_TAG}"
 
 echo "Building image: ${IMAGE_FULL}"
 
-docker build -t ${IMAGE_FULL} .
+docker build -t "${IMAGE_FULL}" .
 
 if [[ "${IMAGE_PUSH}" == "--push" ]];
 then
   echo "Pushing image: ${IMAGE_FULL}"
-  docker push ${IMAGE_FULL}
+  docker push "${IMAGE_FULL}"
 fi
