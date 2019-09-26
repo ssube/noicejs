@@ -3,8 +3,8 @@
   "version": "3.0.0-4",
   "description": "extremely thin dependency injection",
   "main": "out/main.js",
-  "types": "out/noicejs.d.ts",
-  "typings": "out/noicejs.d.ts",
+  "types": "out/index.d.ts",
+  "typings": "out/index.d.ts",
   "scripts": {
     "build": "make build",
     "test": "make test"
