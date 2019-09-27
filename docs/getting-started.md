@@ -1,5 +1,84 @@
 # Getting Started
 
+## Why Inject Dependencies
+
+This is a very brief explanation of what dependency injection does and how it may be useful. There is a tremendous
+amount of existing literature that goes into far more detail on the topic. If you are looking for more information,
+some good places to start are:
+
+- https://testing.googleblog.com/2009/01/when-to-use-dependency-injection.html
+- https://softwareengineering.stackexchange.com/a/381410
+- https://github.com/google/guice/wiki/Motivation
+- https://en.wikipedia.org/wiki/Dependency_injection#Overview
+
+The resolution performed by the container removes the need for the consumer to be aware of, or pass, dependencies
+to the service. The service can change dependencies without any code changes to the consumer.
+
+Compare the following examples:
+
+```typescript
+import { LocalFilesystem } from './filesystem/Local';
+
+class Foo {
+  constructor(options) {
+    const {
+      filesystem,
+    } = options;
+
+    this.data = filesystem.read(options.path);
+  }
+}
+
+function main() {
+  const foo = new Foo({
+    filesystem: LocalFilesystem, /* must be passed here */
+  });
+}
+
+function later() {
+  const bar = new Foo({
+    filesystem: LocalFilesystem, /* must be passed again */
+  });
+}
+```
+
+Every time a `new Foo` is created, the correct filesystem must be passed to it. If the filesystem changes,
+due to a config setting or environment variable, each instance must be replaced with a function call or variable
+to access that configuration, repeatedly invoking that logic in each location.
+
+With dependency injection, implementations with a similar theme can be grouped in a module, and the module
+replaced as a whole.
+
+```typescript
+import { Cache, Filesystem } from './interfaces';
+import { LocalCache, LocalFilesystem } from './local';
+import { NetworkCache, NetworkFilesystem } from './network';
+
+@Inject(Cache, Filesystem)
+class Foo {
+  constructor(options) {
+    this.data = options.cache.get(options.path) || options.filesystem.get(options.path);
+  }
+}
+
+function main() {
+  const local = process.env['DEBUG'] === 'TRUE';
+
+  // @TODO: rewrite this without ternaries
+  const container = Container.from(new MapModule({
+    cache: local ? LocalCache : NetworkCache,
+    filesystem: local ? LocalFilesystem : NetworkFilesystem,
+  }));
+  await container.configure();
+
+  const foo = await container.create(Foo); /* cache and filesystem are found and injected by container */
+}
+```
+
+More technically, dependency injection inverts the chain of control between a class and its dependencies, by
+transferring responsibility for providing those dependencies to a container which discovers and resolves dependencies
+before injecting them into the original class.
+
 ## Setup
 
 Install noicejs with your package manager of choice:
