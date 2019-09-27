@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { ineeda } from 'ineeda';
 import { spy } from 'sinon';
 
-import { LoggerNotFoundError, Provides } from '../src';
+import { LoggerNotFoundError, Provides, NullLogger } from '../src';
 import { BaseOptions, constructWithContainer, Container, Contract, invokeWithContainer } from '../src/Container';
 import { BaseError } from '../src/error/BaseError';
 import { ContainerBoundError } from '../src/error/ContainerBoundError';
@@ -418,7 +418,7 @@ describeLeaks('container', async () => {
       }
     }
 
-    expect(ctr.create(FailingConsumer)).to.eventually.be.rejectedWith(MissingValueError);
+    return expect(ctr.create(FailingConsumer)).to.eventually.be.rejectedWith(MissingValueError);
   });
 
   itLeaks('should throw on debug without logger', async () => {
@@ -459,6 +459,46 @@ describeLeaks('container', async () => {
     await container.create('foo');
 
     expect(logger.debug).to.have.callCount(9);
+  });
+
+  itLeaks('should resolve dependencies by contract', async () => {
+    const foo = {};
+    const fooSymbol = Symbol('foo');
+    class FooModule extends Module {
+      @Provides(fooSymbol)
+      public async createFoo() {
+        return foo;
+      }
+    }
+
+    const logger = getTestLogger();
+    spy(logger, 'debug');
+
+    const module = new FooModule();
+    const container = Container.from(module);
+    await container.configure({
+      logger,
+    });
+
+    expect(await container.create(fooSymbol)).to.equal(foo);
+  });
+
+  itLeaks('should fail and throw with a logger', async () => {
+    @Inject('foo')
+    class Bar {}
+
+    const container = Container.from();
+    await container.configure({
+      logger: NullLogger.global,
+    });
+
+    const module = ineeda<Module>({
+      get(contract: Contract<unknown, BaseOptions>) {
+        return undefined;
+      }
+    })
+
+    return expect(container.provide(module, Bar, {}, [])).to.eventually.be.rejectedWith(MissingValueError);
   });
 });
 

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import { BaseOptions, Container, DescriptorNotFoundError, Module } from '../src';
-import { getInject, Inject } from '../src/Inject';
+import { BaseOptions, Container, DescriptorNotFoundError, InvalidTargetError, Module } from '../src';
+import { getInject, Inject, injectionSymbol } from '../src/Inject';
 import { describeLeaks, itLeaks } from './helpers/async';
 
 describeLeaks('inject decorator', async () => {
@@ -125,5 +125,21 @@ describeLeaks('inject decorator', async () => {
       const foo = new TestClass();
       expect(foo).to.equal(undefined);
     }).to.throw(DescriptorNotFoundError);
+  });
+
+  itLeaks('should throw when used on a property', async () => {
+    const foo = {
+      a: 1,
+    };
+
+    expect(() => {
+      Inject('bar')(foo, 'a');
+    }).to.throw(InvalidTargetError);
+  });
+
+  itLeaks('should return an empty array on undecorated classes', async () => {
+    class Foo {}
+    Reflect.set(Foo, injectionSymbol, {});
+    expect(getInject(Foo)).to.deep.equal([]);
   });
 });
