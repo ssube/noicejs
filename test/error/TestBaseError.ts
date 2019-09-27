@@ -15,4 +15,18 @@ describe('base error', () => {
     expect(err.cause()).to.equal(inner);
     expect(err.length).to.equal(1);
   });
+
+  it('should work when the base error does not have a stack', () => {
+    class EmptyError extends BaseError {
+      public stack: string | undefined;
+
+      constructor(msg: string) {
+        super(msg);
+        this.stack = undefined;
+      }
+    }
+
+    const nextError = new BaseError('empty error', new EmptyError('also empty'));
+    expect(nextError.stack).not.to.include('also empty');
+  })
 });
