@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { ineeda } from 'ineeda';
 import { spy } from 'sinon';
 
-import { LoggerNotFoundError, Provides, NullLogger } from '../src';
+import { LoggerNotFoundError, NullLogger, Provides } from '../src';
 import { BaseOptions, constructWithContainer, Container, Contract, invokeWithContainer } from '../src/Container';
 import { BaseError } from '../src/error/BaseError';
 import { ContainerBoundError } from '../src/error/ContainerBoundError';
@@ -496,7 +496,7 @@ describeLeaks('container', async () => {
       get(contract: Contract<unknown, BaseOptions>) {
         return undefined;
       }
-    })
+    });
 
     return expect(container.provide(module, Bar, {}, [])).to.eventually.be.rejectedWith(MissingValueError);
   });

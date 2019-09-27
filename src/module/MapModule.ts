@@ -3,8 +3,8 @@ import { Module, ModuleOptions } from '../Module';
 
 export type ProviderValue<TReturn> = TReturn | Constructor<TReturn, BaseOptions>;
 export type ProviderMap<TReturn, TOptions extends BaseOptions> = Map<Contract<TReturn, TOptions>, ProviderValue<TReturn>>;
-export type ProviderMapLike = ProviderMap<any, BaseOptions> | {
-  [key: string]: ProviderValue<any>;
+export type ProviderMapLike = ProviderMap<unknown, BaseOptions> | {
+  [key: string]: ProviderValue<unknown>;
 };
 
 export interface MapModuleOptions {
