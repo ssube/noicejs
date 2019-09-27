@@ -141,7 +141,7 @@ export abstract class Module implements ModuleOptions {
   public bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: ProviderType.Factory, value: Factory<I>): this;
   public bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: ProviderType.Instance, value: I): this;
   public bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: ProviderType.None): this;
-  public bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: any, value?: any): this {
+  public bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: ProviderType, value?: any): this {
     const name = contractName(contract);
 
     if (this.logger !== undefined) {
