@@ -1,6 +1,6 @@
 # noicejs
 
-Extremely thin dependency injection. (v2: now with async!)
+Extremely thin async dependency injection, now with [a getting started guide](docs/getting-started.md).
 
 Inspired by [Google's Guice library](https://github.com/google/guice) and written in
 [Typescript](https://www.typescriptlang.org/).
