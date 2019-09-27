@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-5](https://github.com/ssube/noicejs/compare/v3.0.0-4...v3.0.0-5) (2019-09-27)
+
+
+### Bug Fixes
+
+* **build:** switch to custom docker images with build tools ([0b163d8](https://github.com/ssube/noicejs/commit/0b163d8))
+* **build:** use template typedef in package ([7a2b355](https://github.com/ssube/noicejs/commit/7a2b355))
+
+
+### Features
+
+* **build:** adopt rollup-template ([3976d82](https://github.com/ssube/noicejs/commit/3976d82))
+
 ## [3.0.0-4](https://github.com/ssube/noicejs/compare/v3.0.0-3...v3.0.0-4) (2019-09-15)
 
 
