@@ -17,7 +17,7 @@ to the service. The service can change dependencies without any code changes to 
 Compare the following examples:
 
 ```typescript
-import { LocalFilesystem } from './filesystem/Local';
+import { LocalFilesystem } from './local';
 
 class Foo {
   constructor(options) {
@@ -126,7 +126,7 @@ async function main() {
 However, this container will not be able to create instances of a class that does have dependencies:
 
 ```typescript
-import { Container } from 'noicejs';
+import { Container, Inject } from 'noicejs';
 
 @Inject('foo')
 class Bar { }
@@ -141,6 +141,31 @@ async function main() {
     console.error(err);
     // prints: TODO
   }
+}
+```
+
+Registering a module that provides some dependencies will allow the container to resolve them:
+
+```typescript
+import { Container, Inject, MapModule } from 'noicejs';
+
+@Inject('foo')
+class Bar {
+  constructor(options) {
+    console.log(options.foo);
+  }
+}
+
+async function main() {
+  const container = Container.from(new MapModule({
+    providers: {
+      foo: 3,
+    },
+  }));
+  await container.configure();
+
+  const bar = await container.create(Bar);
+  // prints: 3
 }
 ```
 
