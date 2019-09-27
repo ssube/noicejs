@@ -8,8 +8,8 @@ describeLeaks('map module', async () => {
   itLeaks('should treat primitives as instances', async () => {
     const module = new MapModule({
       providers: {
-        'bar': 3,
-        'foo': '1',
+        bar: 3,
+        foo: '1',
       },
     });
 
@@ -27,8 +27,8 @@ describeLeaks('map module', async () => {
     class Foo { }
     const module = new MapModule({
       providers: {
-        'bar': Bar,
-        'foo': Foo,
+        bar: Bar,
+        foo: Foo,
       },
     });
 
@@ -62,8 +62,8 @@ describeLeaks('map module', async () => {
   itLeaks('should convert dicts', async () => {
     const module = new MapModule({
       providers: {
-        'bar': 3,
-        'foo': '1',
+        bar: 3,
+        foo: '1',
       },
     });
 
@@ -79,7 +79,7 @@ describeLeaks('map module', async () => {
   itLeaks('should work without a logger', async () => {
     const module = new MapModule({
       providers: {
-        'foo': 3,
+        foo: 3,
       },
     });
     const container = Container.from(module);

@@ -28,5 +28,5 @@ describe('base error', () => {
 
     const nextError = new BaseError('empty error', new EmptyError('also empty'));
     expect(nextError.stack).not.to.include('also empty');
-  })
+  });
 });
