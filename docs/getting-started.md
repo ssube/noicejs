@@ -73,12 +73,12 @@ a small set of dependencies with a common theme.
 Modules bind most of their dependencies during configuration:
 
 ```typescript
-import { Module, ModuleOptions } from 'noicejs';
+import { Module } from 'noicejs';
 
 class NetworkThing {}
 
 class NetworkModule extends Module {
-  public async configure(options: ModuleOptions) {
+  public async configure(options) {
     await super.configure(options);
 
     this.bind('foo').toConstructor(NetworkThing);
@@ -130,3 +130,67 @@ async function main() {
 
 The decorator is optional and classes may be annotated manually instead, dependencies are a
 constructor property using a particular `symbol`.
+
+## Providing a Dependency
+
+Modules can provide a few different kinds of dependencies:
+
+- constructor
+- factory
+- instance
+
+While constructors are created when needed and factories are invoked, instances are simply
+returned as they were provided and are the closest equivalent to a traditional singleton that
+can exist within DI.
+
+```typescript
+import { Container, Inject, Module } from 'noicejs';
+
+class RandomModule extends Module {
+  public async configure(options) {
+    await super.configure(options);
+
+    this.bind('foo').toFactory(() => Math.random());
+    this.bind('bar').toInstance(3);
+  }
+}
+
+@Inject('foo', 'bar')
+class FooBar {
+  constructor(options) {
+    console.log(options.foo, options.bar);
+  }
+}
+
+async function main() {
+  const container = Container.from(new RandomModule());
+  await container.configure();
+
+  const foobar = await container.create(FooBar);
+  // prints: N, 3
+}
+```
+
+When the factory implementation fits better in a method, that method can be decorated as
+a provider:
+
+```typescript
+import { Container, Inject, Module } from 'noicejs';
+
+class RandomModule extends Module {
+  public async configure(options) {
+    await super.configure(options);
+
+    this.bind('bar').toInstance(3);
+  }
+
+  @Provides('foo')
+  public async createFoo(options) {
+    return Math.random();
+  }
+}
+```
+
+This module's provider method is equivalent to the previous `toFactory` binding. As before, the
+decorator is optional and attaches metadata to the method function with a symbol. There are not
+decorators for constructor or instance bindings, since they fit well in the fluent form.
