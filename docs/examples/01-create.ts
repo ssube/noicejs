@@ -1,12 +1,12 @@
 import { Container } from 'noicejs';
 
+class Foo { }
+
 async function main() {
   const container = Container.from();
   await container.configure();
 
-  class Foo { }
   const foo = await container.create(Foo);
-
   console.log(foo instanceof Foo);
   // prints: true
 }

@@ -32,13 +32,13 @@ classes without dependencies:
 ```typescript
 import { Container } from 'noicejs';
 
+class Foo { }
+
 async function main() {
   const container = Container.from();
   await container.configure();
 
-  class Foo { }
   const foo = await container.create(Foo);
-
   console.log(foo instanceof Foo);
   // prints: true
 }
@@ -49,12 +49,12 @@ However, this container will not be able to create instances of a class that doe
 ```typescript
 import { Container } from 'noicejs';
 
+@Inject('foo')
+class Bar { }
+
 async function main() {
   const container = Container.from();
   await container.configure();
-
-  @Inject('foo')
-  class Bar { }
 
   try {
     const bar = await container.create(Bar);
