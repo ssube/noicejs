@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-6](https://github.com/ssube/noicejs/compare/v3.0.0-5...v3.0.0-6) (2019-09-27)
+
+
+### Bug Fixes
+
+* **build:** disable line lengths in markdownlint ([38b89df](https://github.com/ssube/noicejs/commit/38b89df))
+* **docs:** add preface to getting started ([e71f445](https://github.com/ssube/noicejs/commit/e71f445))
+* **docs:** declare classes at module scope ([1565076](https://github.com/ssube/noicejs/commit/1565076))
+* **docs:** use map module in getting started ([5d041e5](https://github.com/ssube/noicejs/commit/5d041e5))
+* **tests:** improve coverage ([9752051](https://github.com/ssube/noicejs/commit/9752051))
+
+
+### Features
+
+* add map module for simpler setup (fixes [#102](https://github.com/ssube/noicejs/issues/102)) ([e6e63c5](https://github.com/ssube/noicejs/commit/e6e63c5))
+* **docs:** add basic getting started ([8906c4d](https://github.com/ssube/noicejs/commit/8906c4d))
+* **docs:** begin adding examples ([395039d](https://github.com/ssube/noicejs/commit/395039d))
+* **docs:** explain provider types and decorator ([f7c272c](https://github.com/ssube/noicejs/commit/f7c272c))
+
 ## [3.0.0-5](https://github.com/ssube/noicejs/compare/v3.0.0-4...v3.0.0-5) (2019-09-27)
 
 
