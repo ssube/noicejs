@@ -197,6 +197,27 @@ async function main() {
 }
 ```
 
+While many of these examples use named dependencies for semantic meaning, constructors and symbols are also
+allowed. Symbols are the most unique and can be used in a relatively type-safe manner by declaring an interface
+of available symbols:
+
+```typescript
+import { BaseOptions, Container, Inject } from 'noicejs';
+import { Cache } from './interfaces';
+
+const INJECT_CACHE = Symbol('inject-cache');
+interface InjectedOptions extends BaseOptions {
+  [INJECT_CACHE]?: Cache; // these may not be injected and so should be optional
+}
+
+@Inject(Cache)
+class Foo {
+  constructor(options: InjectedOptions) {
+    this.cache = mustExist(options[INJECT_CACHE]); // throw if required dependencies are missing
+  }
+}
+```
+
 ## Extending a Module
 
 In order to resolve a dependency, one of the modules within the container needs to provide it. Modules represent
