@@ -51,8 +51,8 @@ replaced as a whole.
 
 ```typescript
 import { Cache, Filesystem } from './interfaces';
-import { LocalCache, LocalFilesystem } from './local';
-import { NetworkCache, NetworkFilesystem } from './network';
+import { LocalModule } from './local';
+import { NetworkModule } from './network';
 
 @Inject(Cache, Filesystem)
 class Foo {
@@ -63,17 +63,17 @@ class Foo {
 
 function main() {
   const local = process.env['DEBUG'] === 'TRUE';
-
   // @TODO: rewrite this without ternaries
-  const container = Container.from(new MapModule({
-    cache: local ? LocalCache : NetworkCache,
-    filesystem: local ? LocalFilesystem : NetworkFilesystem,
-  }));
+  const container = Container.from(local ? new LocalModule() : new NetworkModule());
   await container.configure();
 
   const foo = await container.create(Foo); /* cache and filesystem are found and injected by container */
 }
 ```
+
+Neither `Foo` nor `main` knows what kind of `Cache` the `LocalModule` provides or what kind of `Filesystem` the
+`NetworkModule` provides, nor do they care. The container resolves and injects the correct implementation as
+needed and the application logic moves to providing the correct modules for the current configuration.
 
 More technically, dependency injection inverts the chain of control between a class and its dependencies, by
 transferring responsibility for providing those dependencies to a container which discovers and resolves dependencies
