@@ -11,6 +11,7 @@
     "enabled": true,
     "apiJsonFilePath": "<projectFolder>/out/api/<unscopedPackageName>.api.json"
   },
+
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "<projectFolder>/out/index.d.ts",

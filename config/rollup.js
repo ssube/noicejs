@@ -6,6 +6,7 @@ import replace from 'rollup-plugin-replace';
 import resolve from 'rollup-plugin-node-resolve';
 import tslint from 'rollup-plugin-tslint';
 import typescript from 'rollup-plugin-typescript2';
+import yaml from 'rollup-plugin-yaml';
 
 const metadata = require('../package.json');
 const namedExports = require('./rollup-named.json');
@@ -51,6 +52,7 @@ const bundle = {
 	plugins: [
 		multiEntry(),
 		json(),
+		yaml(),
 		replace({
 			delimiters: ['{{ ', ' }}'],
 			values: {
@@ -71,6 +73,12 @@ const bundle = {
 		}),
 		tslint({
 			configuration: require('./tslint.json'),
+			exclude: [
+				`node_modules${sep}**`,
+				`src${sep}resource`,
+				`src${sep}**${sep}*.json`,
+				`src${sep}**${sep}*.yml`,
+			],
 			throwOnError: true,
 		}),
 		typescript({

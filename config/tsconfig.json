@@ -26,11 +26,13 @@
       "chai-as-promised",
       "mocha",
       "node",
+      "rollup-resources",
       "sinon-chai"
     ],
     "typeRoots": [
       "../node_modules/@types",
-      "../node_modules"
+      "../node_modules",
+      "../vendor"
     ]
   },
   "exclude": [

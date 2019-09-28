@@ -1,10 +1,13 @@
+.awcache/
+.licenses/
 .nyc_output/
 node_modules/
 out/
 temp/
 
 # types
-*.d.ts
+*.bak
 *.swp
+*.tmp
 
 yarn-error.log
