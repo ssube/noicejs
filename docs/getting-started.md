@@ -210,7 +210,7 @@ interface InjectedOptions extends BaseOptions {
   [INJECT_CACHE]?: Cache; // these may not be injected and so should be optional
 }
 
-@Inject(Cache)
+@Inject(INJECT_CACHE)
 class Foo {
   constructor(options: InjectedOptions) {
     this.cache = mustExist(options[INJECT_CACHE]); // throw if required dependencies are missing
