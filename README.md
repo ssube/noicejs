@@ -101,7 +101,7 @@ Any extra parameters you pass to `create` will be passed on to the constructor.
 To build a bundle and run tests:
 
 ```shell
-> make build
+> make
 
 yarn
 yarn install v1.17.3

@@ -158,3 +158,5 @@ upload-climate:
 
 upload-codecov:
 	codecov --disable=gcov --file=$(TARGET_PATH)/coverage/lcov.info --token=$(shell echo "${CODECOV_SECRET}" | base64 -d)
+
+include $(shell find $(ROOT_PATH) -name '*.mk' | grep -v node_modules)

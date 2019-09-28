@@ -197,7 +197,6 @@ async function main() {
 }
 ```
 
-
 ## Extending a Module
 
 In order to resolve a dependency, one of the modules within the container needs to provide it. Modules represent
