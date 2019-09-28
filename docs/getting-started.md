@@ -197,8 +197,14 @@ async function main() {
 }
 ```
 
-While many of these examples use named dependencies for semantic meaning, constructors and symbols are also
-allowed. Symbols are the most unique and can be used in a relatively type-safe manner by declaring an interface
+While many of these examples use named dependencies for semantic meaning, modules can provide a few
+different kinds of contracts:
+
+- constructors
+- string names
+- symbol names
+
+Symbols are the most unique and can be used in a relatively type-safe manner by declaring an interface
 of available symbols:
 
 ```typescript
