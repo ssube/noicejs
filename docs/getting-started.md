@@ -1,5 +1,20 @@
 # Getting Started
 
+This guide briefly describes the benefits of dependency injection, then details how to begin using
+noicejs with abundant examples.
+
+## Contents
+
+- [Getting Started](#getting-started)
+  - [Contents](#contents)
+  - [Why Inject Dependencies](#why-inject-dependencies)
+  - [Setup](#setup)
+  - [Creating a Container](#creating-a-container)
+  - [Registering a Module](#registering-a-module)
+  - [Extending a Module](#extending-a-module)
+  - [Requiring a Dependency](#requiring-a-dependency)
+  - [Providing a Dependency](#providing-a-dependency)
+
 ## Why Inject Dependencies
 
 This is a very brief explanation of what dependency injection does and how it may be useful. There is a tremendous
@@ -144,7 +159,20 @@ async function main() {
 }
 ```
 
-Registering a module that provides some dependencies will allow the container to resolve them:
+## Registering a Module
+
+The container does not provide any dependencies of its own, instead resolving them from an ordered
+list of modules.
+
+While most modules are subclasses that `extend Module`, a quick start module is provided in the
+library: the `MapModule`. The `MapModule` constructor takes a dictionary or `Map` of named dependencies,
+binds them as constructors or instances, and then provides them as usual.
+
+The `MapModule` is meant to provide a quick start and does not support all of the dependency types
+that the container does, especially factory methods. Please see [the `@Provides` decorator](#providing-a-dependency)
+for further details.
+
+Registering a module that provides some named dependency `'foo'` will allow the container to resolve it:
 
 ```typescript
 import { Container, Inject, MapModule } from 'noicejs';
@@ -169,7 +197,8 @@ async function main() {
 }
 ```
 
-## Creating a Module
+
+## Extending a Module
 
 In order to resolve a dependency, one of the modules within the container needs to provide it. Modules represent
 a small set of dependencies with a common theme.
