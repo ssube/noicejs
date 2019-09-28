@@ -14,6 +14,7 @@ noicejs with abundant examples.
   - [Extending a Module](#extending-a-module)
   - [Requiring a Dependency](#requiring-a-dependency)
   - [Providing a Dependency](#providing-a-dependency)
+  - [Additional Examples](#additional-examples)
 
 ## Why Inject Dependencies
 
@@ -353,3 +354,32 @@ class RandomModule extends Module {
 This module's provider method is equivalent to the previous `toFactory` binding. As before, the
 decorator is optional and attaches metadata to the method function with a symbol. There are not
 decorators for constructor or instance bindings, since they fit well in the fluent form.
+
+The `@Provides` decorator can be used to extend the `MapModule` with factories. This module
+is equivalent to the previous example's `RandomModule`:
+
+```typescript
+import { Container, Inject, Module } from 'noicejs';
+
+class RandomModule extends MapModule {
+  constructor() {
+    super({
+      providers: {
+        bar: 3,
+      },
+    });
+  }
+
+  @Provides('foo')
+  public async createFoo(options) {
+    return Math.random();
+  }
+}
+```
+
+## Additional Examples
+
+For additional examples, please see:
+
+- [the `docs/examples` directory](examples)
+- [the unit tests](../test)
