@@ -2517,7 +2517,7 @@ rollup-plugin-typescript2@0.24.3:
     rollup-pluginutils "2.8.1"
     tslib "1.10.0"
 
-rollup-plugin-yaml@^1.1.0:
+rollup-plugin-yaml@1.1.0:
   version "1.1.0"
   resolved "https://artifacts.apextoaster.com/repository/group-npm/rollup-plugin-yaml/-/rollup-plugin-yaml-1.1.0.tgz#8b55fd8bc6a483018abedfc7192dde0fdc65666b"
   integrity sha512-R7d7M9P4VdOTPYfPlazA81niCF5ezDBm3QOTYkUwDYMGUXHKwWybDClO8Je1QnUQy8d3DBpe0kphWQs6o55yIg==
