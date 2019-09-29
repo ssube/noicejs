@@ -11,7 +11,7 @@ This will always inject the container itself to configure children.
 <b>Signature:</b>
 
 ```typescript
-protected dependencies<TOptions extends BaseOptions>(deps: Array<Dependency>, passed: Partial<TOptions>): Promise<TOptions>;
+protected dependencies<TOptions extends BaseOptions>(deps: Array<Dependency>, passed: PartialOptions<TOptions>): Promise<TOptions>;
 ```
 
 ## Parameters
@@ -19,7 +19,7 @@ protected dependencies<TOptions extends BaseOptions>(deps: Array<Dependency>, pa
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  deps | <code>Array&lt;Dependency&gt;</code> |  |
-|  passed | <code>Partial&lt;TOptions&gt;</code> |  |
+|  passed | <code>PartialOptions&lt;TOptions&gt;</code> |  |
 
 <b>Returns:</b>
 

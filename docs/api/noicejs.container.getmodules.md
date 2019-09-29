@@ -7,9 +7,9 @@
 <b>Signature:</b>
 
 ```typescript
-getModules(): Array<Module>;
+getModules(): ReadonlyArray<Module>;
 ```
 <b>Returns:</b>
 
-`Array<Module>`
+`ReadonlyArray<Module>`
 

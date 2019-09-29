@@ -13,13 +13,20 @@ import { VERSION_INFO } from './version';
 /* tslint:disable:no-any */
 
 /**
+ * Extra arguments of unknown types.
+ *
+ * @public
+ */
+export type ExtraArgs = ReadonlyArray<unknown>;
+
+/**
  * Some constructor taking options as the first parameter.
  *
  * @public
  */
 export interface Constructor<TReturn, TOptions extends BaseOptions> {
   /* tslint:disable-next-line:callable-types */
-  new(options: TOptions, ...extra: Array<unknown>): TReturn;
+  new(options: TOptions, ...extra: ExtraArgs): TReturn;
 }
 
 /**
@@ -36,7 +43,18 @@ export type ContractName = string | symbol;
  */
 export type Contract<TReturn, TOptions extends BaseOptions> = ContractName | Constructor<TReturn, TOptions>;
 
+/**
+ * Options after being wrapped with a permanent container.
+ *
+ * @public
+ */
 export type WrappedOptions<T extends BaseOptions> = Omit<T, 'container'>;
+
+/**
+ * A partial set of wrapped options.
+ *
+ * @public
+ */
 export type PartialOptions<T extends BaseOptions> = Partial<WrappedOptions<T>>;
 
 /**
@@ -124,7 +142,7 @@ export class Container implements ContainerOptions {
   public async create<TReturn, TOptions extends BaseOptions>(
     contract: Contract<TReturn, TOptions>,
     options: PartialOptions<TOptions> = {},
-    ...args: Array<unknown>
+    ...args: ExtraArgs
   ): Promise<TReturn> {
     if (!this.ready) {
       throw new ContainerNotBoundError('container has not been configured yet');
@@ -166,14 +184,14 @@ export class Container implements ContainerOptions {
     }
   }
 
-  public getModules(): Array<Module> {
+  public getModules(): ReadonlyArray<Module> {
     return this.modules;
   }
 
   /**
    * Create a child container with additional modules.
    */
-  public with(...modules: Array<Module>): Container {
+  public with(...modules: ReadonlyArray<Module>): Container {
     const merged = this.modules.concat(modules);
     return new Container(merged);
   }
@@ -182,7 +200,7 @@ export class Container implements ContainerOptions {
     module: Module,
     contract: Contract<TReturn, TOptions>,
     options: PartialOptions<TOptions>,
-    args: Array<unknown>
+    args: ExtraArgs
   ): Promise<TReturn> {
     const provider = module.get<TReturn, TOptions>(contract);
     if (isNil(provider)) {
@@ -201,14 +219,23 @@ export class Container implements ContainerOptions {
     }
   }
 
-  public async construct<TReturn, TOptions extends BaseOptions>(ctor: Constructor<TReturn, TOptions>, options: Partial<TOptions>, args: any) {
-    const deps = await this.dependencies(getInject(ctor), options);
-    return Reflect.construct(ctor, [deps].concat(args));
+  public async construct<TReturn, TOptions extends BaseOptions>(
+    ctor: Constructor<TReturn, TOptions>,
+    options: PartialOptions<TOptions>,
+    args: ExtraArgs
+  ) {
+    const deps: ExtraArgs = [await this.dependencies(getInject(ctor), options)];
+    return Reflect.construct(ctor, deps.concat(args));
   }
 
-  public async apply<TReturn, TOptions extends BaseOptions>(impl: Function, thisArg: any, options: Partial<TOptions>, args: any): Promise<TReturn> {
-    const deps = await this.dependencies(getInject(impl), options);
-    return Reflect.apply(impl, thisArg, [deps].concat(args)) as TReturn;
+  public async apply<TReturn, TOptions extends BaseOptions>(
+    impl: Function,
+    thisArg: any,
+    options: PartialOptions<TOptions>,
+    args: ExtraArgs
+  ): Promise<TReturn> {
+    const deps: ExtraArgs = [await this.dependencies(getInject(impl), options)];
+    return Reflect.apply(impl, thisArg, deps.concat(args)) as TReturn;
   }
 
   protected fail(msg: string): never {
@@ -226,7 +253,7 @@ export class Container implements ContainerOptions {
    *
    * This will always inject the container itself to configure children.
    */
-  protected async dependencies<TOptions extends BaseOptions>(deps: Array<Dependency>, passed: Partial<TOptions>): Promise<TOptions> {
+  protected async dependencies<TOptions extends BaseOptions>(deps: Array<Dependency>, passed: PartialOptions<TOptions>): Promise<TOptions> {
     const options: Partial<TOptions> = {};
     for (const dependency of deps) {
       const { contract, name } = dependency;
@@ -255,7 +282,7 @@ export function constructWithContainer(container: Container) {
   return <TInner, TOptions extends BaseOptions>(target: Constructor<TInner, TOptions>): WrappedConstructor<TInner, TOptions> => {
     // TODO: this shouldn't need any, but TInner is not sufficiently provable and causes a TS error
     class WrappedTarget extends (target as Constructor<any, TOptions>) {
-      constructor(options: TOptions, ...others: Array<unknown>) {
+      constructor(options: TOptions, ...others: ExtraArgs) {
         super({
           ...options,
           container,
@@ -272,7 +299,7 @@ export function constructWithContainer(container: Container) {
  * @public
  * @todo does these options need to extend BaseOptions?
  */
-export type InvokableFunction<TOptions, TReturn> = (options: TOptions, ...others: Array<unknown>) => TReturn;
+export type InvokableFunction<TOptions, TReturn> = (options: TOptions, ...others: ExtraArgs) => TReturn;
 export type WrappedFunction<TOptions extends BaseOptions, TReturn> = InvokableFunction<WrappedOptions<TOptions>, TReturn>;
 
 /**
@@ -284,7 +311,7 @@ export function invokeWithContainer<TReturn, TOptions extends BaseOptions>(
   container: Container,
   target: InvokableFunction<TOptions, TReturn>
 ): InvokableFunction<WrappedOptions<TOptions>, TReturn> {
-  return function wrapper(this: unknown, options: WrappedOptions<TOptions>, ...others: Array<unknown>): TReturn {
+  return function wrapper(this: unknown, options: WrappedOptions<TOptions>, ...others: ExtraArgs): TReturn {
     const completeOptions: BaseOptions = {
       ...options,
       container,

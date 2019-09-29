@@ -9,14 +9,14 @@ Create a child container with additional modules.
 <b>Signature:</b>
 
 ```typescript
-with(...modules: Array<Module>): Container;
+with(...modules: ReadonlyArray<Module>): Container;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  modules | <code>Array&lt;Module&gt;</code> |  |
+|  modules | <code>ReadonlyArray&lt;Module&gt;</code> |  |
 
 <b>Returns:</b>
 

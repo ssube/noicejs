@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-apply<TReturn, TOptions extends BaseOptions>(impl: Function, thisArg: any, options: Partial<TOptions>, args: any): Promise<TReturn>;
+apply<TReturn, TOptions extends BaseOptions>(impl: Function, thisArg: any, options: PartialOptions<TOptions>, args: ExtraArgs): Promise<TReturn>;
 ```
 
 ## Parameters
@@ -16,8 +16,8 @@ apply<TReturn, TOptions extends BaseOptions>(impl: Function, thisArg: any, optio
 |  --- | --- | --- |
 |  impl | <code>Function</code> |  |
 |  thisArg | <code>any</code> |  |
-|  options | <code>Partial&lt;TOptions&gt;</code> |  |
-|  args | <code>any</code> |  |
+|  options | <code>PartialOptions&lt;TOptions&gt;</code> |  |
+|  args | <code>ExtraArgs</code> |  |
 
 <b>Returns:</b>
 

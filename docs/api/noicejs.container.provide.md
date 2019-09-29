@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-provide<TReturn, TOptions extends BaseOptions>(module: Module, contract: Contract<TReturn, TOptions>, options: PartialOptions<TOptions>, args: Array<unknown>): Promise<TReturn>;
+provide<TReturn, TOptions extends BaseOptions>(module: Module, contract: Contract<TReturn, TOptions>, options: PartialOptions<TOptions>, args: ExtraArgs): Promise<TReturn>;
 ```
 
 ## Parameters
@@ -17,7 +17,7 @@ provide<TReturn, TOptions extends BaseOptions>(module: Module, contract: Contrac
 |  module | <code>Module</code> |  |
 |  contract | <code>Contract&lt;TReturn, TOptions&gt;</code> |  |
 |  options | <code>PartialOptions&lt;TOptions&gt;</code> |  |
-|  args | <code>Array&lt;unknown&gt;</code> |  |
+|  args | <code>ExtraArgs</code> |  |
 
 <b>Returns:</b>
 
