@@ -18,7 +18,7 @@ describe('base error', () => {
 
   it('should work when the base error does not have a stack', () => {
     class EmptyError extends BaseError {
-      public stack: string | undefined;
+      public stack?: string;
 
       constructor(msg: string) {
         super(msg);

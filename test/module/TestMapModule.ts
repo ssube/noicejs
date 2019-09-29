@@ -5,6 +5,7 @@ import { MapModule } from '../../src/module/MapModule';
 import { describeLeaks, itLeaks } from '../helpers/async';
 
 describeLeaks('map module', async () => {
+  // tslint:disable:no-identical-functions
   itLeaks('should treat primitives as instances', async () => {
     const module = new MapModule({
       providers: {
