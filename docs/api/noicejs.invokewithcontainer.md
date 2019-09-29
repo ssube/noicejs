@@ -9,7 +9,7 @@ Permanently attach a container to all invocations of this function.
 <b>Signature:</b>
 
 ```typescript
-export declare function invokeWithContainer<TReturn, TOptions extends BaseOptions>(container: Container, target: InvokableFunction<TOptions, TReturn>): InvokableFunction<Omit<TOptions, 'container'>, TReturn>;
+export declare function invokeWithContainer<TReturn, TOptions extends BaseOptions>(container: Container, target: InvokableFunction<TOptions, TReturn>): InvokableFunction<WrappedOptions<TOptions>, TReturn>;
 ```
 
 ## Parameters
@@ -21,5 +21,5 @@ export declare function invokeWithContainer<TReturn, TOptions extends BaseOption
 
 <b>Returns:</b>
 
-`InvokableFunction<Omit<TOptions, 'container'>, TReturn>`
+`InvokableFunction<WrappedOptions<TOptions>, TReturn>`
 

@@ -36,6 +36,9 @@ export type ContractName = string | symbol;
  */
 export type Contract<TReturn, TOptions extends BaseOptions> = ContractName | Constructor<TReturn, TOptions>;
 
+export type WrappedOptions<T extends BaseOptions> = Omit<T, 'container'>;
+export type PartialOptions<T extends BaseOptions> = Partial<WrappedOptions<T>>;
+
 /**
  * Get the standard name for a contract (usually a constructor).
  *
@@ -120,7 +123,7 @@ export class Container implements ContainerOptions {
    */
   public async create<TReturn, TOptions extends BaseOptions>(
     contract: Contract<TReturn, TOptions>,
-    options: Partial<TOptions> = {},
+    options: PartialOptions<TOptions> = {},
     ...args: Array<unknown>
   ): Promise<TReturn> {
     if (!this.ready) {
@@ -178,7 +181,7 @@ export class Container implements ContainerOptions {
   public async provide<TReturn, TOptions extends BaseOptions>(
     module: Module,
     contract: Contract<TReturn, TOptions>,
-    options: Partial<TOptions>,
+    options: PartialOptions<TOptions>,
     args: Array<unknown>
   ): Promise<TReturn> {
     const provider = module.get<TReturn, TOptions>(contract);
@@ -239,7 +242,9 @@ export class Container implements ContainerOptions {
   }
 }
 
-export type WrappedConstructor<TInner, TOptions extends BaseOptions> = new (options: Omit<TOptions, 'container'>) => TInner;
+export interface WrappedConstructor<TInner, TOptions extends BaseOptions> extends Constructor<TInner, TOptions> {
+  new(options: WrappedOptions<TOptions>): TInner;
+}
 
 /**
  * Permanently attach a container to all instances of this class.
@@ -247,7 +252,8 @@ export type WrappedConstructor<TInner, TOptions extends BaseOptions> = new (opti
  * @public
  */
 export function constructWithContainer(container: Container) {
-  return <TInner, TOptions extends BaseOptions>(target: Constructor<TInner, TOptions>): Constructor<TInner, TOptions> => {
+  return <TInner, TOptions extends BaseOptions>(target: Constructor<TInner, TOptions>): WrappedConstructor<TInner, TOptions> => {
+    // TODO: this shouldn't need any, but TInner is not sufficiently provable and causes a TS error
     class WrappedTarget extends (target as Constructor<any, TOptions>) {
       constructor(options: TOptions, ...others: Array<unknown>) {
         super({
@@ -256,7 +262,7 @@ export function constructWithContainer(container: Container) {
         }, ...others);
       }
     }
-    return WrappedTarget as Constructor<TInner, TOptions>;
+    return WrappedTarget as WrappedConstructor<TInner, TOptions>;
   };
 }
 
@@ -264,9 +270,10 @@ export function constructWithContainer(container: Container) {
  * The required signature for a function to be invoked by the wrapper.
  *
  * @public
- * @todo remove container from `options`
+ * @todo does these options need to extend BaseOptions?
  */
 export type InvokableFunction<TOptions, TReturn> = (options: TOptions, ...others: Array<unknown>) => TReturn;
+export type WrappedFunction<TOptions extends BaseOptions, TReturn> = InvokableFunction<WrappedOptions<TOptions>, TReturn>;
 
 /**
  * Permanently attach a container to all invocations of this function.
@@ -276,8 +283,8 @@ export type InvokableFunction<TOptions, TReturn> = (options: TOptions, ...others
 export function invokeWithContainer<TReturn, TOptions extends BaseOptions>(
   container: Container,
   target: InvokableFunction<TOptions, TReturn>
-): InvokableFunction<Omit<TOptions, 'container'>, TReturn> {
-  return function wrapper(this: unknown, options: Omit<TOptions, 'container'>, ...others: Array<unknown>): TReturn {
+): InvokableFunction<WrappedOptions<TOptions>, TReturn> {
+  return function wrapper(this: unknown, options: WrappedOptions<TOptions>, ...others: Array<unknown>): TReturn {
     const completeOptions: BaseOptions = {
       ...options,
       container,

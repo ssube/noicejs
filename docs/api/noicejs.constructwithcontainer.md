@@ -9,7 +9,7 @@ Permanently attach a container to all instances of this class.
 <b>Signature:</b>
 
 ```typescript
-export declare function constructWithContainer(container: Container): <TInner, TOptions extends BaseOptions>(target: Constructor<TInner, TOptions>) => Constructor<TInner, TOptions>;
+export declare function constructWithContainer(container: Container): <TInner, TOptions extends BaseOptions>(target: Constructor<TInner, TOptions>) => WrappedConstructor<TInner, TOptions>;
 ```
 
 ## Parameters
@@ -20,5 +20,5 @@ export declare function constructWithContainer(container: Container): <TInner, T
 
 <b>Returns:</b>
 
-`<TInner, TOptions extends BaseOptions>(target: Constructor<TInner, TOptions>) => Constructor<TInner, TOptions>`
+`<TInner, TOptions extends BaseOptions>(target: Constructor<TInner, TOptions>) => WrappedConstructor<TInner, TOptions>`
 
