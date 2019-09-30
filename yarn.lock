@@ -2317,7 +2317,7 @@ rollup-plugin-multi-entry@2.1.0:
   dependencies:
     matched "^1.0.2"
 
-rollup-plugin-node-externals@^2.0.1:
+rollup-plugin-node-externals@2.0.1:
   version "2.0.1"
   resolved "https://artifacts.apextoaster.com/repository/group-npm/rollup-plugin-node-externals/-/rollup-plugin-node-externals-2.0.1.tgz#7971cfb707148791066c389e26a784dda91377e3"
   integrity sha512-UlJMmti/xPF4ZAl8wPUGFrpnB1pYJJbeayqIdjVXopgZ0zMJ1IT6wRWbvLtjY0aYNWU6G6WeKYJRXU9liiMPgw==
