@@ -72,15 +72,29 @@ import { NetworkModule } from './network';
 
 @Inject(Cache, Filesystem)
 class Foo {
+  protected readonly cache: Cache;
+  protected readonly filesystem: Filesystem;
+
   constructor(options) {
-    this.data = options.cache.get(options.path) || options.filesystem.get(options.path);
+    this.cache = options.cache;
+    this.filesystem = options.filesystem;
+  }
+
+  get(path: string) {
+    return options.cache.get(path, () => options.filesystem.get(path));
+  }
+}
+
+function module() {
+  if (process.env['DEBUG'] === 'TRUE') {
+    return new LocalModule();
+  } else {
+    return new NetworkModule();
   }
 }
 
 function main() {
-  const local = process.env['DEBUG'] === 'TRUE';
-  // @TODO: rewrite this without ternaries
-  const container = Container.from(local ? new LocalModule() : new NetworkModule());
+  const container = Container.from(module());
   await container.configure();
 
   const foo = await container.create(Foo); /* cache and filesystem are found and injected by container */
@@ -383,3 +397,4 @@ For additional examples, please see:
 
 - [the `docs/examples` directory](examples)
 - [the unit tests](../test)
+- [the isolex chatbot](https://github.com/ssube/isolex/tree/master/src/module)
