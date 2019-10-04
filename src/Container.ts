@@ -10,14 +10,13 @@ import { Module, ProviderType } from './Module';
 import { isNil } from './utils';
 import { VERSION_INFO } from './version';
 
-/* tslint:disable:no-any */
-
 /**
  * Extra arguments of unknown types.
  *
  * @public
  */
-export type ExtraArgs = ReadonlyArray<unknown>;
+// tslint:disable-next-line:no-any
+export type ExtraArgs = ReadonlyArray<any>;
 
 /**
  * Some constructor taking options as the first parameter.
@@ -57,6 +56,9 @@ export type WrappedOptions<T extends BaseOptions> = Omit<T, 'container'>;
  */
 export type PartialOptions<T extends BaseOptions> = Partial<WrappedOptions<T>>;
 
+// tslint:disable-next-line:no-any
+export type AnyOptions = any;
+
 /**
  * Get the standard name for a contract (usually a constructor).
  *
@@ -64,7 +66,7 @@ export type PartialOptions<T extends BaseOptions> = Partial<WrappedOptions<T>>;
  *
  * @public
  */
-export function contractName(c: Contract<any, any>): ContractName {
+export function contractName(c: Contract<unknown, AnyOptions>): ContractName {
   if (typeof c === 'function') {
     return c.name;
   } else {
@@ -77,7 +79,7 @@ export function contractName(c: Contract<any, any>): ContractName {
  *
  * @public
  */
-export function isConstructor(it: any): it is Constructor<any, any> {
+export function isConstructor(it: unknown): it is Constructor<unknown, AnyOptions> {
   return typeof it === 'function';
 }
 
@@ -230,7 +232,7 @@ export class Container implements ContainerOptions {
 
   public async apply<TReturn, TOptions extends BaseOptions>(
     impl: Function,
-    thisArg: any,
+    thisArg: unknown,
     options: PartialOptions<TOptions>,
     args: ExtraArgs
   ): Promise<TReturn> {
@@ -258,7 +260,8 @@ export class Container implements ContainerOptions {
     for (const dependency of deps) {
       const { contract, name } = dependency;
       if (!Reflect.has(passed, name)) {
-        const dep = await this.create<any, any>(contract);
+        // tslint:disable-next-line:no-any
+        const dep = await this.create<any, AnyOptions>(contract);
         options[name as keyof TOptions] = dep;
       }
     }
@@ -281,6 +284,7 @@ export interface WrappedConstructor<TInner, TOptions extends BaseOptions> extend
 export function constructWithContainer(container: Container) {
   return <TInner, TOptions extends BaseOptions>(target: Constructor<TInner, TOptions>): WrappedConstructor<TInner, TOptions> => {
     // TODO: this shouldn't need any, but TInner is not sufficiently provable and causes a TS error
+    // tslint:disable-next-line:no-any
     class WrappedTarget extends (target as Constructor<any, TOptions>) {
       constructor(options: TOptions, ...others: ExtraArgs) {
         super({

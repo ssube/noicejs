@@ -11,14 +11,14 @@ This accepts strings and symbols, so if a function is not provably a constructor
 <b>Signature:</b>
 
 ```typescript
-export declare function contractName(c: Contract<any, any>): ContractName;
+export declare function contractName(c: Contract<unknown, AnyOptions>): ContractName;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  c | <code>Contract&lt;any, any&gt;</code> |  |
+|  c | <code>Contract&lt;unknown, AnyOptions&gt;</code> |  |
 
 <b>Returns:</b>
 

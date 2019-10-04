@@ -191,6 +191,23 @@ describeLeaks('container', async () => {
     expect(impl.args).to.deep.equal(args);
   });
 
+  itLeaks('should pass typed arguments to the constructor', async () => {
+    const ctr = Container.from(new TestModule());
+    await ctr.configure();
+
+    const args = ['a', 'b', 'c'];
+    class TypedConsumer {
+      public readonly others: Array<string>;
+
+      constructor(options: BaseOptions, ...others: Array<string>) {
+        this.others = others;
+      }
+    }
+
+    const impl = await ctr.create(TypedConsumer, {}, ...args);
+    expect(impl.others).to.deep.equal(args);
+  });
+
   itLeaks('should call provider methods', async () => {
     const modSpy = spy();
 

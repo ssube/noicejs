@@ -9,16 +9,16 @@ Typeguard for constructors. Only really validates that `it` is a function.
 <b>Signature:</b>
 
 ```typescript
-export declare function isConstructor(it: any): it is Constructor<any, any>;
+export declare function isConstructor(it: unknown): it is Constructor<unknown, AnyOptions>;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  it | <code>any</code> |  |
+|  it | <code>unknown</code> |  |
 
 <b>Returns:</b>
 
-`it is Constructor<any, any>`
+`it is Constructor<unknown, AnyOptions>`
 
