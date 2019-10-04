@@ -5,7 +5,6 @@ import { ConsoleLogger } from '../../src/logger/ConsoleLogger';
 import { describeLeaks } from '../helpers/async';
 
 /* tslint:disable:no-console no-unbound-method */
-
 describeLeaks('console logger', async () => {
   beforeEach(() => {
     spy(console, 'debug');

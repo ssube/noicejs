@@ -9,9 +9,9 @@ Create a child logger.
 <b>Signature:</b>
 
 ```typescript
-child(): Logger;
+child(): ConsoleLogger;
 ```
 <b>Returns:</b>
 
-`Logger`
+`ConsoleLogger`
 

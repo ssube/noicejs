@@ -16,7 +16,7 @@ export class ConsoleLogger implements Logger {
   /**
    * Create a child logger.
    */
-  public child(): Logger {
+  public child(): ConsoleLogger {
     return ConsoleLogger.global;
   }
 

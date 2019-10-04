@@ -8,7 +8,7 @@ import { Logger } from './Logger';
 export class NullLogger implements Logger {
   public static readonly global = new NullLogger();
 
-  public child() {
+  public child(): NullLogger {
     return NullLogger.global;
   }
 
