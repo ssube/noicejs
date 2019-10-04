@@ -2,8 +2,7 @@ import { expect } from 'chai';
 import { ineeda } from 'ineeda';
 import { spy } from 'sinon';
 
-import { Logger, logWithLevel } from '../../src/logger/Logger';
-
+import { Logger, LogLevel, logWithLevel } from '../../src/logger/Logger';
 import { describeLeaks } from '../helpers/async';
 
 /* tslint:disable:no-unbound-method */
@@ -16,7 +15,7 @@ describeLeaks('log level switch', async () => {
 
     const data = {};
     const msg = 'test';
-    logWithLevel(logger, 'debug', data, msg);
+    logWithLevel(logger, LogLevel.Debug, data, msg);
     expect(logger.debug).to.have.been.called.callCount(1);
     expect(logger.debug).to.have.been.calledWithExactly(data, msg);
   });
@@ -28,7 +27,7 @@ describeLeaks('log level switch', async () => {
 
     const data = {};
     const msg = 'test';
-    logWithLevel(logger, 'error', data, msg);
+    logWithLevel(logger, LogLevel.Error, data, msg);
     expect(logger.error).to.have.been.called.callCount(1);
     expect(logger.error).to.have.been.calledWithExactly(data, msg);
   });
@@ -40,7 +39,7 @@ describeLeaks('log level switch', async () => {
 
     const data = {};
     const msg = 'test';
-    logWithLevel(logger, 'info', data, msg);
+    logWithLevel(logger, LogLevel.Info, data, msg);
     expect(logger.info).to.have.been.called.callCount(1);
     expect(logger.info).to.have.been.calledWithExactly(data, msg);
   });
@@ -52,7 +51,7 @@ describeLeaks('log level switch', async () => {
 
     const data = {};
     const msg = 'test';
-    logWithLevel(logger, 'warn', data, msg);
+    logWithLevel(logger, LogLevel.Warn, data, msg);
     expect(logger.warn).to.have.been.called.callCount(1);
     expect(logger.warn).to.have.been.calledWithExactly(data, msg);
   });

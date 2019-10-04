@@ -5,7 +5,18 @@
  *
  * @public
  */
-export type LogLevel = 'debug' | 'error' | 'info' | 'warn';
+export enum LogLevel {
+  // normal enum names
+  Debug = 'debug',
+  Error = 'error',
+  Info = 'info',
+  Warn = 'warn',
+  // capital slack-style names
+  DEBUG = 'debug',
+  ERROR = 'error',
+  INFO = 'info',
+  WARN = 'warn',
+}
 
 /**
  * Log interface to fit console or bunyan.

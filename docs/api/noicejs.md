@@ -25,6 +25,7 @@
 
 |  Enumeration | Description |
 |  --- | --- |
+|  [LogLevel](./noicejs.loglevel.md) | Available log levels. |
 |  [ProviderType](./noicejs.providertype.md) | Providers for a particular contract. |
 
 ## Functions
@@ -55,6 +56,5 @@
 |  Type Alias | Description |
 |  --- | --- |
 |  [Contract](./noicejs.contract.md) | A contract identifier or concrete constructor. |
-|  [LogLevel](./noicejs.loglevel.md) | Available log levels. |
 |  [Provider](./noicejs.provider.md) | Provider definitions. |
 

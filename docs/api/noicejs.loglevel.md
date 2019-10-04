@@ -2,12 +2,26 @@
 
 [Home](./index.md) &gt; [noicejs](./noicejs.md) &gt; [LogLevel](./noicejs.loglevel.md)
 
-## LogLevel type
+## LogLevel enum
 
 Available log levels.
 
 <b>Signature:</b>
 
 ```typescript
-export declare type LogLevel = 'debug' | 'error' | 'info' | 'warn';
+export declare enum LogLevel 
 ```
+
+## Enumeration Members
+
+|  Member | Value | Description |
+|  --- | --- | --- |
+|  Debug | <code>&quot;debug&quot;</code> |  |
+|  DEBUG | <code>&quot;debug&quot;</code> |  |
+|  Error | <code>&quot;error&quot;</code> |  |
+|  ERROR | <code>&quot;error&quot;</code> |  |
+|  Info | <code>&quot;info&quot;</code> |  |
+|  INFO | <code>&quot;info&quot;</code> |  |
+|  Warn | <code>&quot;warn&quot;</code> |  |
+|  WARN | <code>&quot;warn&quot;</code> |  |
+
