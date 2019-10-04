@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-7](https://github.com/ssube/noicejs/compare/v3.0.0-6...v3.0.0-7) (2019-10-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* **logger:** properties of `LogLevel` in object literals will need to
+be updated from strings (`'info'`) to enum references
+(`LogLevel.Info`). This does not impact other usages.
+
+### Bug Fixes
+
+* **build:** remove readme link ([b6ebcc4](https://github.com/ssube/noicejs/commit/b6ebcc4))
+* **build:** update lockfile with mirror packages ([dbfc411](https://github.com/ssube/noicejs/commit/dbfc411))
+* **build:** update with additional makefile ([a380aed](https://github.com/ssube/noicejs/commit/a380aed))
+* **container:** switch extra parameters back to any (fixes [#113](https://github.com/ssube/noicejs/issues/113)) ([8aee04e](https://github.com/ssube/noicejs/commit/8aee04e))
+* **docs:** clean up preface module example ([ad33250](https://github.com/ssube/noicejs/commit/ad33250))
+* **docs:** inject symbol ([94f8881](https://github.com/ssube/noicejs/commit/94f8881))
+* **docs:** matching lists ([bbf0b48](https://github.com/ssube/noicejs/commit/bbf0b48))
+* **docs:** note map module, add ToC ([20b530a](https://github.com/ssube/noicejs/commit/20b530a))
+* **docs:** rewrite preface without ternary ([8a11ed2](https://github.com/ssube/noicejs/commit/8a11ed2))
+* **docs:** use readme as docs root, link back ([3105f68](https://github.com/ssube/noicejs/commit/3105f68))
+* **logger:** make log level an enum (fixes [#108](https://github.com/ssube/noicejs/issues/108)) ([b30ee41](https://github.com/ssube/noicejs/commit/b30ee41))
+* return wrapped options for constructors ([68094d7](https://github.com/ssube/noicejs/commit/68094d7))
+* take extra args as readonly arrays ([2ae2e0f](https://github.com/ssube/noicejs/commit/2ae2e0f))
+
+
+### Features
+
+* **build:** enable coverage thresholds ([8700216](https://github.com/ssube/noicejs/commit/8700216))
+* **build:** migrate to rollup template config ([804e20e](https://github.com/ssube/noicejs/commit/804e20e))
+* **build:** rollup json/yaml (update from rollup-template) ([89ffd03](https://github.com/ssube/noicejs/commit/89ffd03))
+* **docs:** add GH pages config ([cc4f23d](https://github.com/ssube/noicejs/commit/cc4f23d))
+* **logger:** add winston log adapter ([#120](https://github.com/ssube/noicejs/issues/120)) ([78877d5](https://github.com/ssube/noicejs/commit/78877d5))
+
 ## [3.0.0-6](https://github.com/ssube/noicejs/compare/v3.0.0-5...v3.0.0-6) (2019-09-27)
 
 
