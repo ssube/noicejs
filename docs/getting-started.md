@@ -22,10 +22,11 @@ This is a very brief explanation of what dependency injection does and how it ma
 amount of existing literature that goes into far more detail on the topic. If you are looking for more information,
 some good places to start are:
 
-- https://testing.googleblog.com/2009/01/when-to-use-dependency-injection.html
-- https://softwareengineering.stackexchange.com/a/381410
-- https://github.com/google/guice/wiki/Motivation
-- https://en.wikipedia.org/wiki/Dependency_injection#Overview
+- [Clean Code Talks - Dependency Injection](http://misko.hevery.com/2008/11/11/clean-code-talks-dependency-injection/)
+- [Google Testing Blog: When To Use Dependency Injection](https://testing.googleblog.com/2009/01/when-to-use-dependency-injection.html)
+- [Software Engineering Stack Exchange - Why Should I Use Dependency Injection?](https://softwareengineering.stackexchange.com/a/381410)
+- [Guice - Motivation](https://github.com/google/guice/wiki/Motivation)
+- [Wikipedia - Dependency Injection](https://en.wikipedia.org/wiki/Dependency_injection#Overview)
 
 The resolution performed by the container removes the need for the consumer to be aware of, or pass, dependencies
 to the service. The service can change dependencies without any code changes to the consumer.
@@ -324,7 +325,7 @@ class RandomModule extends Module {
   public async configure(options) {
     await super.configure(options);
 
-    this.bind('foo').toFactory(() => Math.random());
+    this.bind('foo').toFactory(async () => Math.random());
     this.bind('bar').toInstance(3);
   }
 }

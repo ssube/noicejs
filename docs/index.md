@@ -1,6 +1,7 @@
 # noicejs
 
-Extremely thin async dependency injection, now with [a getting started guide](docs/getting-started.md).
+Extremely thin, async dependency injection, now with
+[a getting started guide](https://ssube.github.io/noicejs/getting-started).
 
 Inspired by [Google's Guice library](https://github.com/google/guice) and written in
 [Typescript](https://www.typescriptlang.org/).
@@ -14,6 +15,7 @@ Inspired by [Google's Guice library](https://github.com/google/guice) and writte
 - typed errors
 - typescript typedefs
 - zero runtime dependencies, bundled or otherwise
+- extensive test coverage
 
 ## Contents
 
