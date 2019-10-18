@@ -41,7 +41,7 @@
     "chai": "4.2.0",
     "chai-as-promised": "7.1.1",
     "ineeda": "0.12.0-alpha.0",
-    "mocha": "6.2.1",
+    "mocha": "6.2.2",
     "nyc": "14.1.1",
     "rollup": "1.25.0",
     "rollup-plugin-commonjs": "10.1.0",
