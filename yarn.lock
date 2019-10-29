@@ -2447,10 +2447,10 @@ sinon@7.5.0:
     nise "^1.5.2"
     supports-color "^5.5.0"
 
-source-map-support@0.5.15:
-  version "0.5.15"
-  resolved "https://artifacts.apextoaster.com/repository/group-npm/source-map-support/-/source-map-support-0.5.15.tgz#20fe16f16e74644e21a396c78c841fa66e35df6c"
-  integrity sha512-wYF5aX1J0+V51BDT3Om7uXNn0ct2FWiV4bvwiGVefxkm+1S1o5jsecE5lb2U28DDblzxzxeIDbTVpXHI9D/9hA==
+source-map-support@0.5.16:
+  version "0.5.16"
+  resolved "https://artifacts.apextoaster.com/repository/group-npm/source-map-support/-/source-map-support-0.5.16.tgz#0ae069e7fe3ba7538c64c98515e35339eac5a042"
+  integrity sha512-efyLRJDr68D9hBBNIPWFjhpFzURh+KJykQwvMyW5UiZzYwoF6l4YMMDIJJEyFWxWCqfyxLzz6tSfUFR+kXXsVQ==
   dependencies:
     buffer-from "^1.0.0"
     source-map "^0.6.0"
