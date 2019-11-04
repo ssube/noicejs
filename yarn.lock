@@ -2745,10 +2745,10 @@ tslint-consistent-codestyle@1.16.0:
     tslib "^1.7.1"
     tsutils "^2.29.0"
 
-tslint-etc@1.7.1:
-  version "1.7.1"
-  resolved "https://artifacts.apextoaster.com/repository/group-npm/tslint-etc/-/tslint-etc-1.7.1.tgz#6f84d6b94f46b9867e65cee3dd2a1921073eb39a"
-  integrity sha512-5hG/ywGf9xCdi4Rb/wv5jTNs/L3izav+LYYE0Rp1A7WBsxyzGDlOmhfnHDYLf9sodVv1TWj9Su7IxErea0xGDA==
+tslint-etc@1.9.0:
+  version "1.9.0"
+  resolved "https://artifacts.apextoaster.com/repository/group-npm/tslint-etc/-/tslint-etc-1.9.0.tgz#9a0e59f9e291de35553b5dc1941a3c701c2b7f71"
+  integrity sha512-qRThRT4EzZdDwLRKLcsRlLNGl4pwjfC8iGevJgy67EL/opIpZu3efQh1I367ufQeyKZg2FT1bx4MH2atIG37Yg==
   dependencies:
     "@phenomnomnominal/tsquery" "^4.0.0"
     tslib "^1.8.0"
