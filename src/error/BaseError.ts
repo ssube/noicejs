@@ -33,6 +33,8 @@ export class BaseError extends Error {
 
   /**
    * Get the cause of this error: the first nested error.
+   *
+   * @public
    */
   public cause(): Error | undefined {
     return this.nested[0];
@@ -40,6 +42,8 @@ export class BaseError extends Error {
 
   /**
    * Get the number of nested errors.
+   *
+   * @public
    */
   public get length() {
     return this.nested.length;
