@@ -1,6 +1,6 @@
 import { Contract, contractName, isConstructor } from './Container';
 
-/* tslint:disable:no-any */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 export interface Dependency {
   name: string | symbol;

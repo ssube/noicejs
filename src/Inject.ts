@@ -11,7 +11,7 @@ export const injectionSymbol = Symbol('noicejs-inject');
  *
  * @public
  */
-/* tslint:disable-next-line:no-any */
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 export function getInject(target: any): Array<Dependency> {
   if (Reflect.has(target, injectionSymbol)) {
     const existing = Reflect.get(target, injectionSymbol);
@@ -37,7 +37,7 @@ export function getInject(target: any): Array<Dependency> {
  * @public
  */
 export function Inject(...needs: Array<InjectedDependency>) {
-  /* tslint:disable-next-line:no-any */
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   return (target: any, key?: string, providedDesc?: PropertyDescriptor) => {
     if (isNil(key)) {
       const prev = getInject(target);

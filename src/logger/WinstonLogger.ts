@@ -4,7 +4,7 @@ interface RealWinston {
   log(level: LogLevel, msg: string, ...data: Array<unknown>): void;
 }
 
-// tslint:disable:no-any
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export class WinstonLogger implements Logger {
   protected logger: RealWinston;
 

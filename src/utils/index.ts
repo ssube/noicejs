@@ -4,6 +4,7 @@ import { MissingValueError } from '../error/MissingValueError';
 // these could be pulled from lodash, but that would introduce a dependency...
 
 export function isNil<T>(val: T | null | undefined): val is null | undefined {
+  /* eslint-disable-next-line no-null/no-null */
   return val === null || val === undefined;
 }
 
@@ -19,7 +20,7 @@ export function mustExist<T>(val: T | null | undefined): T {
   return val;
 }
 
-/* tslint:disable-next-line:no-any */
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 export function resolveDescriptor(target: any, key: string, providedDescriptor?: PropertyDescriptor): PropertyDescriptor {
   if (doesExist(providedDescriptor)) {
     return providedDescriptor;

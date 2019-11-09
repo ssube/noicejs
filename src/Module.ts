@@ -5,7 +5,7 @@ import { NullLogger } from './logger/NullLogger';
 import { getProvides } from './Provides';
 import { doesExist, isNil } from './utils';
 
-/* tslint:disable:no-any */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 /**
  * Providers for a particular contract.
@@ -14,6 +14,7 @@ import { doesExist, isNil } from './utils';
  */
 export enum ProviderType {
   None = 0,
+  /* eslint-disable-next-line no-shadow */
   Constructor,
   Factory,
   Instance,
@@ -43,7 +44,7 @@ export type Provider<R> = {
   value: Constructor<R, any>;
 } | {
   type: ProviderType.Factory;
-  value: Factory<R>
+  value: Factory<R>;
 } | {
   type: ProviderType.Instance;
   value: R;

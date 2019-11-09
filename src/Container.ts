@@ -10,12 +10,13 @@ import { Module, ProviderType } from './Module';
 import { isNil } from './utils';
 import { VERSION_INFO } from './version';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 /**
  * Extra arguments of unknown types.
  *
  * @public
  */
-// tslint:disable-next-line:no-any
 export type ExtraArgs = ReadonlyArray<any>;
 
 /**
@@ -24,7 +25,7 @@ export type ExtraArgs = ReadonlyArray<any>;
  * @public
  */
 export interface Constructor<TReturn, TOptions extends BaseOptions> {
-  /* tslint:disable-next-line:callable-types */
+  /* eslint-disable-next-line @typescript-eslint/prefer-function-type */
   new(options: TOptions, ...extra: ExtraArgs): TReturn;
 }
 
@@ -56,7 +57,6 @@ export type WrappedOptions<T extends BaseOptions> = Omit<T, 'container'>;
  */
 export type PartialOptions<T extends BaseOptions> = Partial<WrappedOptions<T>>;
 
-// tslint:disable-next-line:no-any
 export type AnyOptions = any;
 
 /**
@@ -157,9 +157,7 @@ export class Container implements ContainerOptions {
       this.logger.debug({ contract }, 'container create contract');
     }
 
-    const module = this.modules.find((item) => {
-      return item.has(contract);
-    });
+    const module = this.modules.find((item) => item.has(contract));
     if (isNil(module)) {
       if (isConstructor(contract)) {
         return this.construct(contract, options, args);
@@ -284,9 +282,9 @@ export interface WrappedConstructor<TInner, TOptions extends BaseOptions> extend
 export function constructWithContainer(container: Container) {
   return <TInner, TOptions extends BaseOptions>(target: Constructor<TInner, TOptions>): WrappedConstructor<TInner, TOptions> => {
     // TODO: this shouldn't need any, but TInner is not sufficiently provable and causes a TS error
-    // tslint:disable-next-line:no-any
     class WrappedTarget extends (target as Constructor<any, TOptions>) {
       constructor(options: TOptions, ...others: ExtraArgs) {
+        /* eslint-disable-next-line constructor-super */
         super({
           ...options,
           container,
@@ -315,6 +313,9 @@ export function invokeWithContainer<TReturn, TOptions extends BaseOptions>(
   container: Container,
   target: InvokableFunction<TOptions, TReturn>
 ): InvokableFunction<WrappedOptions<TOptions>, TReturn> {
+  /**
+   * @this unknown
+   */
   return function wrapper(this: unknown, options: WrappedOptions<TOptions>, ...others: ExtraArgs): TReturn {
     const completeOptions: BaseOptions = {
       ...options,

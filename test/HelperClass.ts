@@ -1,7 +1,7 @@
 import { Inject } from '../src/Inject';
 import { Module, ModuleOptions } from '../src/Module';
 
-/* tslint:disable:no-any */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 export class Interface {
   // empty

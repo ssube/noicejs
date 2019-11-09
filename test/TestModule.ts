@@ -8,7 +8,7 @@ import { isNil } from '../src/utils';
 import { describeLeaks, itLeaks } from './helpers/async';
 import { getTestLogger } from './helpers/logger';
 
-/* tslint:disable:no-unbound-method */
+/* eslint-disable @typescript-eslint/unbound-method */
 
 describeLeaks('module', async () => {
   itLeaks('should be extendable', async () => {

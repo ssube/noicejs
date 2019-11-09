@@ -20,7 +20,7 @@ export class ConsoleLogger implements Logger {
     return ConsoleLogger.global;
   }
 
-  /* tslint:disable:no-console */
+  /* eslint-disable no-console */
 
   /**
    * Log a message at debug level.

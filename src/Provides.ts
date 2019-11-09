@@ -1,6 +1,8 @@
 import { Dependency, InjectedDependency, resolveDepends } from './Dependency';
 import { resolveDescriptor } from './utils';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 export const providesSymbol = Symbol('noicejs-provides');
 
 /**
@@ -10,7 +12,6 @@ export const providesSymbol = Symbol('noicejs-provides');
  *
  * @public
  */
-/* tslint:disable-next-line:no-any */
 export function getProvides(target: any): Array<Dependency> {
   if (Reflect.has(target, providesSymbol)) {
     return Reflect.get(target, providesSymbol);
@@ -25,7 +26,6 @@ export function getProvides(target: any): Array<Dependency> {
  * @public
  */
 export function Provides<TInjected>(...provides: Array<InjectedDependency>) {
-  /* tslint:disable-next-line:no-any */
   return (target: any, key: string, providedDesc?: PropertyDescriptor) => {
     const desc = resolveDescriptor(target, key, providedDesc);
     const prev = getProvides(target);

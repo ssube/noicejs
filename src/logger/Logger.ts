@@ -1,4 +1,4 @@
-/* tslint:disable:no-any unified-signatures */
+/* eslint-disable @typescript-eslint/unified-signatures, @typescript-eslint/no-explicit-any */
 
 /**
  * Available log levels.
@@ -24,6 +24,7 @@ export enum LogLevel {
  * @public
  */
 export interface Logger {
+
   child(options: any): Logger;
 
   debug(msg: string, ...params: Array<unknown>): void;

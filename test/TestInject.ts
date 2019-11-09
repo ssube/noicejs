@@ -4,6 +4,7 @@ import { BaseOptions, Container, DescriptorNotFoundError, InvalidTargetError, Mo
 import { getInject, Inject, injectionSymbol } from '../src/Inject';
 import { describeLeaks, itLeaks } from './helpers/async';
 
+/* eslint-disable @typescript-eslint/unbound-method */
 describeLeaks('inject decorator', async () => {
   itLeaks('should be a decorator factory', async () => {
     expect(Inject()).to.be.a('function');

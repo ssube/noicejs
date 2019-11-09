@@ -41,7 +41,7 @@ export class BaseError extends Error {
   /**
    * Get the number of nested errors.
    */
-  get length() {
+  public get length() {
     return this.nested.length;
   }
 }

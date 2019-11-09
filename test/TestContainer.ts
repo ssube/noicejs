@@ -18,7 +18,8 @@ import { describeLeaks, itLeaks } from './helpers/async';
 import { getTestLogger } from './helpers/logger';
 
 // @TODO: lint these tests properly :(
-/* tslint:disable:no-any no-big-function no-null-keyword no-unbound-method */
+/* eslint-disable max-lines, arrow-body-style, no-null/no-null */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/unbound-method */
 
 interface SubOptions extends BaseOptions {
   other: string;
@@ -104,14 +105,14 @@ describeLeaks('container', async () => {
     const container = Container.from(module);
     await container.configure();
 
-    expect(container.create('d')).to.be.rejectedWith(InvalidProviderError);
+    await expect(container.create('d')).to.be.rejectedWith(InvalidProviderError);
   });
 
   itLeaks('should throw when no contract was passed', async () => {
     const container = Container.from();
     await container.configure();
 
-    expect(container.create(null as any)).to.be.rejectedWith(BaseError);
+    await expect(container.create(null as any)).to.be.rejectedWith(BaseError);
   });
 
   itLeaks('should throw when the contract has no provider', async () => {
@@ -119,7 +120,7 @@ describeLeaks('container', async () => {
     const container = Container.from(module);
     await container.configure();
 
-    expect(container.create('d')).to.be.rejectedWith(MissingValueError);
+    await expect(container.create('d')).to.be.rejectedWith(MissingValueError);
   });
 
   itLeaks('should provide injected dependencies', async () => {

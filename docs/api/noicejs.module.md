@@ -25,7 +25,6 @@ export declare abstract class Module implements ModuleOptions
 |  [container](./noicejs.module.container.md) |  | <code>Container</code> |  |
 |  [logger](./noicejs.module.logger.md) |  | <code>Logger</code> |  |
 |  [providers](./noicejs.module.providers.md) |  | <code>Map&lt;Contract&lt;any, any&gt;, Provider&lt;any&gt;&gt;</code> |  |
-|  [size](./noicejs.module.size.md) |  | <code>number</code> |  |
 
 ## Methods
 

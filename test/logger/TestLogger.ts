@@ -5,7 +5,7 @@ import { spy } from 'sinon';
 import { Logger, LogLevel, logWithLevel } from '../../src/logger/Logger';
 import { describeLeaks } from '../helpers/async';
 
-/* tslint:disable:no-unbound-method */
+/* eslint-disable @typescript-eslint/unbound-method */
 
 describeLeaks('log level switch', async () => {
   it('should log at debug level', () => {

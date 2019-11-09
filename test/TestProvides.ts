@@ -5,7 +5,7 @@ import { Module } from '../src/Module';
 import { getProvides, Provides } from '../src/Provides';
 import { itLeaks } from './helpers/async';
 
-/* tslint:disable:no-unbound-method */
+/* eslint-disable @typescript-eslint/unbound-method */
 
 describe('provides decorator', () => {
   itLeaks('should return a function', async () => {

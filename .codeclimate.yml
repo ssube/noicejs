@@ -1,7 +1,16 @@
 version: "2"
 
+checks:
+  method-complexity:
+    config:
+      threshold: 6    # 5 is *just* too low and flags a number of otherwise readable methods
+  method-lines:
+    config:
+      threshold: 30   # with object literals, lines are not a great measure
+
 exclude_patterns:
   - CHANGELOG.md
+  - config/
   - docs/api/
   - docs/dev/style.md
   - src/migration/
@@ -13,13 +22,14 @@ plugins:
     config:
       languages:
         typescript:
-          mass_threshold: 120
+          mass_threshold: 225
+  eslint:
+    enabled: true
+    config:
+      config: config/eslint.json
   fixme:
     enabled: true
   markdownlint:
     enabled: true
   shellcheck:
     enabled: true
-  tslint:
-    enabled: true
-    config: config/tslint.cc.json
