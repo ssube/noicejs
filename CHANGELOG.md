@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-8](https://github.com/ssube/noicejs/compare/v3.0.0-7...v3.0.0-8) (2019-11-10)
+
+
+### Bug Fixes
+
+* **docs:** name links ([bb88f09](https://github.com/ssube/noicejs/commit/bb88f09))
+* **docs:** replace readme symlink with file ([14cd6c9](https://github.com/ssube/noicejs/commit/14cd6c9))
+
+
+### Features
+
+* **build:** add alpine image from template ([755ee73](https://github.com/ssube/noicejs/commit/755ee73))
+* **build:** replace tslint with eslint ([ec60786](https://github.com/ssube/noicejs/commit/ec60786))
+
 ## [3.0.0-7](https://github.com/ssube/noicejs/compare/v3.0.0-6...v3.0.0-7) (2019-10-04)
 
 
