@@ -54,49 +54,53 @@ Inspired by [Google's Guice library](https://github.com/google/guice) and writte
 
 ## Usage
 
-Consider a `User` class that needs to fetch data from the `Server`, but doesn't know (or need to know) how `Server` is
-implemented, only that it meets the contract.
+Consider a `Server` class that needs to fetch data from the `Cache` and `Filesystem`, but doesn't know (or need to
+know) how those are implemented.
 
 ```typescript
-import { Container, Inject, Module } from 'noicejs';
-import { Server } from './src/api/Server';
-import { NetworkServer } from './src/impl/Server';
+import { Cache, Filesystem } from './interfaces';
+import { LocalModule } from './local';
+import { NetworkModule } from './network';
 
-/**
- * Decorate your class with any dependencies it
- * needs to be created with.
- */
-@Inject(Server)
-class User {
-  constructor({server, id}) {
-    this.data = server.getUserData(id);
+@Inject(Cache, Filesystem)
+class Server {
+  protected readonly cache: Cache;
+  protected readonly filesystem: Filesystem;
+  protected readonly ttl: number;
+
+  constructor(options) {
+    this.cache = options.cache;
+    this.filesystem = options.filesystem;
+    this.ttl = defaultTo(options.ttl, 0);
+  }
+
+  get(path: string) {
+    return options.cache.get(path, this.ttl, () => options.filesystem.get(path));
   }
 }
 
-/**
- * Declare a Module to link your interface and
- * the implementation.
- */
-class NetworkModule extends Module {
-  async configure() {
-    this.bind(Server).toConstructor(NetworkServer);
+function module() {
+  if (process.env['DEBUG'] === 'TRUE') {
+    return new LocalModule();
+  } else {
+    return new NetworkModule();
   }
 }
 
-/**
- * Create an Injector and use it to create a User.
- */
-const ctr = Container.from(new NetworkModule());
-const user = await ctr.create(User, {
-  id: 3
-  // server will be populated by the DI container
-});
+function main() {
+  const container = Container.from(module());
+  await container.configure();
+
+  const foo = await container.create(Foo, {
+    /* cache and filesystem are found and injected by container */
+    ttl: 60,
+  });
+}
 ```
 
-noicejs will check the decorated constructor, find the correct provider for each dependency, and collect them before
-calling the constructor or factory.
-
-Any extra parameters you pass to `create` will be passed on to the constructor.
+noicejs will collect dependencies from the decorated constructor and any superclasses, find a provider for each
+injected dependency, and asynchronously resolve them before calling the constructor. Any extra parameters are passed
+on to the original constructor, along with the container and resolved dependencies.
 
 ## Build
 
