@@ -1,17 +1,15 @@
-import { Contract, contractName, isConstructor } from './Container';
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { AnyContract, contractName, isConstructor } from './Container';
 
 export interface Dependency {
   name: string | symbol;
-  contract: Contract<any, any>;
+  contract: AnyContract;
 }
 
 export interface Descriptor {
   requires: Array<Dependency>;
 }
 
-export type InjectedDependency = Dependency | Contract<any, any>;
+export type InjectedDependency = Dependency | AnyContract;
 
 /**
  * Convert an InjectedDependency into a regular Dependency

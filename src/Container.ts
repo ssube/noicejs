@@ -43,6 +43,8 @@ export type ContractName = string | symbol;
  */
 export type Contract<TReturn, TOptions extends BaseOptions> = ContractName | Constructor<TReturn, TOptions>;
 
+export type AnyContract = Contract<any, AnyOptions>;
+
 /**
  * Options after being wrapped with a permanent container.
  *

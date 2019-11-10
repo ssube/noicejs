@@ -1,4 +1,4 @@
-import { BaseOptions, Constructor, Container, Contract, contractName } from './Container';
+import { AnyContract, AnyOptions, BaseOptions, Constructor, Container, Contract, contractName } from './Container';
 import { LoggerNotFoundError } from './error/LoggerNotFoundError';
 import { Logger } from './logger/Logger';
 import { NullLogger } from './logger/NullLogger';
@@ -25,26 +25,26 @@ export enum ProviderType {
  *
  * @public
  */
-export type Factory<R> = (options: any) => Promise<R>;
+export type Factory<R, O extends BaseOptions> = (options: O) => Promise<R>;
 
 /**
  * Concrete implementation provider signature group.
  *
  * @public
  */
-export type Implementation<T> = Constructor<T, any> | Factory<T>;
+export type Implementation<T> = Constructor<T, any> | Factory<T, BaseOptions>;
 
 /**
  * Provider definitions.
  *
  * @public
  */
-export type Provider<R> = {
+export type Provider<R, O extends BaseOptions> = {
   type: ProviderType.Constructor;
-  value: Constructor<R, any>;
+  value: Constructor<R, O>;
 } | {
   type: ProviderType.Factory;
-  value: Factory<R>;
+  value: Factory<R, O>;
 } | {
   type: ProviderType.Instance;
   value: R;
@@ -53,14 +53,16 @@ export type Provider<R> = {
   value: undefined;
 };
 
+export type AnyProvider = Provider<any, AnyOptions>;
+
 /**
  * Fluent provider binding methods.
  *
  * @public
  */
-export interface FluentBinding<TContract, TReturn> {
-  toConstructor(implementation: Constructor<TContract, any>): TReturn;
-  toFactory(factory: Factory<TContract>): TReturn;
+export interface FluentBinding<TContract, TReturn, TOptions extends BaseOptions> {
+  toConstructor(implementation: Constructor<TContract, TOptions>): TReturn;
+  toFactory(factory: Factory<TContract, TOptions>): TReturn;
   toInstance(instance: TContract): TReturn;
 }
 
@@ -82,7 +84,7 @@ export interface ModuleOptions {
 export abstract class Module implements ModuleOptions {
   public container?: Container;
   public logger?: Logger;
-  protected providers: Map<Contract<any, any>, Provider<any>>;
+  protected providers: Map<AnyContract, AnyProvider>;
 
   constructor() {
     this.logger = NullLogger.global;
@@ -100,9 +102,9 @@ export abstract class Module implements ModuleOptions {
     this.bindPrototype(Reflect.getPrototypeOf(this));
   }
 
-  public get<C, O extends BaseOptions>(contract: Contract<C, O>): Provider<C> {
+  public get<C, O extends BaseOptions>(contract: Contract<C, O>): Provider<C, O> {
     const name = contractName(contract);
-    const provider = this.providers.get(contract) as Provider<C>;
+    const provider = this.providers.get(contract) as Provider<C, O>;
 
     if (this.logger !== undefined) {
       this.logger.debug({ contract: name, provider }, 'fetching contract from module');
@@ -139,7 +141,7 @@ export abstract class Module implements ModuleOptions {
    * @param value - the class, factory, or instance to bind
    */
   public bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: ProviderType.Constructor, value: Constructor<I, O>): this;
-  public bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: ProviderType.Factory, value: Factory<I>): this;
+  public bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: ProviderType.Factory, value: Factory<I, O>): this;
   public bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: ProviderType.Instance, value: I): this;
   public bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: ProviderType.None): this;
   public bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: ProviderType, value?: any): this {
@@ -159,7 +161,7 @@ export abstract class Module implements ModuleOptions {
    *
    * @todo this should be protected
    */
-  public bind<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>): FluentBinding<I, this> {
+  public bind<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>): FluentBinding<I, this, O> {
     return {
       toConstructor: (constructor) => this.bindTo(contract, ProviderType.Constructor, constructor),
       toFactory: (factory) => this.bindTo(contract, ProviderType.Factory, factory),
@@ -178,7 +180,7 @@ export abstract class Module implements ModuleOptions {
     }
   }
 
-  protected bindFunction<C, I extends C>(fn: Factory<I>) {
+  protected bindFunction<C, I extends C, O extends BaseOptions>(fn: Factory<I, O>) {
     const provides = getProvides(fn);
     for (const p of provides) {
       this.bindTo(p.contract, ProviderType.Factory, fn);

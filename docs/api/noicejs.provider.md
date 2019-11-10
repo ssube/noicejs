@@ -9,12 +9,12 @@ Provider definitions.
 <b>Signature:</b>
 
 ```typescript
-export declare type Provider<R> = {
+export declare type Provider<R, O extends BaseOptions> = {
     type: ProviderType.Constructor;
-    value: Constructor<R, any>;
+    value: Constructor<R, O>;
 } | {
     type: ProviderType.Factory;
-    value: Factory<R>;
+    value: Factory<R, O>;
 } | {
     type: ProviderType.Instance;
     value: R;
