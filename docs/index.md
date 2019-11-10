@@ -87,7 +87,7 @@ function module() {
   }
 }
 
-function main() {
+async function main() {
   const container = Container.from(module());
   await container.configure();
 
