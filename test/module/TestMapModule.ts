@@ -62,9 +62,10 @@ describeLeaks('map module', async () => {
   });
 
   itLeaks('should convert dicts', async () => {
+    class Bar {}
     const module = new MapModule({
       providers: {
-        bar: 3,
+        bar: Bar,
         foo: '1',
       },
     });
@@ -74,7 +75,7 @@ describeLeaks('map module', async () => {
       logger: ConsoleLogger.global,
     });
 
-    expect(await container.create('bar')).to.equal(3);
+    expect(await container.create('bar')).to.be.an.instanceOf(Bar);
     expect(await container.create('foo')).to.equal('1');
   });
 
