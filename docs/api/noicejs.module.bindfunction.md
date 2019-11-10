@@ -7,14 +7,14 @@
 <b>Signature:</b>
 
 ```typescript
-protected bindFunction<C, I extends C>(fn: Factory<I>): void;
+protected bindFunction<C, I extends C, O extends BaseOptions>(fn: Factory<I, O>): void;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  fn | <code>Factory&lt;I&gt;</code> |  |
+|  fn | <code>Factory&lt;I, O&gt;</code> |  |
 
 <b>Returns:</b>
 

@@ -7,7 +7,7 @@
 <b>Signature:</b>
 
 ```typescript
-get<C, O extends BaseOptions>(contract: Contract<C, O>): Provider<C>;
+get<C, O extends BaseOptions>(contract: Contract<C, O>): Provider<C, O>;
 ```
 
 ## Parameters
@@ -18,5 +18,5 @@ get<C, O extends BaseOptions>(contract: Contract<C, O>): Provider<C>;
 
 <b>Returns:</b>
 
-`Provider<C>`
+`Provider<C, O>`
 

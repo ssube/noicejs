@@ -7,5 +7,5 @@
 <b>Signature:</b>
 
 ```typescript
-protected providers: Map<Contract<any, any>, Provider<any>>;
+protected providers: Map<AnyContract, AnyProvider>;
 ```

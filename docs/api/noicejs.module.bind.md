@@ -11,7 +11,7 @@ Register a class as the provider for a particular contract. The class will be in
 <b>Signature:</b>
 
 ```typescript
-bind<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>): FluentBinding<I, this>;
+bind<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>): FluentBinding<I, this, O>;
 ```
 
 ## Parameters
@@ -22,5 +22,5 @@ bind<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>): FluentBin
 
 <b>Returns:</b>
 
-`FluentBinding<I, this>`
+`FluentBinding<I, this, O>`
 
