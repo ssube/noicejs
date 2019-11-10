@@ -24,7 +24,7 @@ export class BaseError extends Error {
     // using `isNil` here will cause a circular dependency between errors/BaseError and utils/index
     this.stack = this.nested.reduce((cur, err, idx) => {
       const stack = err.stack !== undefined ? err.stack : '';
-      const indented = stack.replace('\n', '\n  ');
+      const indented = stack.replace(/\n/g, '\n  ');
       return `${cur}
   caused by (${idx + 1}/${this.nested.length}):
     ${indented}`;
