@@ -1,5 +1,4 @@
-# use stretch for perf, alpine has a 10-15% hit
-FROM node:12-stretch
+FROM node:12-alpine
 
 # set up packages
 COPY package.json /app/package.json

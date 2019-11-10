@@ -11,14 +11,15 @@ stages:
 
 # build jobs
 build-node:
-  stage: build
   extends:
     - .build-node
+  stage: build
 
   script:
     - make ci
 
   artifacts:
+    when: always
     expire_in: 1 day
     paths:
       - out/
@@ -28,31 +29,60 @@ build-node:
     policy: pull-push
     paths:
       - node_modules/
+      - out/api
+      - out/cache
+      - out/tmp
 
-build-image-branch:
-  stage: image
+build-image-alpine-branch:
   extends:
     - .build-docker
-    - .deploy-branches
-
-  dependencies:
-    - build-node
-
-build-image-tag:
   stage: image
+  except:
+    - tags
+  script:
+    - ./scripts/docker-build.sh --push --default
+  variables:
+    IMAGE_ARCH: alpine
+
+build-image-alpine-tag:
   extends:
     - .build-docker
-    - .deploy-tags
+  stage: image
+  only:
+    - tags
+  script:
+    - ./scripts/docker-build.sh --push --default
+  variables:
+    IMAGE_ARCH: alpine
 
-  dependencies:
-    - build-node
+build-image-stretch-branch:
+  extends: [.build-docker]
+  stage: image
+  except:
+    - tags
+  script:
+    - ./scripts/docker-build.sh --push
+  variables:
+    IMAGE_ARCH: stretch
+
+build-image-stretch-tag:
+  extends:
+    - .build-docker
+  stage: image
+  only:
+    - tags
+  script:
+    - ./scripts/docker-build.sh --push
+  variables:
+    IMAGE_ARCH: stretch
 
 # publish jobs
 publish-npm:
-  stage: publish
   extends:
     - .build-node
-    - .deploy-tags
+  stage: publish
+  only:
+    - tags
 
   dependencies:
     - build-node
@@ -67,15 +97,6 @@ climate-pending:
 
   script:
     - cc-test-reporter before-build
-
-climate-failure:
-  stage: status-post
-  extends:
-    - .build-climate
-
-  when: on_failure
-  script:
-    - cc-test-reporter after-build --debug --exit-code 1
 
 climate-success:
   stage: status-post
@@ -99,27 +120,24 @@ codecov-success:
     - make upload-codecov
 
 github-pending:
-  stage: status-pre
   extends:
     - .build-curl
-
+  stage: status-pre
   script:
-    - ${CI_PROJECT_DIR}/scripts/github-status.sh pending
+    - ./scripts/github-status.sh pending
 
 github-failure:
-  stage: status-post
   extends:
     - .build-curl
-
+  stage: status-post
   when: on_failure
   script:
-    - ${CI_PROJECT_DIR}/scripts/github-status.sh failure
+    - ./scripts/github-status.sh failure
 
 github-success:
-  stage: status-post
   extends:
     - .build-curl
-
+  stage: status-post
   when: on_success
   script:
-    - ${CI_PROJECT_DIR}/scripts/github-status.sh success
+    - ./scripts/github-status.sh success
