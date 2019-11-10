@@ -52,6 +52,12 @@ const bundle = {
 		if (id.includes(`${sep}src${sep}`)) {
 			return 'main';
 		}
+
+		if (debug) {
+			console.log('file belongs to no chunk', id);
+		}
+
+		return 'nochunk';
 	},
 	output: {
 		dir: targetPath,
