@@ -18,8 +18,9 @@
   },
   "keywords": [
     "di",
-    "dependency",
-    "injection",
+    "dependency-injection",
+    "dependency-injection-container",
+    "service-locator",
     "guice"
   ],
   "author": "ssube",
