@@ -10,4 +10,5 @@ temp/
 *.swp
 *.tmp
 
+package-lock.json
 yarn-error.log

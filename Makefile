@@ -96,13 +96,14 @@ build: build-bundle build-docs
 
 build-bundle: node_modules
 	$(NODE_BIN)/rollup --config $(CONFIG_PATH)/rollup.js
+	sed -i '1s;^;#! /usr/bin/env node\n\n;' $(TARGET_PATH)/index.js
 
 build-docs: ## generate html docs
 	$(NODE_BIN)/api-extractor run --config $(CONFIG_PATH)/api-extractor.json --local -v
 	$(NODE_BIN)/api-documenter markdown -i $(TARGET_PATH)/api -o $(DOCS_PATH)/api
 
 build-image: ## build a docker image
-	$(SCRIPT_PATH)/docker-build.sh
+	$(SCRIPT_PATH)/docker-build.sh --push
 
 test: ## run mocha unit tests
 test: test-cover
@@ -127,6 +128,9 @@ test-watch:
 
 yarn-install: ## install dependencies from package and lock file
 	yarn
+
+yarn-global: ## install bundle as a global tool
+	yarn global add file:$(ROOT_PATH)
 
 yarn-update: ## check yarn for outdated packages
 	yarn upgrade-interactive --latest

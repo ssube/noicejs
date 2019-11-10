@@ -1,7 +1,5 @@
 import { AsyncHook, createHook } from 'async_hooks';
 
-import { isNil } from '../../src/utils';
-
 // this will pull Mocha internals out of the stacks
 /* eslint-disable-next-line @typescript-eslint/no-var-requires */
 const { stackTraceFilter } = require('mocha/lib/utils');
@@ -9,6 +7,11 @@ const filterStack = stackTraceFilter();
 
 type AsyncMochaTest = (this: Mocha.Context | void) => Promise<void>;
 type AsyncMochaSuite = (this: Mocha.Suite) => Promise<void>;
+
+function isNil<T>(val: T | null | undefined): val is null | undefined {
+  /* eslint-disable-next-line no-null/no-null */
+  return val === null || val === undefined;
+}
 
 export interface TrackedResource {
   source: string;
