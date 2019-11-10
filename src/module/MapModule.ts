@@ -1,10 +1,10 @@
 import { BaseOptions, Constructor, Contract, isConstructor } from '../Container';
 import { Module, ModuleOptions } from '../Module';
 
-export type ProviderValue<TReturn> = TReturn | Constructor<TReturn, BaseOptions>;
-export type ProviderMap<TReturn, TOptions extends BaseOptions> = Map<Contract<TReturn, TOptions>, ProviderValue<TReturn>>;
+export type ProviderValue<TReturn, TOptions extends BaseOptions> = TReturn | Constructor<TReturn, TOptions>;
+export type ProviderMap<TReturn, TOptions extends BaseOptions> = Map<Contract<TReturn, TOptions>, ProviderValue<TReturn, TOptions>>;
 export type ProviderMapLike = ProviderMap<unknown, BaseOptions> | {
-  [key: string]: ProviderValue<unknown>;
+  [key: string]: ProviderValue<unknown, BaseOptions>;
 };
 
 export interface MapModuleOptions {
@@ -27,7 +27,7 @@ export class MapModule extends Module {
     if (options.providers instanceof Map) {
       this.providerMap = new Map(options.providers);
     } else {
-      this.providerMap = new Map(Object.entries<ProviderValue<unknown>>(options.providers));
+      this.providerMap = new Map(Object.entries<ProviderValue<unknown, BaseOptions>>(options.providers));
     }
   }
 

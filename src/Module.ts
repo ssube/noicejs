@@ -32,7 +32,7 @@ export type Factory<R, O extends BaseOptions> = (options: O) => Promise<R>;
  *
  * @public
  */
-export type Implementation<T> = Constructor<T, any> | Factory<T, BaseOptions>;
+export type Implementation<R, O extends BaseOptions> = Constructor<R, O> | Factory<R, O>;
 
 /**
  * Provider definitions.
