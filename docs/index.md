@@ -91,7 +91,7 @@ function main() {
   const container = Container.from(module());
   await container.configure();
 
-  const foo = await container.create(Foo, {
+  const foo = await container.create(Server, {
     /* cache and filesystem are found and injected by container */
     ttl: 60,
   });
