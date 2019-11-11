@@ -13,9 +13,7 @@ import { Consumer, Implementation, Interface, TestModule } from '../HelperClass'
 import { describeLeaks, itLeaks } from '../helpers/async';
 import { getTestLogger } from '../helpers/logger';
 
-// @TODO: lint these tests properly :(
-/* eslint-disable max-lines, arrow-body-style, no-null/no-null */
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/unbound-method */
+/* eslint-disable no-null/no-null, @typescript-eslint/no-explicit-any, @typescript-eslint/unbound-method */
 
 describeLeaks('container', async () => {
   itLeaks('should throw when no contract was passed', async () => {
