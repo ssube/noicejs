@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/ssube/noicejs/compare/v3.0.0-8...v3.0.0) (2019-11-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* **module:** this prevents the fluent bind().toConstructor() from
+inferring options if the constructor or factory requires a subclass
+of BaseOptions, since the options are resolved against the arguments
+to bind. Previously, AnyOptions would have been accepted, regardless
+of what the constructor or factory expects.
+
+### Bug Fixes
+
+* **build:** handle unplaced chunks ([dca135c](https://github.com/ssube/noicejs/commit/dca135c))
+* **build:** update package keywords ([e7724f2](https://github.com/ssube/noicejs/commit/e7724f2))
+* **docs:** update pages index example ([814ac8c](https://github.com/ssube/noicejs/commit/814ac8c))
+* **docs:** update readme example ([bdc8457](https://github.com/ssube/noicejs/commit/bdc8457))
+* **error:** indent every line of base stack ([1aadd0c](https://github.com/ssube/noicejs/commit/1aadd0c))
+* **module:** add binding options type arg ([5adcb8f](https://github.com/ssube/noicejs/commit/5adcb8f))
+* **module:** type options in implementation ([717a856](https://github.com/ssube/noicejs/commit/717a856))
+
+
+### Features
+
+* **build:** add sonar job ([a2232f6](https://github.com/ssube/noicejs/commit/a2232f6))
+
 ## [3.0.0-8](https://github.com/ssube/noicejs/compare/v3.0.0-7...v3.0.0-8) (2019-11-10)
 
 
