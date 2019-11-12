@@ -159,7 +159,7 @@ export class Container implements ContainerOptions {
       this.logger.debug({ contract }, 'container create contract');
     }
 
-    const module = this.modules.find((item) => item.has(contract));
+    const module = this.findModule(contract);
     if (isNil(module)) {
       if (isConstructor(contract)) {
         return this.construct(contract, options, args);
@@ -184,6 +184,22 @@ export class Container implements ContainerOptions {
     for (const m of this.modules) {
       m.debug();
     }
+  }
+
+  protected findModule(contract: AnyContract) {
+    return this.modules.find((item) => item.has(contract));
+  }
+
+  public has(contract: AnyContract) {
+    return this.findModule(contract) !== undefined;
+  }
+
+  public get(contract: AnyContract) {
+    const module = this.findModule(contract);
+    if (isNil(module)) {
+      throw new MissingValueError();
+    }
+    return module.get(contract);
   }
 
   public getModules(): ReadonlyArray<Module> {
