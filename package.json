@@ -70,7 +70,6 @@
     "source-map-support": "0.5.16",
     "standard-version": "7.0.0",
     "tslint": "5.20.1",
-    "typedoc": "0.15.0",
     "typescript": "3.7.2"
   },
   "nyc": {
