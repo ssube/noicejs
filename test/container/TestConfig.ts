@@ -16,6 +16,7 @@ import { getTestLogger } from '../helpers/logger';
 /* eslint-disable no-null/no-null, @typescript-eslint/unbound-method */
 
 const TEST_MODULE_COUNT = 8; // the number of test modules to create
+const TEST_MODULE_EXTENDED = 16;
 
 describeLeaks('container', async () => {
   itLeaks('should take a list of modules', async () => {
@@ -70,7 +71,7 @@ describeLeaks('container', async () => {
     const extended = container.with(...extension);
 
     const extendedModules = extended.getModules();
-    expect(extendedModules.length).to.equal(TEST_MODULE_COUNT * 2); // look ma, no magic numbers
+    expect(extendedModules.length).to.equal(TEST_MODULE_EXTENDED);
     expect(extendedModules).to.include.members(modules);
     expect(extendedModules).to.include.members(extension);
   });
@@ -113,7 +114,7 @@ describeLeaks('container', async () => {
     container.debug();
     await container.create('foo');
 
-    expect(logger.debug).to.have.callCount(9);
+    const LOG_COUNT = 9;
+    expect(logger.debug).to.have.callCount(LOG_COUNT);
   });
-
 });

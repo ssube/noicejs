@@ -6,11 +6,13 @@ import { describeLeaks, itLeaks } from '../helpers/async';
 
 /* eslint-disable sonarjs/no-identical-functions */
 
+const TEST_VALUE = 3;
+
 describeLeaks('map module', async () => {
   itLeaks('should treat primitives as instances', async () => {
     const module = new MapModule({
       providers: {
-        bar: 3,
+        bar: TEST_VALUE,
         foo: '1',
       },
     });
@@ -20,7 +22,7 @@ describeLeaks('map module', async () => {
       logger: ConsoleLogger.global,
     });
 
-    expect(await container.create('bar')).to.equal(3);
+    expect(await container.create('bar')).to.equal(TEST_VALUE);
     expect(await container.create('foo')).to.equal('1');
   });
 
@@ -46,7 +48,7 @@ describeLeaks('map module', async () => {
   itLeaks('should accept maps', async () => {
     const module = new MapModule({
       providers: new Map<string, string | number>([
-        ['bar', 3],
+        ['bar', TEST_VALUE],
         ['foo', '1'],
       ]),
     });
@@ -56,7 +58,7 @@ describeLeaks('map module', async () => {
       logger: ConsoleLogger.global,
     });
 
-    expect(await container.create('bar')).to.equal(3);
+    expect(await container.create('bar')).to.equal(TEST_VALUE);
     expect(await container.create('foo')).to.equal('1');
 
   });
@@ -82,12 +84,12 @@ describeLeaks('map module', async () => {
   itLeaks('should work without a logger', async () => {
     const module = new MapModule({
       providers: {
-        foo: 3,
+        foo: TEST_VALUE,
       },
     });
     const container = Container.from(module);
     await container.configure({});
 
-    expect(await container.create('foo')).to.equal(3);
+    expect(await container.create('foo')).to.equal(TEST_VALUE);
   });
 });

@@ -29,7 +29,7 @@ describe('provides decorator', () => {
     class TestModule extends Module {
       @Provides(Target)
       public foo() {
-        return 2;
+        return Math.random();
       }
     }
 

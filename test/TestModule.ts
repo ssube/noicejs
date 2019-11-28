@@ -27,10 +27,11 @@ describeLeaks('module', async () => {
   });
 
   itLeaks('should report bindings', async () => {
+    const SOME_VAL = 3;
     class TestModule extends Module {
       public async configure(options: ModuleOptions) {
         this.bind('a').toConstructor(TestModule);
-        this.bind('b').toFactory(() => Promise.resolve(3));
+        this.bind('b').toFactory(() => Promise.resolve(SOME_VAL));
         this.bind('c').toInstance(1);
       }
     }
@@ -150,7 +151,8 @@ describeLeaks('module', async () => {
     });
     container.debug();
 
-    expect(logger.debug).to.have.callCount(2);
+    const EXPECTED_LOGS = 2;
+    expect(logger.debug).to.have.callCount(EXPECTED_LOGS);
     expect(module.debug).to.have.callCount(1);
   });
 
@@ -172,7 +174,8 @@ describeLeaks('module', async () => {
     const container = Container.from(module);
     await container.configure();
 
-    expect(module.size).to.equal(2);
+    const EXPECTED_LOGS = 2;
+    expect(module.size).to.equal(EXPECTED_LOGS);
   });
 
   itLeaks('should throw if it has no logger', async () => {

@@ -285,9 +285,10 @@ describeLeaks('container', async () => {
       bar,
     });
 
+    const HAS_CALL_COUNT = 2;
     expect(module.has).to.have.been.calledWith('foo');
     expect(module.has).not.to.have.been.calledWith('bar');
-    expect(module.has, 'called for injected and foo').to.have.callCount(2);
+    expect(module.has, 'called for injected and foo').to.have.callCount(HAS_CALL_COUNT);
 
     expect(injected.bar).to.equal(bar);
     expect(injected.foo).to.equal(foo);
@@ -297,8 +298,9 @@ describeLeaks('container', async () => {
     const ctr = Container.from(new TestModule());
     await ctr.configure();
 
-    const impl = await ctr.create(Consumer, {}, 3);
-    expect(impl.args).to.deep.equal([3]);
+    const arg = Math.random();
+    const impl = await ctr.create(Consumer, {}, arg);
+    expect(impl.args).to.deep.equal([arg]);
     expect(impl.deps[Interface.name]).to.be.an.instanceof(Implementation);
   });
 

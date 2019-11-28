@@ -68,8 +68,9 @@ describeLeaks('inject decorator', async () => {
     @Inject('bar')
     class BarClass extends FooClass { /* noop */ }
 
+    const EXPECTED_INJECTED = 2;
     const injected = getInject(BarClass);
-    expect(injected.length).to.equal(2);
+    expect(injected.length).to.equal(EXPECTED_INJECTED);
     expect(injected[0].name, 'first injected option should be from parent class').to.equal('foo');
   });
 
