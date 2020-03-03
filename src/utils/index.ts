@@ -1,18 +1,22 @@
 import { DescriptorNotFoundError } from '../error/DescriptorNotFoundError';
 import { MissingValueError } from '../error/MissingValueError';
 
+/* eslint-disable-next-line @typescript-eslint/ban-types */
+export type Maybe<TValue> = TValue | null | undefined;
+
 // these could be pulled from lodash, but that would introduce a dependency...
 
-export function isNil<T>(val: T | null | undefined): val is null | undefined {
+/* eslint-disable-next-line @typescript-eslint/ban-types */
+export function isNil<T>(val: Maybe<T>): val is null | undefined {
   /* eslint-disable-next-line no-null/no-null */
   return val === null || val === undefined;
 }
 
-export function doesExist<T>(val: T | null | undefined): val is T {
+export function doesExist<T>(val: Maybe<T>): val is T {
   return !isNil(val);
 }
 
-export function mustExist<T>(val: T | null | undefined): T {
+export function mustExist<T>(val: Maybe<T>): T {
   if (isNil(val)) {
     throw new MissingValueError('value must exist');
   }
