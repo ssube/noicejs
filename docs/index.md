@@ -47,7 +47,7 @@ Inspired by [Google's Guice library](https://github.com/google/guice) and writte
 ## Releases
 
 [![Github release version](https://img.shields.io/github/tag/ssube/noicejs.svg)](https://github.com/ssube/noicejs/releases)
-[![Commits since release](https://img.shields.io/github/commits-since/ssube/noicejs/v2.5.2.svg)](https://github.com/ssube/noicejs/compare/v2.5.2...master)
+[![Commits since release](https://img.shields.io/github/commits-since/ssube/noicejs/v3.0.1.svg)](https://github.com/ssube/noicejs/compare/v3.0.1...master)
 
 [![npm release version](https://img.shields.io/npm/v/noicejs.svg)](https://www.npmjs.com/package/noicejs)
 [![Typescript definitions](https://img.shields.io/npm/types/noicejs.svg)](https://www.npmjs.com/package/noicejs)

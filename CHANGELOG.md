@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.1](https://github.com/ssube/noicejs/compare/v3.0.0...v3.0.1) (2020-03-07)
+
+
+### Bug Fixes
+
+* **lint:** replace some nulls with maybe type ([da28e08](https://github.com/ssube/noicejs/commit/da28e08be5c4ff854e283226c0746ddab8887051))
+
 ## [3.0.0](https://github.com/ssube/noicejs/compare/v3.0.0-8...v3.0.0) (2019-11-11)
 
 
