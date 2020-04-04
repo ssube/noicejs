@@ -55,7 +55,7 @@ Inspired by [Google's Guice library](https://github.com/google/guice) and writte
 
 [![github release link](https://img.shields.io/badge/github-release-blue?logo=github)](https://github.com/ssube/noicejs/releases)
 [![github release version](https://img.shields.io/github/tag/ssube/noicejs.svg)](https://github.com/ssube/noicejs/releases)
-[![github commits since release](https://img.shields.io/github/commits-since/ssube/noicejs/v3.0.0.svg)](https://github.com/ssube/noicejs/compare/v3.0.0...master)
+[![github commits since release](https://img.shields.io/github/commits-since/ssube/noicejs/v3.0.1.svg)](https://github.com/ssube/noicejs/compare/v3.0.1...master)
 
 [![npm package link](https://img.shields.io/badge/npm-package-blue?logo=npm)](https://www.npmjs.com/package/noicejs)
 [![npm release version](https://img.shields.io/npm/v/noicejs.svg)](https://www.npmjs.com/package/noicejs)
@@ -71,7 +71,7 @@ import { LocalModule } from './local';
 import { NetworkModule } from './network';
 
 class Cache {
-  public get(path: string, ttl: number, fallback: Function): Promise<string> {
+  public get(path: string, ttl: number, fallback: () => Promise<string>): Promise<string> {
     /* ... */
   }
 }
