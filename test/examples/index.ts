@@ -3,11 +3,11 @@ import { BaseOptions, Container, Inject } from '../../src';
 export type CacheFallback = (path: string) => Promise<string>;
 
 /**
- * Abstract base for a cache.
+ * Base class for a cache.
  *
- * Both of these abstract base classes could be interfaces, but
- * interfaces are types rather than values, and cannot be used
- * in calls to bind.
+ * Both of these base classes could be abstract or interfaces, but
+ * interfaces are types rather than values, and neither can be used
+ * in calls to bind or inject.
  */
 export class Cache {
   public get(path: string, ttl: number, fallback: CacheFallback): Promise<string> {
