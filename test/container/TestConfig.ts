@@ -10,7 +10,6 @@ import { Logger } from '../../src/logger/Logger';
 import { Module } from '../../src/Module';
 import { Provides } from '../../src/Provides';
 import { TestModule } from '../HelperClass';
-import { describeLeaks, itLeaks } from '../helpers/async';
 import { getTestLogger } from '../helpers/logger';
 
 /* eslint-disable no-null/no-null, @typescript-eslint/unbound-method */
@@ -18,8 +17,8 @@ import { getTestLogger } from '../helpers/logger';
 const TEST_MODULE_COUNT = 8; // the number of test modules to create
 const TEST_MODULE_EXTENDED = 16;
 
-describeLeaks('container', async () => {
-  itLeaks('should take a list of modules', async () => {
+describe('container', async () => {
+  it('should take a list of modules', async () => {
     class SubModule extends Module {
       public async configure() {
         // noop
@@ -33,7 +32,7 @@ describeLeaks('container', async () => {
     expect(ctr.getModules()).to.deep.equal(modules);
   });
 
-  itLeaks('should configure modules', async () => {
+  it('should configure modules', async () => {
     const module = new TestModule();
     spy(module, 'configure');
 
@@ -43,27 +42,27 @@ describeLeaks('container', async () => {
     expect(module.configure).to.have.been.called.callCount(1);
   });
 
-  itLeaks('should be created from some modules', async () => {
+  it('should be created from some modules', async () => {
     const modules = Array(TEST_MODULE_COUNT).fill(null).map(() => new TestModule());
     const container = Container.from(...modules);
 
     expect(container.getModules()).to.deep.equal(modules);
   });
 
-  itLeaks('should be configured before being used', async () => {
+  it('should be configured before being used', async () => {
     const modules = Array(TEST_MODULE_COUNT).fill(null).map(() => new TestModule());
     const container = Container.from(...modules);
 
     return expect(container.create(TestModule)).to.eventually.be.rejectedWith(ContainerNotBoundError);
   });
 
-  itLeaks('should not be configured more than once', async () => {
+  it('should not be configured more than once', async () => {
     const container = Container.from();
 
     await container.configure();
     return expect(container.configure()).to.eventually.be.rejectedWith(ContainerBoundError);
   });
-  itLeaks('should be extended with some modules', async () => {
+  it('should be extended with some modules', async () => {
     const modules = Array(TEST_MODULE_COUNT).fill(null).map(() => new TestModule());
     const container = Container.from(...modules);
 
@@ -76,7 +75,7 @@ describeLeaks('container', async () => {
     expect(extendedModules).to.include.members(extension);
   });
 
-  itLeaks('should log debug info', async () => {
+  it('should log debug info', async () => {
     const container = Container.from();
     const debugSpy = spy();
     await container.configure({
@@ -88,14 +87,14 @@ describeLeaks('container', async () => {
     expect(debugSpy).to.have.callCount(1);
   });
 
-  itLeaks('should throw on debug without logger', async () => {
+  it('should throw on debug without logger', async () => {
     const container = Container.from();
     expect(() => {
       container.debug();
     }).to.throw(LoggerNotFoundError);
   });
 
-  itLeaks('should print debug logs', async () => {
+  it('should print debug logs', async () => {
     class FooModule extends Module {
       @Provides('foo')
       public async createFoo() {

@@ -2,11 +2,10 @@ import { expect } from 'chai';
 import { restore, spy } from 'sinon';
 
 import { ConsoleLogger } from '../../src/logger/ConsoleLogger';
-import { describeLeaks } from '../helpers/async';
 
 /* eslint-disable no-console, @typescript-eslint/unbound-method */
 
-describeLeaks('console logger', async () => {
+describe('console logger', async () => {
   beforeEach(() => {
     spy(console, 'debug');
     spy(console, 'error');

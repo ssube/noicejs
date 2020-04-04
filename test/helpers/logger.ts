@@ -4,8 +4,12 @@ import { NullLogger } from '../../src/logger/NullLogger';
 
 const ENV_DEBUG = 'DEBUG';
 
+export function isDebug(): boolean {
+  return process.env[ENV_DEBUG] === 'TRUE';
+}
+
 export function getTestLogger(): Logger {
-  if (process.env[ENV_DEBUG] === 'TRUE') {
+  if (isDebug()) {
     return new ConsoleLogger();
   } else {
     return new NullLogger();

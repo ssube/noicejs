@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 
 import { BaseOptions, constructWithContainer, Container, invokeWithContainer } from '../../src/Container';
-import { describeLeaks, itLeaks } from '../helpers/async';
 
 /* eslint-disable arrow-body-style, @typescript-eslint/no-explicit-any */
 
@@ -11,9 +10,9 @@ interface SubOptions extends BaseOptions {
 
 const TEST_STRING = 'test';
 
-describeLeaks('container decorators', async () => {
-  describeLeaks('construct with', async () => {
-    itLeaks('should attach a container', async () => {
+describe('container decorators', async () => {
+  describe('construct with', async () => {
+    it('should attach a container', async () => {
       const ctr = Container.from();
       await ctr.configure();
 
@@ -30,7 +29,7 @@ describeLeaks('container decorators', async () => {
       expect(instance.container).to.equal(ctr);
     });
 
-    itLeaks('should pass on any other options', async () => {
+    it('should pass on any other options', async () => {
       const ctr = Container.from();
       await ctr.configure();
 
@@ -51,7 +50,7 @@ describeLeaks('container decorators', async () => {
       expect(instance.other).to.equal(TEST_STRING);
     });
 
-    itLeaks('should pass on any other arguments', async () => {
+    it('should pass on any other arguments', async () => {
       const ctr = Container.from();
       await ctr.configure();
 
@@ -76,8 +75,8 @@ describeLeaks('container decorators', async () => {
     });
   });
 
-  describeLeaks('invoke with', async () => {
-    itLeaks('should attach a container', async () => {
+  describe('invoke with', async () => {
+    it('should attach a container', async () => {
       const ctr = Container.from();
       await ctr.configure();
 
@@ -88,7 +87,7 @@ describeLeaks('container decorators', async () => {
       expect(fn({})).to.equal(ctr);
     });
 
-    itLeaks('should pass on any other options', async () => {
+    it('should pass on any other options', async () => {
       const ctr = Container.from();
       await ctr.configure();
 
@@ -101,7 +100,7 @@ describeLeaks('container decorators', async () => {
       })).to.equal(TEST_STRING);
     });
 
-    itLeaks('should pass on any other arguments', async () => {
+    it('should pass on any other arguments', async () => {
       const ctr = Container.from();
       await ctr.configure();
 

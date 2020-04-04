@@ -3,11 +3,10 @@ import { ineeda } from 'ineeda';
 import { spy } from 'sinon';
 
 import { Logger, LogLevel, logWithLevel } from '../../src/logger/Logger';
-import { describeLeaks } from '../helpers/async';
 
 /* eslint-disable @typescript-eslint/unbound-method */
 
-describeLeaks('log level switch', async () => {
+describe('log level switch', async () => {
   it('should log at debug level', () => {
     const logger = ineeda<Logger>({
       debug: spy(),
