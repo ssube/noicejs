@@ -3,13 +3,12 @@ import { spy } from 'sinon';
 
 import { LogLevel } from '../../src/logger/Logger';
 import { WinstonLogger } from '../../src/logger/WinstonLogger';
-import { describeLeaks, itLeaks } from '../helpers/async';
 
 const TEST_MSG = 'hello world';
 const TEST_ARGS = ['foo', 'bar'];
 
-describeLeaks('winston logger', async () => {
-  itLeaks('should forward debug messages', async () => {
+describe('winston logger', async () => {
+  it('should forward debug messages', async () => {
     const log = spy();
     const logger = new WinstonLogger({
       log,
@@ -20,7 +19,7 @@ describeLeaks('winston logger', async () => {
     expect(log).to.have.been.calledOnce.and.calledWithExactly(LogLevel.Debug, TEST_MSG, ...TEST_ARGS, options);
   });
 
-  itLeaks('should forward error messages', async () => {
+  it('should forward error messages', async () => {
     const log = spy();
     const logger = new WinstonLogger({
       log,
@@ -31,7 +30,7 @@ describeLeaks('winston logger', async () => {
     expect(log).to.have.been.calledOnce.and.calledWithExactly(LogLevel.Error, TEST_MSG, ...TEST_ARGS, options);
   });
 
-  itLeaks('should forward info messages', async () => {
+  it('should forward info messages', async () => {
     const log = spy();
     const logger = new WinstonLogger({
       log,
@@ -42,7 +41,7 @@ describeLeaks('winston logger', async () => {
     expect(log).to.have.been.calledOnce.and.calledWithExactly(LogLevel.Info, TEST_MSG, ...TEST_ARGS, options);
   });
 
-  itLeaks('should forward warning messages', async () => {
+  it('should forward warning messages', async () => {
     const log = spy();
     const logger = new WinstonLogger({
       log,
@@ -53,7 +52,7 @@ describeLeaks('winston logger', async () => {
     expect(log).to.have.been.calledOnce.and.calledWithExactly(LogLevel.Warn, TEST_MSG, ...TEST_ARGS, options);
   });
 
-  itLeaks('should return itself as a child', async () => {
+  it('should return itself as a child', async () => {
     const logger = new WinstonLogger({
       log: spy(),
     });

@@ -5,13 +5,12 @@ import { LoggerNotFoundError, Provides } from '../src';
 import { BaseOptions, Container } from '../src/Container';
 import { Module, ModuleOptions, ProviderType } from '../src/Module';
 import { isNil } from '../src/utils';
-import { describeLeaks, itLeaks } from './helpers/async';
 import { getTestLogger } from './helpers/logger';
 
 /* eslint-disable @typescript-eslint/unbound-method */
 
-describeLeaks('module', async () => {
-  itLeaks('should be extendable', async () => {
+describe('module', async () => {
+  it('should be extendable', async () => {
     class TestModule extends Module {
       public async configure(options: ModuleOptions) { /* noop */ }
     }
@@ -26,7 +25,7 @@ describeLeaks('module', async () => {
     expect(module.configure).to.have.been.calledWithMatch(match.has('container', container));
   });
 
-  itLeaks('should report bindings', async () => {
+  it('should report bindings', async () => {
     const SOME_VAL = 3;
     class TestModule extends Module {
       public async configure(options: ModuleOptions) {
@@ -46,7 +45,7 @@ describeLeaks('module', async () => {
     expect(module.has('d'), 'does not have').to.equal(false);
   });
 
-  itLeaks('should get the same instance each time', async () => {
+  it('should get the same instance each time', async () => {
     class TestModule extends Module {
       public async configure(options: ModuleOptions) {
         this.bind('c').toInstance({});
@@ -63,7 +62,7 @@ describeLeaks('module', async () => {
     expect(check).to.equal(again);
   });
 
-  itLeaks('should convert contract names', async () => {
+  it('should convert contract names', async () => {
     class TestClass { /* noop */ }
     class TestModule extends Module {
       public async configure(options: ModuleOptions) {
@@ -78,7 +77,7 @@ describeLeaks('module', async () => {
     expect(module.has(TestClass.name), 'has a constructor').to.equal(false);
   });
 
-  itLeaks('should invoke complex factories', async () => {
+  it('should invoke complex factories', async () => {
     class TestInstance { }
     let instance: TestInstance;
 
@@ -113,7 +112,7 @@ describeLeaks('module', async () => {
     expect(ref, 'return the same instance').to.equal(await container.create('a'));
   });
 
-  itLeaks('should invoke factories with the module scope', async () => {
+  it('should invoke factories with the module scope', async () => {
     let scope: Module | undefined;
     class TestModule extends Module {
       public async configure(options: ModuleOptions) {
@@ -134,7 +133,7 @@ describeLeaks('module', async () => {
     expect(scope).to.equal(module);
   });
 
-  itLeaks('should print debug logs', async () => {
+  it('should print debug logs', async () => {
     class TestModule extends Module {
       public debug() { /* noop */ }
     }
@@ -156,7 +155,7 @@ describeLeaks('module', async () => {
     expect(module.debug).to.have.callCount(1);
   });
 
-  itLeaks('should count provider methods', async () => {
+  it('should count provider methods', async () => {
     class TestModule extends Module {
       public async configure(options: BaseOptions) {
         await super.configure(options);
@@ -178,7 +177,7 @@ describeLeaks('module', async () => {
     expect(module.size).to.equal(EXPECTED_LOGS);
   });
 
-  itLeaks('should throw if it has no logger', async () => {
+  it('should throw if it has no logger', async () => {
     class TestModule extends Module { }
 
     const module = new TestModule();

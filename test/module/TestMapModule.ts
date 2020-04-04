@@ -2,14 +2,13 @@ import { expect } from 'chai';
 
 import { ConsoleLogger, Container } from '../../src';
 import { MapModule } from '../../src/module/MapModule';
-import { describeLeaks, itLeaks } from '../helpers/async';
 
 /* eslint-disable sonarjs/no-identical-functions */
 
 const TEST_VALUE = 3;
 
-describeLeaks('map module', async () => {
-  itLeaks('should treat primitives as instances', async () => {
+describe('map module', async () => {
+  it('should treat primitives as instances', async () => {
     const module = new MapModule({
       providers: {
         bar: TEST_VALUE,
@@ -26,7 +25,7 @@ describeLeaks('map module', async () => {
     expect(await container.create('foo')).to.equal('1');
   });
 
-  itLeaks('should treat functions as constructors', async () => {
+  it('should treat functions as constructors', async () => {
     class Bar { }
     class Foo { }
     const module = new MapModule({
@@ -45,7 +44,7 @@ describeLeaks('map module', async () => {
     expect(await container.create('foo')).to.be.an.instanceOf(Foo);
   });
 
-  itLeaks('should accept maps', async () => {
+  it('should accept maps', async () => {
     const module = new MapModule({
       providers: new Map<string, string | number>([
         ['bar', TEST_VALUE],
@@ -63,7 +62,7 @@ describeLeaks('map module', async () => {
 
   });
 
-  itLeaks('should convert dicts', async () => {
+  it('should convert dicts', async () => {
     class Bar {}
     const module = new MapModule({
       providers: {
@@ -81,7 +80,7 @@ describeLeaks('map module', async () => {
     expect(await container.create('foo')).to.equal('1');
   });
 
-  itLeaks('should work without a logger', async () => {
+  it('should work without a logger', async () => {
     const module = new MapModule({
       providers: {
         foo: TEST_VALUE,

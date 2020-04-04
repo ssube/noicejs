@@ -10,20 +10,19 @@ import { Inject } from '../../src/Inject';
 import { Module, ModuleOptions } from '../../src/Module';
 import { isNil } from '../../src/utils';
 import { Consumer, Implementation, Interface, TestModule } from '../HelperClass';
-import { describeLeaks, itLeaks } from '../helpers/async';
 import { getTestLogger } from '../helpers/logger';
 
 /* eslint-disable no-null/no-null, @typescript-eslint/no-explicit-any, @typescript-eslint/unbound-method */
 
-describeLeaks('container', async () => {
-  itLeaks('should throw when no contract was passed', async () => {
+describe('container', async () => {
+  it('should throw when no contract was passed', async () => {
     const container = Container.from();
     await container.configure();
 
     await expect(container.create(null as any)).to.be.rejectedWith(BaseError);
   });
 
-  itLeaks('should provide injected dependencies', async () => {
+  it('should provide injected dependencies', async () => {
     const ctorSpy = spy();
     const instance = {};
 
@@ -54,7 +53,7 @@ describeLeaks('container', async () => {
     });
   });
 
-  itLeaks('should inject named dependencies', async () => {
+  it('should inject named dependencies', async () => {
     interface FooOptions extends BaseOptions {
       foo: FooClass;
     }
@@ -83,7 +82,7 @@ describeLeaks('container', async () => {
     expect(injected.foo).to.be.an.instanceof(FooClass);
   });
 
-  itLeaks('should pass arguments to the constructor', async () => {
+  it('should pass arguments to the constructor', async () => {
     const ctr = Container.from(new TestModule());
     await ctr.configure();
 
@@ -92,7 +91,7 @@ describeLeaks('container', async () => {
     expect(impl.args).to.deep.equal(args);
   });
 
-  itLeaks('should pass typed arguments to the constructor', async () => {
+  it('should pass typed arguments to the constructor', async () => {
     const ctr = Container.from(new TestModule());
     await ctr.configure();
 
@@ -109,7 +108,7 @@ describeLeaks('container', async () => {
     expect(impl.others).to.deep.equal(args);
   });
 
-  itLeaks('should call provider methods', async () => {
+  it('should call provider methods', async () => {
     const modSpy = spy();
 
     class SubModule extends Module {
@@ -134,7 +133,7 @@ describeLeaks('container', async () => {
     expect(impl.deps[Interface.name]).to.be.an.instanceof(Implementation);
   });
 
-  itLeaks('should call provider methods with dependencies', async () => {
+  it('should call provider methods with dependencies', async () => {
     class Outerface { /* empty */ }
     const outerInstance = new Outerface();
 
@@ -172,7 +171,7 @@ describeLeaks('container', async () => {
     expect(impl.deps[Interface.name].deps[Outerface.name]).to.equal(outerInstance);
   });
 
-  itLeaks('should call bound factories', async () => {
+  it('should call bound factories', async () => {
     let counter = 0;
 
     class SubModule extends Module {
@@ -193,7 +192,7 @@ describeLeaks('container', async () => {
     expect(counter).to.equal(1);
   });
 
-  itLeaks('should return bound instances', async () => {
+  it('should return bound instances', async () => {
     const name = 'foobar';
     const inst = {};
 
@@ -219,7 +218,7 @@ describeLeaks('container', async () => {
     expect(impl.deps[name]).to.equal(inst);
   });
 
-  itLeaks('should invoke constructors', async () => {
+  it('should invoke constructors', async () => {
     class Other { }
     class SubModule extends Module {
       public async configure() {
@@ -237,7 +236,7 @@ describeLeaks('container', async () => {
     expect(other).to.be.an.instanceof(Other);
   });
 
-  itLeaks('should invoke factories', async () => {
+  it('should invoke factories', async () => {
     class SubModule extends Module {
       public async createInterface(deps: any, ...args: Array<any>) {
         return new Implementation(deps, ...args);
@@ -255,7 +254,7 @@ describeLeaks('container', async () => {
     expect(impl).to.be.an.instanceof(Implementation);
   });
 
-  itLeaks('should not look up dependencies passed in options', async () => {
+  it('should not look up dependencies passed in options', async () => {
     @Inject('foo', 'bar')
     class TestClass {
       public foo: any;
@@ -294,7 +293,7 @@ describeLeaks('container', async () => {
     expect(injected.foo).to.equal(foo);
   });
 
-  itLeaks('should inject a dependency into a factory method', async () => {
+  it('should inject a dependency into a factory method', async () => {
     const ctr = Container.from(new TestModule());
     await ctr.configure();
 
@@ -304,7 +303,7 @@ describeLeaks('container', async () => {
     expect(impl.deps[Interface.name]).to.be.an.instanceof(Implementation);
   });
 
-  itLeaks('should throw on missing dependencies', async () => {
+  it('should throw on missing dependencies', async () => {
     // TestModule does not provide outerface
     const ctr = Container.from(new TestModule());
     await ctr.configure();
@@ -321,7 +320,7 @@ describeLeaks('container', async () => {
     return expect(ctr.create(FailingConsumer)).to.eventually.be.rejectedWith(MissingValueError);
   });
 
-  itLeaks('should resolve dependencies by contract', async () => {
+  it('should resolve dependencies by contract', async () => {
     const foo = {};
     const fooSymbol = Symbol('foo');
     class FooModule extends Module {
@@ -343,7 +342,7 @@ describeLeaks('container', async () => {
     expect(await container.create(fooSymbol)).to.equal(foo);
   });
 
-  itLeaks('should fail and throw with a logger', async () => {
+  it('should fail and throw with a logger', async () => {
     @Inject('foo')
     class Bar {}
 

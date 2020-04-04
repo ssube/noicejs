@@ -2,15 +2,14 @@ import { expect } from 'chai';
 
 import { BaseOptions, Container, DescriptorNotFoundError, InvalidTargetError, Module } from '../src';
 import { getInject, Inject, injectionSymbol } from '../src/Inject';
-import { describeLeaks, itLeaks } from './helpers/async';
 
 /* eslint-disable @typescript-eslint/unbound-method */
-describeLeaks('inject decorator', async () => {
-  itLeaks('should be a decorator factory', async () => {
+describe('inject decorator', async () => {
+  it('should be a decorator factory', async () => {
     expect(Inject()).to.be.a('function');
   });
 
-  itLeaks('should work as a class decorator', async () => {
+  it('should work as a class decorator', async () => {
     const params = [{
       contract: 'a',
       name: 'a',
@@ -30,7 +29,7 @@ describeLeaks('inject decorator', async () => {
     expect(getInject(Target)).to.deep.equal(params);
   });
 
-  itLeaks('should attach dependencies', async () => {
+  it('should attach dependencies', async () => {
     class FooClass { /* noop */ }
     const dep = {
       contract: FooClass,
@@ -43,13 +42,13 @@ describeLeaks('inject decorator', async () => {
     expect(getInject(TestClass)).to.deep.equal([dep]);
   });
 
-  itLeaks('should handle missing dependencies', async () => {
+  it('should handle missing dependencies', async () => {
     class TestClass { /* noop */ }
 
     expect(getInject(TestClass)).to.deep.equal([]);
   });
 
-  itLeaks('should flatten dependencies', async () => {
+  it('should flatten dependencies', async () => {
     class FooClass { /* noop */ }
 
     @Inject(FooClass)
@@ -61,7 +60,7 @@ describeLeaks('inject decorator', async () => {
     }]);
   });
 
-  itLeaks('should look up the prototype chain', async () => {
+  it('should look up the prototype chain', async () => {
     @Inject('foo')
     class FooClass { /* noop */ }
 
@@ -74,7 +73,7 @@ describeLeaks('inject decorator', async () => {
     expect(injected[0].name, 'first injected option should be from parent class').to.equal('foo');
   });
 
-  itLeaks('should fail on missing properties', async () => {
+  it('should fail on missing properties', async () => {
     class TestClass { /* noop */ }
 
     expect(() => {
@@ -82,7 +81,7 @@ describeLeaks('inject decorator', async () => {
     }).to.throw();
   });
 
-  itLeaks('should work when applied to methods', async () => {
+  it('should work when applied to methods', async () => {
     class TestClass {
       public foo: string;
 
@@ -113,7 +112,7 @@ describeLeaks('inject decorator', async () => {
     expect(foo.foo).to.equal('test');
   });
 
-  itLeaks('cannot be applied to non-function properties', async () => {
+  it('cannot be applied to non-function properties', async () => {
     expect(() => {
       class TestClass {
         @Inject('foo')
@@ -129,7 +128,7 @@ describeLeaks('inject decorator', async () => {
     }).to.throw(DescriptorNotFoundError);
   });
 
-  itLeaks('should throw when used on a property', async () => {
+  it('should throw when used on a property', async () => {
     const foo = {
       a: 1,
     };
@@ -139,7 +138,7 @@ describeLeaks('inject decorator', async () => {
     }).to.throw(InvalidTargetError);
   });
 
-  itLeaks('should return an empty array on undecorated classes', async () => {
+  it('should return an empty array on undecorated classes', async () => {
     class Foo {}
     Reflect.set(Foo, injectionSymbol, {});
     expect(getInject(Foo)).to.deep.equal([]);

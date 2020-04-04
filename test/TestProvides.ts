@@ -3,16 +3,15 @@ import { expect } from 'chai';
 import { Container } from '../src/Container';
 import { Module } from '../src/Module';
 import { getProvides, Provides } from '../src/Provides';
-import { itLeaks } from './helpers/async';
 
 /* eslint-disable @typescript-eslint/unbound-method */
 
 describe('provides decorator', () => {
-  itLeaks('should return a function', async () => {
+  it('should return a function', async () => {
     expect(Provides()).to.be.a('function');
   });
 
-  itLeaks('should register the method on the class', async () => {
+  it('should register the method on the class', async () => {
     class Target { }
     class TestModule extends Module {
       public foo() { /* noop */ }
@@ -24,7 +23,7 @@ describe('provides decorator', () => {
     expect(provides[0].contract).to.deep.equal(Target);
   });
 
-  itLeaks('should work as a method decorator', async () => {
+  it('should work as a method decorator', async () => {
     class Target { }
     class TestModule extends Module {
       @Provides(Target)
