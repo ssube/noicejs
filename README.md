@@ -64,14 +64,29 @@ Inspired by [Google's Guice library](https://github.com/google/guice) and writte
 ## Usage
 
 Consider a `Server` class that needs to fetch data from the `Cache` and `Filesystem`, but doesn't know (or need to
-know) how those are implemented.
+know) how those are implemented. The following example is [also part of the unit tests](./test/examples/TestReadme.ts).
 
 ```typescript
-import { Cache, Filesystem } from './interfaces';
 import { LocalModule } from './local';
 import { NetworkModule } from './network';
 
-@Inject(Cache, Filesystem)
+class Cache {
+  public get(path: string, ttl: number, fallback: Function): Promise<string> {
+    /* ... */
+  }
+}
+
+class Filesystem {
+  public get(path: string): Promise<string> {
+    /* ... */
+  }
+}
+
+/**
+ * Constructors, strings, and symbols are supported. Symbols are
+ * preferred, as the most unique, but names can be convenient.
+ */
+@Inject(Cache.name.toLowerCase(), Filesystem.name.toLowerCase())
 class Server {
   protected readonly cache: Cache;
   protected readonly filesystem: Filesystem;
@@ -88,6 +103,8 @@ class Server {
   }
 }
 
+const TEST_TTL = 60;
+
 function module() {
   if (process.env['DEBUG'] === 'TRUE') {
     return new LocalModule();
@@ -100,10 +117,13 @@ async function main() {
   const container = Container.from(module());
   await container.configure();
 
-  const foo = await container.create(Server, {
+  const server = await container.create(Server, {
     /* cache and filesystem are found and injected by container */
-    ttl: 60,
+    ttl: TEST_TTL,
   });
+
+  /* server.cache.get and server.filesystem.get will be called in order */
+  const result = await server.get('some/file');
 }
 ```
 

@@ -6,9 +6,13 @@ import { LocalCache, LocalFilesystem, LocalModule } from './local';
 
 const TEST_TTL = 60;
 
+function module() {
+  return new LocalModule();
+}
+
 describe('readme example', async () => {
   it('should get items from cache first', async () => {
-    const container = Container.from(new LocalModule());
+    const container = Container.from(module());
     await container.configure();
 
     const server = await container.create(Server, {
