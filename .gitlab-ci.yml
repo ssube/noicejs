@@ -5,7 +5,6 @@ include:
 stages:
   - status-pre
   - build
-  - image
   - publish
   - status-post
 
@@ -32,49 +31,6 @@ build-node:
       - out/api
       - out/cache
       - out/tmp
-
-build-image-alpine-branch:
-  extends:
-    - .build-docker
-  stage: image
-  except:
-    - tags
-  script:
-    - ./scripts/docker-build.sh --push --default
-  variables:
-    IMAGE_ARCH: alpine
-
-build-image-alpine-tag:
-  extends:
-    - .build-docker
-  stage: image
-  only:
-    - tags
-  script:
-    - ./scripts/docker-build.sh --push --default
-  variables:
-    IMAGE_ARCH: alpine
-
-build-image-stretch-branch:
-  stage: image
-  extends: [.build-docker]
-  except:
-    - tags
-  script:
-    - ./scripts/docker-build.sh --push
-  variables:
-    IMAGE_ARCH: stretch
-
-build-image-stretch-tag:
-  stage: image
-  extends:
-    - .build-docker
-  only:
-    - tags
-  script:
-    - ./scripts/docker-build.sh --push
-  variables:
-    IMAGE_ARCH: stretch
 
 # publish jobs
 publish-npm:
