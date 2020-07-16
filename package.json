@@ -70,7 +70,7 @@
     "source-map-support": "0.5.18",
     "standard-version": "8.0.2",
     "tslint": "6.1.2",
-    "typescript": "3.9.6"
+    "typescript": "3.9.7"
   },
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",
