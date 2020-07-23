@@ -2,6 +2,8 @@
 	"names": [
 		"async_hooks",
 		"chai",
-		"sinon"
+		"sinon",
+		"source-map",
+		"source-map-support"
 	]
 }
