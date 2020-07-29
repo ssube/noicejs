@@ -187,6 +187,7 @@ export abstract class Module implements ModuleOptions {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-types
   protected bindPrototype(proto: object) {
     for (const [/* name */, desc] of Object.entries(Object.getOwnPropertyDescriptors(proto))) {
       if (typeof desc.value === 'function') {

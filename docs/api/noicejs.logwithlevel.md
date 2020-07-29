@@ -9,19 +9,19 @@ Switch helper to invoke log methods based on variable log level. Dispatches a ca
 <b>Signature:</b>
 
 ```typescript
-export declare function logWithLevel(logger: Logger, level: LogLevel, options: Error | object, msg: string): void;
+export declare function logWithLevel(logger: Logger, level: LogLevel, options: Error | LogParams, msg: string): void;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  logger | <code>Logger</code> |  |
-|  level | <code>LogLevel</code> |  |
-|  options | <code>Error &#124; object</code> |  |
-|  msg | <code>string</code> |  |
+|  logger | [Logger](./noicejs.logger.md) |  |
+|  level | [LogLevel](./noicejs.loglevel.md) |  |
+|  options | Error \| LogParams |  |
+|  msg | string |  |
 
 <b>Returns:</b>
 
-`void`
+void
 

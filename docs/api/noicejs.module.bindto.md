@@ -18,11 +18,11 @@ bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: Pr
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  contract | <code>Contract&lt;C, O&gt;</code> | the contract to be bound |
-|  type | <code>ProviderType.Constructor</code> | the type of provider |
-|  value | <code>Constructor&lt;I, O&gt;</code> | the class, factory, or instance to bind |
+|  contract | [Contract](./noicejs.contract.md)<!-- -->&lt;C, O&gt; | the contract to be bound |
+|  type | [ProviderType.Constructor](./noicejs.providertype.constructor.md) | the type of provider |
+|  value | [Constructor](./noicejs.constructor.md)<!-- -->&lt;I, O&gt; | the class, factory, or instance to bind |
 
 <b>Returns:</b>
 
-`this`
+this
 

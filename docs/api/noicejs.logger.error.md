@@ -14,10 +14,10 @@ error(msg: string, ...params: Array<unknown>): void;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  msg | <code>string</code> |  |
-|  params | <code>Array&lt;unknown&gt;</code> |  |
+|  msg | string |  |
+|  params | Array&lt;unknown&gt; |  |
 
 <b>Returns:</b>
 
-`void`
+void
 

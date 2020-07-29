@@ -11,6 +11,7 @@ This is an exceptionally minimal DI container.
 ```typescript
 export declare class Container implements ContainerOptions 
 ```
+<b>Implements:</b> ContainerOptions
 
 ## Constructors
 
@@ -22,9 +23,9 @@ export declare class Container implements ContainerOptions
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [logger](./noicejs.container.logger.md) |  | <code>Logger</code> |  |
-|  [modules](./noicejs.container.modules.md) |  | <code>Array&lt;Module&gt;</code> |  |
-|  [ready](./noicejs.container.ready.md) |  | <code>boolean</code> |  |
+|  [logger](./noicejs.container.logger.md) |  | [Logger](./noicejs.logger.md) |  |
+|  [modules](./noicejs.container.modules.md) |  | Array&lt;[Module](./noicejs.module.md)<!-- -->&gt; |  |
+|  [ready](./noicejs.container.ready.md) |  | boolean |  |
 
 ## Methods
 

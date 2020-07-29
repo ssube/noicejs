@@ -16,9 +16,9 @@ debug(...params: Array<unknown>): void;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  params | <code>Array&lt;unknown&gt;</code> |  |
+|  params | Array&lt;unknown&gt; |  |
 
 <b>Returns:</b>
 
-`void`
+void
 

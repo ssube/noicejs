@@ -16,9 +16,9 @@ export declare function constructWithContainer(container: Container): <TInner, T
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  container | <code>Container</code> |  |
+|  container | [Container](./noicejs.container.md) |  |
 
 <b>Returns:</b>
 
-`<TInner, TOptions extends BaseOptions>(target: Constructor<TInner, TOptions>) => WrappedConstructor<TInner, TOptions>`
+&lt;TInner, TOptions extends [BaseOptions](./noicejs.baseoptions.md)<!-- -->&gt;(target: [Constructor](./noicejs.constructor.md)<!-- -->&lt;TInner, TOptions&gt;) =&gt; WrappedConstructor&lt;TInner, TOptions&gt;
 

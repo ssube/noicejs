@@ -7,18 +7,18 @@
 <b>Signature:</b>
 
 ```typescript
-info(options: object, msg: string, ...params: Array<unknown>): void;
+info(options: LogParams, msg: string, ...params: Array<unknown>): void;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  options | <code>object</code> |  |
-|  msg | <code>string</code> |  |
-|  params | <code>Array&lt;unknown&gt;</code> |  |
+|  options | LogParams |  |
+|  msg | string |  |
+|  params | Array&lt;unknown&gt; |  |
 
 <b>Returns:</b>
 
-`void`
+void
 

@@ -14,9 +14,9 @@ protected fail(msg: string): never;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  msg | <code>string</code> |  |
+|  msg | string |  |
 
 <b>Returns:</b>
 
-`never`
+never
 

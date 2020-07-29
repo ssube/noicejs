@@ -18,9 +18,9 @@ bind<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>): FluentBin
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  contract | <code>Contract&lt;C, O&gt;</code> |  |
+|  contract | [Contract](./noicejs.contract.md)<!-- -->&lt;C, O&gt; |  |
 
 <b>Returns:</b>
 
-`FluentBinding<I, this, O>`
+FluentBinding&lt;I, this, O&gt;
 

@@ -16,9 +16,9 @@ export declare function Inject(...needs: Array<InjectedDependency>): (target: an
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  needs | <code>Array&lt;InjectedDependency&gt;</code> | dependencies required by the decorated target |
+|  needs | Array&lt;InjectedDependency&gt; | dependencies required by the decorated target |
 
 <b>Returns:</b>
 
-`(target: any, key?: string | undefined, providedDesc?: PropertyDescriptor | undefined) => void`
+(target: any, key?: string \| undefined, providedDesc?: PropertyDescriptor \| undefined) =&gt; void
 

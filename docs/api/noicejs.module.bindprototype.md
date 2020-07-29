@@ -14,9 +14,9 @@ protected bindPrototype(proto: object): void;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  proto | <code>object</code> |  |
+|  proto | object |  |
 
 <b>Returns:</b>
 
-`void`
+void
 

@@ -18,9 +18,9 @@ export declare function contractName(c: Contract<unknown, AnyOptions>): Contract
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  c | <code>Contract&lt;unknown, AnyOptions&gt;</code> |  |
+|  c | [Contract](./noicejs.contract.md)<!-- -->&lt;unknown, AnyOptions&gt; |  |
 
 <b>Returns:</b>
 
-`ContractName`
+ContractName
 

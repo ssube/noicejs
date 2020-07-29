@@ -16,6 +16,6 @@ constructor(message: string, ...nested: Array<Error>);
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  message | <code>string</code> | error message |
-|  nested | <code>Array&lt;Error&gt;</code> | internal errors (causes) |
+|  message | string | error message |
+|  nested | Array&lt;Error&gt; | internal errors (causes) |
 

@@ -14,11 +14,11 @@ construct<TReturn, TOptions extends BaseOptions>(ctor: Constructor<TReturn, TOpt
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  ctor | <code>Constructor&lt;TReturn, TOptions&gt;</code> |  |
-|  options | <code>PartialOptions&lt;TOptions&gt;</code> |  |
-|  args | <code>ExtraArgs</code> |  |
+|  ctor | [Constructor](./noicejs.constructor.md)<!-- -->&lt;TReturn, TOptions&gt; |  |
+|  options | PartialOptions&lt;TOptions&gt; |  |
+|  args | ExtraArgs |  |
 
 <b>Returns:</b>
 
-`Promise<any>`
+Promise&lt;any&gt;
 

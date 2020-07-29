@@ -14,12 +14,12 @@ apply<TReturn, TOptions extends BaseOptions>(impl: Function, thisArg: unknown, o
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  impl | <code>Function</code> |  |
-|  thisArg | <code>unknown</code> |  |
-|  options | <code>PartialOptions&lt;TOptions&gt;</code> |  |
-|  args | <code>ExtraArgs</code> |  |
+|  impl | Function |  |
+|  thisArg | unknown |  |
+|  options | PartialOptions&lt;TOptions&gt; |  |
+|  args | ExtraArgs |  |
 
 <b>Returns:</b>
 
-`Promise<TReturn>`
+Promise&lt;TReturn&gt;
 

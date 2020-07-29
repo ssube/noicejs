@@ -16,5 +16,5 @@ export interface BaseOptions
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [container](./noicejs.baseoptions.container.md) | <code>Container</code> |  |
+|  [container](./noicejs.baseoptions.container.md) | [Container](./noicejs.container.md) |  |
 

@@ -13,5 +13,5 @@ cause(): Error | undefined;
 ```
 <b>Returns:</b>
 
-`Error | undefined`
+Error \| undefined
 

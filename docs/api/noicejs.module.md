@@ -11,6 +11,7 @@ Provides a set of dependencies, bound in the `configure` method.
 ```typescript
 export declare abstract class Module implements ModuleOptions 
 ```
+<b>Implements:</b> [ModuleOptions](./noicejs.moduleoptions.md)
 
 ## Constructors
 
@@ -22,10 +23,10 @@ export declare abstract class Module implements ModuleOptions
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [container](./noicejs.module.container.md) |  | <code>Container</code> |  |
-|  [logger](./noicejs.module.logger.md) |  | <code>Logger</code> |  |
-|  [providers](./noicejs.module.providers.md) |  | <code>Map&lt;AnyContract, AnyProvider&gt;</code> |  |
-|  [size](./noicejs.module.size.md) |  | <code>number</code> |  |
+|  [container](./noicejs.module.container.md) |  | [Container](./noicejs.container.md) |  |
+|  [logger](./noicejs.module.logger.md) |  | [Logger](./noicejs.logger.md) |  |
+|  [providers](./noicejs.module.providers.md) |  | Map&lt;AnyContract, AnyProvider&gt; |  |
+|  [size](./noicejs.module.size.md) |  | number |  |
 
 ## Methods
 

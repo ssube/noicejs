@@ -14,9 +14,9 @@ configure(options: ModuleOptions): Promise<void>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  options | <code>ModuleOptions</code> |  |
+|  options | [ModuleOptions](./noicejs.moduleoptions.md) |  |
 
 <b>Returns:</b>
 
-`Promise<void>`
+Promise&lt;void&gt;
 

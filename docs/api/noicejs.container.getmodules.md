@@ -11,5 +11,5 @@ getModules(): ReadonlyArray<Module>;
 ```
 <b>Returns:</b>
 
-`ReadonlyArray<Module>`
+ReadonlyArray&lt;[Module](./noicejs.module.md)<!-- -->&gt;
 

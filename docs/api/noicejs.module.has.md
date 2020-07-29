@@ -18,9 +18,9 @@ has<C, O extends BaseOptions>(contract: Contract<C, O>): boolean;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  contract | <code>Contract&lt;C, O&gt;</code> |  |
+|  contract | [Contract](./noicejs.contract.md)<!-- -->&lt;C, O&gt; |  |
 
 <b>Returns:</b>
 
-`boolean`
+boolean
 

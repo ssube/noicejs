@@ -11,12 +11,13 @@ Logger implementation that consumes input and produces no output.
 ```typescript
 export declare class NullLogger implements Logger 
 ```
+<b>Implements:</b> [Logger](./noicejs.logger.md)
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [global](./noicejs.nulllogger.global.md) | <code>static</code> | <code>NullLogger</code> |  |
+|  [global](./noicejs.nulllogger.global.md) | <code>static</code> | [NullLogger](./noicejs.nulllogger.md) |  |
 
 ## Methods
 

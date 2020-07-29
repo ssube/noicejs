@@ -16,9 +16,9 @@ with(...modules: ReadonlyArray<Module>): Container;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  modules | <code>ReadonlyArray&lt;Module&gt;</code> |  |
+|  modules | ReadonlyArray&lt;[Module](./noicejs.module.md)<!-- -->&gt; |  |
 
 <b>Returns:</b>
 
-`Container`
+[Container](./noicejs.container.md)
 
