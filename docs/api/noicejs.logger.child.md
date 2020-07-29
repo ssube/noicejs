@@ -14,9 +14,9 @@ child(options: any): Logger;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  options | <code>any</code> |  |
+|  options | any |  |
 
 <b>Returns:</b>
 
-`Logger`
+[Logger](./noicejs.logger.md)
 

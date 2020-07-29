@@ -16,9 +16,9 @@ export declare function isConstructor(it: unknown): it is Constructor<unknown, A
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  it | <code>unknown</code> |  |
+|  it | unknown |  |
 
 <b>Returns:</b>
 
-`it is Constructor<unknown, AnyOptions>`
+it is [Constructor](./noicejs.constructor.md)<!-- -->&lt;unknown, AnyOptions&gt;
 

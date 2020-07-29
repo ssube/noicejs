@@ -13,5 +13,5 @@ child(): ConsoleLogger;
 ```
 <b>Returns:</b>
 
-`ConsoleLogger`
+[ConsoleLogger](./noicejs.consolelogger.md)
 

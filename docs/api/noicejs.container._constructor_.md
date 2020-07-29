@@ -16,5 +16,5 @@ constructor(modules: Iterable<Module>);
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  modules | <code>Iterable&lt;Module&gt;</code> |  |
+|  modules | Iterable&lt;[Module](./noicejs.module.md)<!-- -->&gt; |  |
 

@@ -18,10 +18,10 @@ protected dependencies<TOptions extends BaseOptions>(deps: Array<Dependency>, pa
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  deps | <code>Array&lt;Dependency&gt;</code> |  |
-|  passed | <code>PartialOptions&lt;TOptions&gt;</code> |  |
+|  deps | Array&lt;Dependency&gt; |  |
+|  passed | PartialOptions&lt;TOptions&gt; |  |
 
 <b>Returns:</b>
 
-`Promise<TOptions>`
+Promise&lt;TOptions&gt;
 

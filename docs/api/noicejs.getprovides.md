@@ -16,9 +16,9 @@ export declare function getProvides(target: any): Array<Dependency>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  target | <code>any</code> | the decorated target |
+|  target | any | the decorated target |
 
 <b>Returns:</b>
 
-`Array<Dependency>`
+Array&lt;Dependency&gt;
 

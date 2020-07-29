@@ -11,6 +11,7 @@ Base class for typed errors, adding nested errors (causes) to the stack.
 ```typescript
 export declare class BaseError extends Error 
 ```
+<b>Extends:</b> Error
 
 ## Constructors
 
@@ -22,10 +23,10 @@ export declare class BaseError extends Error
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [length](./noicejs.baseerror.length.md) |  | <code>number</code> | Get the number of nested errors. |
-|  [message](./noicejs.baseerror.message.md) |  | <code>string</code> |  |
-|  [nested](./noicejs.baseerror.nested.md) |  | <code>Array&lt;Error&gt;</code> |  |
-|  [stack](./noicejs.baseerror.stack.md) |  | <code>string</code> |  |
+|  [length](./noicejs.baseerror.length.md) |  | number | Get the number of nested errors. |
+|  [message](./noicejs.baseerror.message.md) |  | string |  |
+|  [nested](./noicejs.baseerror.nested.md) |  | Array&lt;Error&gt; |  |
+|  [stack](./noicejs.baseerror.stack.md) |  | string |  |
 
 ## Methods
 

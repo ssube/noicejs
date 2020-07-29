@@ -14,10 +14,10 @@ new (options: TOptions, ...extra: ExtraArgs): TReturn;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  options | <code>TOptions</code> |  |
-|  extra | <code>ExtraArgs</code> |  |
+|  options | TOptions |  |
+|  extra | ExtraArgs |  |
 
 <b>Returns:</b>
 
-`TReturn`
+TReturn
 

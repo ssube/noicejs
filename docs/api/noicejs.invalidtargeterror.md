@@ -11,6 +11,7 @@ Error indicating that the decorator target is not valid.
 ```typescript
 export declare class InvalidTargetError extends BaseError 
 ```
+<b>Extends:</b> [BaseError](./noicejs.baseerror.md)
 
 ## Constructors
 

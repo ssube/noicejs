@@ -14,9 +14,9 @@ protected bindFunction<C, I extends C, O extends BaseOptions>(fn: Factory<I, O>)
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  fn | <code>Factory&lt;I, O&gt;</code> |  |
+|  fn | Factory&lt;I, O&gt; |  |
 
 <b>Returns:</b>
 
-`void`
+void
 

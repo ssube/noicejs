@@ -16,11 +16,11 @@ create<TReturn, TOptions extends BaseOptions>(contract: Contract<TReturn, TOptio
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  contract | <code>Contract&lt;TReturn, TOptions&gt;</code> |  |
-|  options | <code>PartialOptions&lt;TOptions&gt;</code> |  |
-|  args | <code>ExtraArgs</code> |  |
+|  contract | [Contract](./noicejs.contract.md)<!-- -->&lt;TReturn, TOptions&gt; |  |
+|  options | PartialOptions&lt;TOptions&gt; |  |
+|  args | ExtraArgs |  |
 
 <b>Returns:</b>
 
-`Promise<TReturn>`
+Promise&lt;TReturn&gt;
 

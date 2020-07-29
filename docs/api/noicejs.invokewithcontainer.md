@@ -16,10 +16,10 @@ export declare function invokeWithContainer<TReturn, TOptions extends BaseOption
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  container | <code>Container</code> |  |
-|  target | <code>InvokableFunction&lt;TOptions, TReturn&gt;</code> |  |
+|  container | [Container](./noicejs.container.md) |  |
+|  target | InvokableFunction&lt;TOptions, TReturn&gt; |  |
 
 <b>Returns:</b>
 
-`InvokableFunction<WrappedOptions<TOptions>, TReturn>`
+InvokableFunction&lt;WrappedOptions&lt;TOptions&gt;, TReturn&gt;
 

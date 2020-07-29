@@ -11,6 +11,7 @@ Error indicating that a debug method has been called, but no logger was register
 ```typescript
 export declare class LoggerNotFoundError extends MissingValueError 
 ```
+<b>Extends:</b> [MissingValueError](./noicejs.missingvalueerror.md)
 
 ## Constructors
 

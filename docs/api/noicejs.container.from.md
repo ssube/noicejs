@@ -14,9 +14,9 @@ static from(...modules: Array<Module>): Container;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  modules | <code>Array&lt;Module&gt;</code> |  |
+|  modules | Array&lt;[Module](./noicejs.module.md)<!-- -->&gt; |  |
 
 <b>Returns:</b>
 
-`Container`
+[Container](./noicejs.container.md)
 

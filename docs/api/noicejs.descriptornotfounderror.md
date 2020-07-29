@@ -11,6 +11,7 @@ Error indicating that the target descriptor could not be found on the decorator 
 ```typescript
 export declare class DescriptorNotFoundError extends BaseError 
 ```
+<b>Extends:</b> [BaseError](./noicejs.baseerror.md)
 
 ## Constructors
 

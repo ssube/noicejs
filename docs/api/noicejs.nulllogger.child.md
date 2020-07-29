@@ -11,5 +11,5 @@ child(): NullLogger;
 ```
 <b>Returns:</b>
 
-`NullLogger`
+[NullLogger](./noicejs.nulllogger.md)
 

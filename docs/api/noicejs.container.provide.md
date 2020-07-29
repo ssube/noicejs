@@ -14,12 +14,12 @@ provide<TReturn, TOptions extends BaseOptions>(module: Module, contract: Contrac
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  module | <code>Module</code> |  |
-|  contract | <code>Contract&lt;TReturn, TOptions&gt;</code> |  |
-|  options | <code>PartialOptions&lt;TOptions&gt;</code> |  |
-|  args | <code>ExtraArgs</code> |  |
+|  module | [Module](./noicejs.module.md) |  |
+|  contract | [Contract](./noicejs.contract.md)<!-- -->&lt;TReturn, TOptions&gt; |  |
+|  options | PartialOptions&lt;TOptions&gt; |  |
+|  args | ExtraArgs |  |
 
 <b>Returns:</b>
 
-`Promise<TReturn>`
+Promise&lt;TReturn&gt;
 

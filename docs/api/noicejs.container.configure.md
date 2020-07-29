@@ -18,9 +18,9 @@ configure(options?: ContainerOptions): Promise<this>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  options | <code>ContainerOptions</code> |  |
+|  options | ContainerOptions |  |
 
 <b>Returns:</b>
 
-`Promise<this>`
+Promise&lt;this&gt;
 

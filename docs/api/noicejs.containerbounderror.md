@@ -11,6 +11,7 @@ Error indicating that this container is already bound and cannot be bound again.
 ```typescript
 export declare class ContainerBoundError extends BaseError 
 ```
+<b>Extends:</b> [BaseError](./noicejs.baseerror.md)
 
 ## Constructors
 

@@ -16,9 +16,9 @@ export declare function Provides<TInjected>(...provides: Array<InjectedDependenc
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  provides | <code>Array&lt;InjectedDependency&gt;</code> |  |
+|  provides | Array&lt;InjectedDependency&gt; |  |
 
 <b>Returns:</b>
 
-`(target: any, key: string, providedDesc?: PropertyDescriptor | undefined) => void`
+(target: any, key: string, providedDesc?: PropertyDescriptor \| undefined) =&gt; void
 

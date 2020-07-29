@@ -13,12 +13,13 @@ Works in the browser or node.
 ```typescript
 export declare class ConsoleLogger implements Logger 
 ```
+<b>Implements:</b> [Logger](./noicejs.logger.md)
 
 ## Properties
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [global](./noicejs.consolelogger.global.md) | <code>static</code> | <code>ConsoleLogger</code> | Global instance for users needing no customization. |
+|  [global](./noicejs.consolelogger.global.md) | <code>static</code> | [ConsoleLogger](./noicejs.consolelogger.md) | Global instance for users needing no customization. |
 
 ## Methods
 

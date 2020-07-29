@@ -14,11 +14,11 @@ bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: Pr
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  contract | <code>Contract&lt;C, O&gt;</code> |  |
-|  type | <code>ProviderType.Instance</code> |  |
-|  value | <code>I</code> |  |
+|  contract | [Contract](./noicejs.contract.md)<!-- -->&lt;C, O&gt; |  |
+|  type | [ProviderType.Instance](./noicejs.providertype.instance.md) |  |
+|  value | I |  |
 
 <b>Returns:</b>
 
-`this`
+this
 

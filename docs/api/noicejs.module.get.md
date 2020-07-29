@@ -14,9 +14,9 @@ get<C, O extends BaseOptions>(contract: Contract<C, O>): Provider<C, O>;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  contract | <code>Contract&lt;C, O&gt;</code> |  |
+|  contract | [Contract](./noicejs.contract.md)<!-- -->&lt;C, O&gt; |  |
 
 <b>Returns:</b>
 
-`Provider<C, O>`
+[Provider](./noicejs.provider.md)<!-- -->&lt;C, O&gt;
 

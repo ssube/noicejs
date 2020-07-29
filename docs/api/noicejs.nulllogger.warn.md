@@ -14,9 +14,9 @@ warn(...data: Array<unknown>): void;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  data | <code>Array&lt;unknown&gt;</code> |  |
+|  data | Array&lt;unknown&gt; |  |
 
 <b>Returns:</b>
 
-`void`
+void
 

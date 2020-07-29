@@ -11,6 +11,7 @@ Error indicating that a required value is missing.
 ```typescript
 export declare class MissingValueError extends BaseError 
 ```
+<b>Extends:</b> [BaseError](./noicejs.baseerror.md)
 
 ## Constructors
 

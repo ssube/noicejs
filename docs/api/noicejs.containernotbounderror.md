@@ -11,6 +11,7 @@ Error indicating that this container is not bound yet and not ready to be used.
 ```typescript
 export declare class ContainerNotBoundError extends BaseError 
 ```
+<b>Extends:</b> [BaseError](./noicejs.baseerror.md)
 
 ## Constructors
 

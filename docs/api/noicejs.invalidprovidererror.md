@@ -13,6 +13,7 @@ This should not normally occur, unless custom provider types are in use.
 ```typescript
 export declare class InvalidProviderError extends BaseError 
 ```
+<b>Extends:</b> [BaseError](./noicejs.baseerror.md)
 
 ## Constructors
 

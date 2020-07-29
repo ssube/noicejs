@@ -231,6 +231,7 @@ export class Container implements ContainerOptions {
   }
 
   public async apply<TReturn, TOptions extends BaseOptions>(
+    // eslint-disable-next-line @typescript-eslint/ban-types
     impl: Function,
     thisArg: unknown,
     options: PartialOptions<TOptions>,

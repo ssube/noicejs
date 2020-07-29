@@ -14,11 +14,11 @@ error(err: Error, msg: string, ...params: Array<unknown>): void;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  err | <code>Error</code> |  |
-|  msg | <code>string</code> |  |
-|  params | <code>Array&lt;unknown&gt;</code> |  |
+|  err | Error |  |
+|  msg | string |  |
+|  params | Array&lt;unknown&gt; |  |
 
 <b>Returns:</b>
 
-`void`
+void
 
