@@ -5,6 +5,7 @@
  *
  * @public
  */
+/* eslint-disable-next-line no-shadow */
 export enum LogLevel {
   // normal enum names
   Debug = 'debug',

@@ -12,9 +12,9 @@ import { doesExist, isNil } from './utils';
  *
  * @public
  */
+/* eslint-disable no-shadow */
 export enum ProviderType {
   None = 0,
-  /* eslint-disable-next-line no-shadow */
   Constructor,
   Factory,
   Instance,
@@ -26,6 +26,7 @@ export enum ProviderType {
  * @public
  */
 export type Factory<R, O extends BaseOptions> = (options: O) => Promise<R>;
+/* eslint-enable no-shadow */
 
 /**
  * Concrete implementation provider signature group.
