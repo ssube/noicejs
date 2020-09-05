@@ -87,60 +87,6 @@
                 ]
             }
         ],
-        "@typescript-eslint/naming-convention": [
-            "error",
-            {
-                "selector": "default",
-                "format": [
-                    "camelCase"
-                ],
-                "leadingUnderscore": "forbid",
-                "trailingUnderscore": "forbid"
-            },
-            {
-                "selector": "variable",
-                "format": [
-                    "camelCase",
-                    "UPPER_CASE"
-                ],
-                "leadingUnderscore": "forbid",
-                "trailingUnderscore": "forbid"
-            },
-            {
-                "selector": "typeLike",
-                "format": [
-                    "PascalCase"
-                ],
-                "leadingUnderscore": "forbid",
-                "trailingUnderscore": "forbid"
-            },
-            {
-                "selector": "interface",
-                "format": [
-                    "PascalCase"
-                ],
-                "leadingUnderscore": "forbid",
-                "trailingUnderscore": "forbid"
-            },
-            {
-                "selector": "function",
-                "format": [
-                    "camelCase",
-                    "PascalCase"
-                ],
-                "leadingUnderscore": "forbid",
-                "trailingUnderscore": "forbid"
-            },
-            {
-                "selector": "enumMember",
-                "format": [
-                    "PascalCase",
-		    "UPPER_CASE"
-                ],
-                "leadingUnderscore": "forbid",
-                "trailingUnderscore": "forbid"
-            }
-        ],
         "@typescript-eslint/no-empty-function": "error",
         "@typescript-eslint/no-empty-interface": "error",
         "@typescript-eslint/no-explicit-any": "error",
@@ -205,7 +151,6 @@
         "id-blacklist": [
             "error",
             "any",
-            "Number",
             "String",
             "Boolean",
             "Undefined"
@@ -264,29 +209,9 @@
             "error",
             {
                 "ignore": [
-                    -3,
-                    -2,
-                    -1,
                     0,
                     1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    20,
-                    30,
-                    40,
-                    50,
-                    60,
-                    70,
-                    80,
-                    90,
-                    100
+                    10
                 ]
             }
         ],
@@ -300,19 +225,16 @@
                 "allowForLoopAfterthoughts": true
             }
         ],
-        "no-redeclare": "error",
+        "no-redeclare": "off",
         "no-restricted-syntax": [
             "error",
             "ForInStatement"
         ],
         "no-return-await": "error",
         "no-sequences": "error",
-        "no-shadow": [
-            "error",
-            {
-                "hoist": "all"
-            }
-        ],
+	"no-shadow": "off",
+	"@typescript-eslint/no-redeclare": ["error"],
+	"@typescript-eslint/no-shadow": ["error"],
         "no-sparse-arrays": "error",
         "no-template-curly-in-string": "error",
         "no-throw-literal": "error",
@@ -396,7 +318,6 @@
                         true,
                         "check-multiline-start"
                     ],
-                    "no-boolean-literal-compare": true,
                     "no-dynamic-delete": true,
                     "no-inferred-empty-object-type": true,
                     "no-reference-import": true,

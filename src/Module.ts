@@ -14,7 +14,7 @@ import { doesExist, isNil } from './utils';
  */
 export enum ProviderType {
   None = 0,
-  /* eslint-disable-next-line no-shadow */
+  /* eslint-disable-next-line @typescript-eslint/no-shadow */
   Constructor,
   Factory,
   Instance,
