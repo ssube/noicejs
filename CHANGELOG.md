@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/ssube/noicejs/compare/v3.0.1...v3.1.0) (2020-09-06)
+
+
+### Features
+
+* **test:** add readme example as test ([6eb9816](https://github.com/ssube/noicejs/commit/6eb9816e0644a06eb7a6182dc5d3fd41b36365f3))
+
+
+### Bug Fixes
+
+* **build:** disable warnings for shadowing of private global types ([a9691ac](https://github.com/ssube/noicejs/commit/a9691ac8c82dc2917a7b04f2cd7439ce577c5750))
+* **build:** extern source map modules to fix requires ([9d1cad0](https://github.com/ssube/noicejs/commit/9d1cad0202ce11aba749095b93c2ade34df513cf))
+* **build:** update eslint for typescript-eslint 4 rules ([b779072](https://github.com/ssube/noicejs/commit/b77907253330fb121b13ae4c06c152833f3f4889))
+* **config:** update lint to naming-convention rule ([2771a29](https://github.com/ssube/noicejs/commit/2771a293f59aba51a351e2354129efd9d4493966))
+* **docs:** update readme with link to example test ([54170e3](https://github.com/ssube/noicejs/commit/54170e3ca2816a797f33f1332180d64c4b16b7e0))
+
 ### [3.0.1](https://github.com/ssube/noicejs/compare/v3.0.0...v3.0.1) (2020-03-07)
 
 
