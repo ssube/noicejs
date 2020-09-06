@@ -1,10 +1,11 @@
 import { expect } from 'chai';
-import { ineeda } from 'ineeda';
+import { stub } from 'sinon';
 
 import { Container } from '../../src/Container';
 import { InvalidProviderError } from '../../src/error/InvalidProviderError';
 import { MissingValueError } from '../../src/error/MissingValueError';
 import { Module, ModuleOptions } from '../../src/Module';
+import { MapModule } from '../../src/module/MapModule';
 import { Consumer, Implementation, Interface, TestModule } from '../HelperClass';
 
 /* eslint-disable no-null/no-null, @typescript-eslint/no-explicit-any */
@@ -48,13 +49,13 @@ describe('container', async () => {
   });
 
   it('should throw when a module is missing a provider', async () => {
-    const module = ineeda<Module>({
-      get() {
-        return null;
-      },
+    const module = new MapModule({
+      providers: {},
     });
-    const container = Container.from(module);
+    const getStub = stub(module, 'get').returns(null as any);
 
-    return expect(container.provide(module, '', {}, [])).to.eventually.be.rejectedWith(MissingValueError);
+    const container = Container.from(module);
+    await expect(container.provide(module, '', {}, [])).to.eventually.be.rejectedWith(MissingValueError);
+    expect(getStub).to.have.callCount(1);
   });
 });

@@ -1,6 +1,5 @@
 import { expect } from 'chai';
-import { ineeda } from 'ineeda';
-import { spy } from 'sinon';
+import { spy, stub } from 'sinon';
 
 import { NullLogger, Provides } from '../../src';
 import { BaseOptions, Container, Contract } from '../../src/Container';
@@ -8,6 +7,7 @@ import { BaseError } from '../../src/error/BaseError';
 import { MissingValueError } from '../../src/error/MissingValueError';
 import { Inject } from '../../src/Inject';
 import { Module, ModuleOptions } from '../../src/Module';
+import { MapModule } from '../../src/module/MapModule';
 import { isNil } from '../../src/utils';
 import { Consumer, Implementation, Interface, TestModule } from '../HelperClass';
 import { getTestLogger } from '../helpers/logger';
@@ -351,12 +351,12 @@ describe('container', async () => {
       logger: NullLogger.global,
     });
 
-    const module = ineeda<Module>({
-      get(contract: Contract<unknown, BaseOptions>) {
-        return undefined;
-      }
+    const module = new MapModule({
+      providers: {},
     });
+    const getStub = stub(module, 'get').returns(undefined as any);
 
-    return expect(container.provide(module, Bar, {}, [])).to.eventually.be.rejectedWith(MissingValueError);
+    await expect(container.provide(module, Bar, {}, [])).to.eventually.be.rejectedWith(MissingValueError);
+    expect(getStub).to.have.callCount(1);
   });
 });

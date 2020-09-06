@@ -1,12 +1,11 @@
 import { expect } from 'chai';
-import { ineeda } from 'ineeda';
-import { spy } from 'sinon';
+import { createStubInstance, spy } from 'sinon';
 
+import { NullLogger } from '../../src';
 import { Container } from '../../src/Container';
 import { ContainerBoundError } from '../../src/error/ContainerBoundError';
 import { ContainerNotBoundError } from '../../src/error/ContainerNotBoundError';
 import { LoggerNotFoundError } from '../../src/error/LoggerNotFoundError';
-import { Logger } from '../../src/logger/Logger';
 import { Module } from '../../src/Module';
 import { Provides } from '../../src/Provides';
 import { TestModule } from '../HelperClass';
@@ -77,14 +76,12 @@ describe('container', async () => {
 
   it('should log debug info', async () => {
     const container = Container.from();
-    const debugSpy = spy();
+    const logger = createStubInstance(NullLogger);
     await container.configure({
-      logger: ineeda<Logger>({
-        debug: debugSpy,
-      }),
+      logger,
     });
     container.debug();
-    expect(debugSpy).to.have.callCount(1);
+    expect(logger.debug).to.have.callCount(1);
   });
 
   it('should throw on debug without logger', async () => {

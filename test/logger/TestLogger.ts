@@ -1,16 +1,14 @@
 import { expect } from 'chai';
-import { ineeda } from 'ineeda';
-import { spy } from 'sinon';
+import { createStubInstance, spy } from 'sinon';
 
-import { Logger, LogLevel, logWithLevel } from '../../src/logger/Logger';
+import { NullLogger } from '../../src';
+import { LogLevel, logWithLevel } from '../../src/logger/Logger';
 
 /* eslint-disable @typescript-eslint/unbound-method */
 
 describe('log level switch', async () => {
   it('should log at debug level', () => {
-    const logger = ineeda<Logger>({
-      debug: spy(),
-    });
+    const logger = createStubInstance(NullLogger);
 
     const data = {};
     const msg = 'test';
@@ -20,9 +18,7 @@ describe('log level switch', async () => {
   });
 
   it('should log at error level', () => {
-    const logger = ineeda<Logger>({
-      error: spy(),
-    });
+    const logger = createStubInstance(NullLogger);
 
     const data = {};
     const msg = 'test';
@@ -32,9 +28,7 @@ describe('log level switch', async () => {
   });
 
   it('should log at info level', () => {
-    const logger = ineeda<Logger>({
-      info: spy(),
-    });
+    const logger = createStubInstance(NullLogger);
 
     const data = {};
     const msg = 'test';
@@ -44,9 +38,7 @@ describe('log level switch', async () => {
   });
 
   it('should log at warn level', () => {
-    const logger = ineeda<Logger>({
-      warn: spy(),
-    });
+    const logger = createStubInstance(NullLogger);
 
     const data = {};
     const msg = 'test';

@@ -2044,11 +2044,6 @@ indent-string@^4.0.0:
   resolved "https://artifacts.apextoaster.com/repository/group-npm/indent-string/-/indent-string-4.0.0.tgz#624f8f4497d619b2d9768531d58f4122854d7251"
   integrity sha512-EdDDZu4A2OyIK7Lr/2zG+w5jmbuk1DVBnEwREQvBzspBJkCEbRa8GxU1lghYcaGJCnRWibjDXlq779X1/y5xwg==
 
-ineeda@0.12.0-alpha.0:
-  version "0.12.0-alpha.0"
-  resolved "https://artifacts.apextoaster.com/repository/group-npm/ineeda/-/ineeda-0.12.0-alpha.0.tgz#39cfbe969099fdbb5e6ef89aa838d2f20cd77192"
-  integrity sha512-1Bt6lhGXBCYAF6ukW15jr+1OxZR5ouj4GE713RB7ZIi4aaKBccDE+LgKQoA6oO5FbwlBAgpjhtHGUxJLYMKZcQ==
-
 inflight@^1.0.4:
   version "1.0.6"
   resolved "https://artifacts.apextoaster.com/repository/group-npm/inflight/-/inflight-1.0.6.tgz#49bd6331d7d02d0c09bc910a1075ba8165b56df9"
