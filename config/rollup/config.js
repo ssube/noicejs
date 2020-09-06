@@ -84,9 +84,6 @@ const bundle = {
 			cacheRoot: join(targetPath, 'cache', 'rts2'),
 			rollupCommonJSResolveHack: true,
 		}),
-		terser({
-			keep_classnames: true,
-		}),
 		visualizer({
 			filename: join(rootPath, 'out', 'bundle-graph.html'),
 			sourcemap: true,
