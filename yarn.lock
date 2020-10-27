@@ -198,14 +198,22 @@
     "@microsoft/tsdoc" "0.12.19"
     "@rushstack/node-core-library" "3.34.3"
 
-"@microsoft/api-extractor@7.10.4":
+"@microsoft/api-extractor-model@7.10.4":
   version "7.10.4"
-  resolved "https://artifacts.apextoaster.com/repository/group-npm/@microsoft/api-extractor/-/api-extractor-7.10.4.tgz#9055fab0a702d2d74eba05ff369c50012cf41176"
-  integrity sha512-vod9Y8IHhBtB3hcKiOe4OLi/hNeWtgRh/mxGrye5SeHaJpu5urAAA9CxLxBT8fDe+pyr1ipzlaiM/eMm2vXKgw==
+  resolved "https://artifacts.apextoaster.com/repository/group-npm/@microsoft/api-extractor-model/-/api-extractor-model-7.10.4.tgz#13a1f915cbe58b5974d724107a3a42283b6e6bd6"
+  integrity sha512-zVySpRaJNH3+MAoiomdKA3wUwQ/HdgA/iuFaLMO406JdUmFm9F559Qz/6b3O+yQ5kJm2AzK9oH7z4fr5OKjuOw==
   dependencies:
-    "@microsoft/api-extractor-model" "7.10.3"
     "@microsoft/tsdoc" "0.12.19"
-    "@rushstack/node-core-library" "3.34.3"
+    "@rushstack/node-core-library" "3.34.4"
+
+"@microsoft/api-extractor@7.10.5":
+  version "7.10.5"
+  resolved "https://artifacts.apextoaster.com/repository/group-npm/@microsoft/api-extractor/-/api-extractor-7.10.5.tgz#033e94f8482a0aa30f6b923e57fe41671fd44876"
+  integrity sha512-71CF99G2ckqOpwG9A4UtqKn0VWoLRptrA4p8zKxr1/e5Kyn67qkLkNeYJrxDgqD20MoecNj9A84fcBW03ZEqZQ==
+  dependencies:
+    "@microsoft/api-extractor-model" "7.10.4"
+    "@microsoft/tsdoc" "0.12.19"
+    "@rushstack/node-core-library" "3.34.4"
     "@rushstack/rig-package" "0.2.4"
     "@rushstack/ts-command-line" "4.7.3"
     colors "~1.2.1"
@@ -316,6 +324,21 @@
   version "3.34.3"
   resolved "https://artifacts.apextoaster.com/repository/group-npm/@rushstack/node-core-library/-/node-core-library-3.34.3.tgz#a59a1e452dcc79bd4e5f0840b4e9603551668f85"
   integrity sha512-WNXHEk5/uoZsbrKzGpYUzDDymJvZarRkByab4uS1fbEcTSDFSVB9e0rREzCkU9yDAQlRutbFwiTXLu3LVR5F6w==
+  dependencies:
+    "@types/node" "10.17.13"
+    colors "~1.2.1"
+    fs-extra "~7.0.1"
+    import-lazy "~4.0.0"
+    jju "~1.4.0"
+    resolve "~1.17.0"
+    semver "~7.3.0"
+    timsort "~0.3.0"
+    z-schema "~3.18.3"
+
+"@rushstack/node-core-library@3.34.4":
+  version "3.34.4"
+  resolved "https://artifacts.apextoaster.com/repository/group-npm/@rushstack/node-core-library/-/node-core-library-3.34.4.tgz#525ee9c19bf74a6d878b79700a6ddad8dd6e2bb2"
+  integrity sha512-OYA1WLiPuotg2uAD4mo0AZWeM78fJpBMcj4OaE7h8ED39pvha9pEgNYf3BywkqKQFfnb7X70WDhMmUSdxDT9bA==
   dependencies:
     "@types/node" "10.17.13"
     colors "~1.2.1"
