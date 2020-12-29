@@ -23,8 +23,8 @@ export declare abstract class Module implements ModuleOptions
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [container](./noicejs.module.container.md) |  | [Container](./noicejs.container.md) |  |
-|  [logger](./noicejs.module.logger.md) |  | [Logger](./noicejs.logger.md) |  |
+|  [container?](./noicejs.module.container.md) |  | [Container](./noicejs.container.md) | <i>(Optional)</i> |
+|  [logger?](./noicejs.module.logger.md) |  | [Logger](./noicejs.logger.md) | <i>(Optional)</i> |
 |  [providers](./noicejs.module.providers.md) |  | Map&lt;AnyContract, AnyProvider&gt; |  |
 |  [size](./noicejs.module.size.md) |  | number |  |
 

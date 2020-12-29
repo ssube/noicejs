@@ -11,3 +11,5 @@ A contract identifier or concrete constructor.
 ```typescript
 export declare type Contract<TReturn, TOptions extends BaseOptions> = ContractName | Constructor<TReturn, TOptions>;
 ```
+<b>References:</b> [BaseOptions](./noicejs.baseoptions.md)<!-- -->, [Constructor](./noicejs.constructor.md)
+

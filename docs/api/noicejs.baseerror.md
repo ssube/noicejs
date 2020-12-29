@@ -26,7 +26,7 @@ export declare class BaseError extends Error
 |  [length](./noicejs.baseerror.length.md) |  | number | Get the number of nested errors. |
 |  [message](./noicejs.baseerror.message.md) |  | string |  |
 |  [nested](./noicejs.baseerror.nested.md) |  | Array&lt;Error&gt; |  |
-|  [stack](./noicejs.baseerror.stack.md) |  | string |  |
+|  [stack?](./noicejs.baseerror.stack.md) |  | string | <i>(Optional)</i> |
 
 ## Methods
 

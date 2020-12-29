@@ -23,7 +23,7 @@ export declare class Container implements ContainerOptions
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [logger](./noicejs.container.logger.md) |  | [Logger](./noicejs.logger.md) |  |
+|  [logger?](./noicejs.container.logger.md) |  | [Logger](./noicejs.logger.md) | <i>(Optional)</i> |
 |  [modules](./noicejs.container.modules.md) |  | Array&lt;[Module](./noicejs.module.md)<!-- -->&gt; |  |
 |  [ready](./noicejs.container.ready.md) |  | boolean |  |
 

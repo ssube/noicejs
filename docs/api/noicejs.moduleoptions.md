@@ -16,6 +16,6 @@ export interface ModuleOptions
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [container](./noicejs.moduleoptions.container.md) | [Container](./noicejs.container.md) |  |
-|  [logger](./noicejs.moduleoptions.logger.md) | [Logger](./noicejs.logger.md) |  |
+|  [container?](./noicejs.moduleoptions.container.md) | [Container](./noicejs.container.md) | <i>(Optional)</i> |
+|  [logger?](./noicejs.moduleoptions.logger.md) | [Logger](./noicejs.logger.md) | <i>(Optional)</i> |
 
