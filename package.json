@@ -31,7 +31,7 @@
   "homepage": "https://github.com/ssube/noicejs#readme",
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "1.0.1",
-    "@microsoft/api-documenter": "7.12.5",
+    "@microsoft/api-documenter": "7.12.6",
     "@microsoft/api-extractor": "7.13.0",
     "@rollup/plugin-commonjs": "17.0.0",
     "@rollup/plugin-json": "4.1.0",
