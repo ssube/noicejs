@@ -99,7 +99,10 @@ export abstract class Module implements ModuleOptions {
       this.logger.debug({ module: this }, 'configuring module');
     }
 
-    this.bindPrototype(Reflect.getPrototypeOf(this));
+    const proto = Reflect.getPrototypeOf(this);
+    if (proto) {
+      this.bindPrototype(proto);
+    }
   }
 
   public get<C, O extends BaseOptions>(contract: Contract<C, O>): Provider<C, O> {
