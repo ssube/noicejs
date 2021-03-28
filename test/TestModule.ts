@@ -188,4 +188,29 @@ describe('module', async () => {
       module.debug();
     }).to.throw(LoggerNotFoundError);
   });
+
+  it('should skip method binding on modules without a prototype', async () => {
+    const ctrSpy = spy();
+    const logSpy = spy();
+    /* eslint-disable-next-line no-null/no-null */
+    const module = Object.create(null, {
+      configure: {
+        value: Module.prototype.configure,
+      },
+      container: {
+        set: ctrSpy,
+      },
+      logger: {
+        set: logSpy,
+      },
+    });
+
+    await module.configure({
+      container: Container.from(),
+      logger: getTestLogger(),
+    });
+
+    expect(ctrSpy).to.have.callCount(1);
+    expect(logSpy).to.have.callCount(1);
+  });
 });
