@@ -58,7 +58,7 @@
     "eslint-plugin-mocha": "9.0.0",
     "eslint-plugin-no-null": "1.0.2",
     "eslint-plugin-sonarjs": "0.7.0",
-    "mocha": "8.4.0",
+    "mocha": "9.0.0",
     "nyc": "15.1.0",
     "rollup": "2.51.2",
     "rollup-plugin-eslint": "7.0.0",
