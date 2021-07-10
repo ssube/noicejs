@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.3.0](https://github.com/ssube/noicejs/compare/v3.1.0...v3.3.0) (2021-07-10)
+
+
+### Features
+
+* only bind module prototype if it exists ([cf46c10](https://github.com/ssube/noicejs/commit/cf46c10728609f89f0e3c80ed8fbeea264fc72e6))
+* **build:** update to node 12 ([6f61e80](https://github.com/ssube/noicejs/commit/6f61e80595ce42be27f14110da356566b1eca921))
+
+
+### Bug Fixes
+
+* **build:** add eslint peer dep ([04af63f](https://github.com/ssube/noicejs/commit/04af63f304313f1cec130f7327877c3a8177d299))
+* **build:** pull images from nexus ([e1c12dd](https://github.com/ssube/noicejs/commit/e1c12ddd9109164fbcb5b210f937a8403c9a239e))
+* **test:** cover modules without prototypes ([86281e2](https://github.com/ssube/noicejs/commit/86281e2a0c3d0ab187d4133ee6cc77315217972a))
+
+## [3.2.0](https://github.com/ssube/noicejs/compare/v3.1.0...v3.2.0) (2021-07-10)
+
+
+### Features
+
+* only bind module prototype if it exists ([cf46c10](https://github.com/ssube/noicejs/commit/cf46c10728609f89f0e3c80ed8fbeea264fc72e6))
+* **build:** update to node 12 ([6f61e80](https://github.com/ssube/noicejs/commit/6f61e80595ce42be27f14110da356566b1eca921))
+
+
+### Bug Fixes
+
+* **build:** add eslint peer dep ([04af63f](https://github.com/ssube/noicejs/commit/04af63f304313f1cec130f7327877c3a8177d299))
+* **build:** pull images from nexus ([e1c12dd](https://github.com/ssube/noicejs/commit/e1c12ddd9109164fbcb5b210f937a8403c9a239e))
+* **test:** cover modules without prototypes ([86281e2](https://github.com/ssube/noicejs/commit/86281e2a0c3d0ab187d4133ee6cc77315217972a))
+
 ## [3.1.0](https://github.com/ssube/noicejs/compare/v3.0.1...v3.1.0) (2020-09-06)
 
 
