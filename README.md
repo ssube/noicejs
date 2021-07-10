@@ -53,6 +53,9 @@ Inspired by [Google's Guice library](https://github.com/google/guice) and writte
 
 ## Releases
 
+- 3.x versions are compatible with Node 12+
+- 4.x versions are compatible with Node 16+
+
 [![github release link](https://img.shields.io/badge/github-release-blue?logo=github)](https://github.com/ssube/noicejs/releases)
 [![github release version](https://img.shields.io/github/tag/ssube/noicejs.svg)](https://github.com/ssube/noicejs/releases)
 [![github commits since release](https://img.shields.io/github/commits-since/ssube/noicejs/v3.0.1.svg)](https://github.com/ssube/noicejs/compare/v3.0.1...master)
