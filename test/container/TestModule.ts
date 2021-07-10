@@ -13,11 +13,11 @@ import { Consumer, Implementation, Interface, TestModule } from '../HelperClass'
 describe('container', async () => {
   it('should handle a module returning bad providers', async () => {
     class BadModule extends Module {
-      public async configure(options: ModuleOptions) {
+      public async configure(_options: ModuleOptions) {
         this.bind('d').toInstance({});
       }
 
-      public get(contract: any): any {
+      public get(_contract: any): any {
         return {
           type: 'invalid',
           value: null,

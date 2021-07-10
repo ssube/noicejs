@@ -85,12 +85,13 @@ describe('inject decorator', async () => {
     class TestClass {
       public foo: string;
 
-      constructor() {
+      constructor(_options: BaseOptions) {
         this.foo = '';
       }
 
-      @Inject('foo')
-      public bar(options: { foo: string }) {
+      // eslint-disable-next-line @typescript-eslint/ban-types
+      @(Inject as Function)('foo')
+      public async bar(options: { container: Container; foo: string }): Promise<void> {
         this.foo = options.foo;
       }
     }
@@ -106,7 +107,7 @@ describe('inject decorator', async () => {
     const ctr = Container.from(new TestModule());
     await ctr.configure();
 
-    const foo = new TestClass();
+    const foo = await ctr.create(TestClass);
     /* tslint:disable-next-line:no-unbound-method */
     await ctr.apply(foo.bar, foo, {}, []);
     expect(foo.foo).to.equal('test');
@@ -115,7 +116,8 @@ describe('inject decorator', async () => {
   it('cannot be applied to non-function properties', async () => {
     expect(() => {
       class TestClass {
-        @Inject('foo')
+        // eslint-disable-next-line @typescript-eslint/ban-types
+        @(Inject as Function)('foo')
         public readonly foo: string = '';
 
         constructor() {
@@ -134,7 +136,8 @@ describe('inject decorator', async () => {
     };
 
     expect(() => {
-      Inject('bar')(foo, 'a');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      Inject('bar')(foo as any, 'a');
     }).to.throw(InvalidTargetError);
   });
 

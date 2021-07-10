@@ -104,7 +104,7 @@ describe('container decorators', async () => {
       const ctr = Container.from();
       await ctr.configure();
 
-      const fn = invokeWithContainer(ctr, (options: Partial<BaseOptions>, param1: any, param2: any) => {
+      const fn = invokeWithContainer(ctr, (_options: Partial<BaseOptions>, param1: any, param2: any) => {
         return [param1, param2];
       });
 

@@ -4,7 +4,7 @@ import { match, spy } from 'sinon';
 import { LoggerNotFoundError, Provides } from '../src';
 import { BaseOptions, Container } from '../src/Container';
 import { Module, ModuleOptions, ProviderType } from '../src/Module';
-import { isNil } from '../src/utils';
+import { isNone } from '../src/utils';
 import { getTestLogger } from './helpers/logger';
 
 /* eslint-disable @typescript-eslint/unbound-method */
@@ -12,7 +12,7 @@ import { getTestLogger } from './helpers/logger';
 describe('module', async () => {
   it('should be extendable', async () => {
     class TestModule extends Module {
-      public async configure(options: ModuleOptions) { /* noop */ }
+      public async configure(_options: ModuleOptions) { /* noop */ }
     }
 
     const module = new TestModule();
@@ -28,7 +28,7 @@ describe('module', async () => {
   it('should report bindings', async () => {
     const SOME_VAL = 3;
     class TestModule extends Module {
-      public async configure(options: ModuleOptions) {
+      public async configure(_options: ModuleOptions) {
         this.bind('a').toConstructor(TestModule);
         this.bind('b').toFactory(() => Promise.resolve(SOME_VAL));
         this.bind('c').toInstance(1);
@@ -47,7 +47,7 @@ describe('module', async () => {
 
   it('should get the same instance each time', async () => {
     class TestModule extends Module {
-      public async configure(options: ModuleOptions) {
+      public async configure(_options: ModuleOptions) {
         this.bind('c').toInstance({});
       }
     }
@@ -65,7 +65,7 @@ describe('module', async () => {
   it('should convert contract names', async () => {
     class TestClass { /* noop */ }
     class TestModule extends Module {
-      public async configure(options: ModuleOptions) {
+      public async configure(_options: ModuleOptions) {
         this.bind(TestClass).toConstructor(TestClass);
       }
     }
@@ -82,12 +82,13 @@ describe('module', async () => {
     let instance: TestInstance;
 
     class TestModule extends Module {
-      public async configure(options: ModuleOptions) {
+      public async configure(_options: ModuleOptions) {
         this.bind('a').toFactory(async (args) => this.getInstance(args));
       }
 
       public async getInstance(options: BaseOptions): Promise<TestInstance> {
-        if (isNil(instance)) {
+        if (isNone(instance)) {
+          /* eslint-disable-next-line require-atomic-updates */
           instance = await options.container.create(TestInstance);
         }
 
@@ -115,7 +116,7 @@ describe('module', async () => {
   it('should invoke factories with the module scope', async () => {
     let scope: Module | undefined;
     class TestModule extends Module {
-      public async configure(options: ModuleOptions) {
+      public async configure(_options: ModuleOptions) {
         this.bind('test').toFactory(this.testFactory);
       }
 

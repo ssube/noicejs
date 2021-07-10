@@ -7,7 +7,7 @@ import { MissingValueError } from './error/MissingValueError';
 import { getInject } from './Inject';
 import { Logger } from './logger/Logger';
 import { Module, ProviderType } from './Module';
-import { isNil } from './utils';
+import { doesExist, isNone } from './utils';
 import { VERSION_INFO } from './version';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -16,6 +16,7 @@ import { VERSION_INFO } from './version';
  * Extra arguments of unknown types.
  *
  * @public
+ * @todo infer and make type-safe
  */
 export type ExtraArgs = ReadonlyArray<any>;
 
@@ -28,6 +29,20 @@ export interface Constructor<TReturn, TOptions extends BaseOptions> {
   /* eslint-disable-next-line @typescript-eslint/prefer-function-type */
   new(options: TOptions, ...extra: ExtraArgs): TReturn;
 }
+
+/**
+ * Factory provider signature.
+ *
+ * @public
+ */
+export type Factory<R, O extends BaseOptions> = (options: O, ...extra: ReadonlyArray<any>) => Promise<R>;
+
+/**
+ * Concrete implementation provider signature group.
+ *
+ * @public
+ */
+export type Implementation<R, O extends BaseOptions> = Constructor<R, O> | Factory<R, O>;
 
 /**
  * The identifier for a contract of some type.
@@ -81,7 +96,7 @@ export function contractName(c: Contract<unknown, AnyOptions>): ContractName {
  *
  * @public
  */
-export function isConstructor(it: unknown): it is Constructor<unknown, AnyOptions> {
+export function isConstructor<TReturn = unknown>(it: unknown): it is Constructor<TReturn, AnyOptions> {
   return typeof it === 'function';
 }
 
@@ -104,7 +119,7 @@ export interface ContainerOptions {
  * @public
  */
 export class Container implements ContainerOptions {
-  public static from(...modules: Array<Module>) {
+  public static from(...modules: Array<Module>): Container {
     return new Container(modules);
   }
 
@@ -122,7 +137,7 @@ export class Container implements ContainerOptions {
    *
    * This must be done sequentially, since some modules may use classes from other modules.
    */
-  public async configure(options: ContainerOptions = { logger: undefined }) {
+  public async configure(options: ContainerOptions = { logger: undefined }): Promise<Container> {
     if (this.ready) {
       throw new ContainerBoundError('container already bound');
     }
@@ -148,35 +163,35 @@ export class Container implements ContainerOptions {
     options: PartialOptions<TOptions> = {},
     ...args: ExtraArgs
   ): Promise<TReturn> {
-    if (!this.ready) {
+    if (this.ready === false) {
       throw new ContainerNotBoundError('container has not been configured yet');
     }
-    if (isNil(contract)) {
+    if (isNone(contract)) {
       throw new MissingValueError('missing contract');
     }
 
-    if (this.logger !== undefined) {
+    if (doesExist(this.logger)) {
       this.logger.debug({ contract }, 'container create contract');
     }
 
     const module = this.modules.find((item) => item.has(contract));
-    if (isNil(module)) {
-      if (isConstructor(contract)) {
-        return this.construct(contract, options, args);
+    if (isNone(module)) {
+      if (isConstructor<TReturn>(contract)) {
+        return this.construct<TReturn, TOptions>(contract, options, args);
       }
 
       throw new MissingValueError(`container has no provider for contract: ${contractName(contract).toString()}`);
     }
 
-    if (this.logger !== undefined) {
+    if (doesExist(this.logger)) {
       this.logger.debug({ module }, 'contract provided by module');
     }
 
     return this.provide(module, contract, options, args);
   }
 
-  public debug() {
-    if (isNil(this.logger)) {
+  public debug(): void {
+    if (isNone(this.logger)) {
       throw new LoggerNotFoundError('container has no logger');
     }
 
@@ -205,7 +220,7 @@ export class Container implements ContainerOptions {
     args: ExtraArgs
   ): Promise<TReturn> {
     const provider = module.get<TReturn, TOptions>(contract);
-    if (isNil(provider)) {
+    if (isNone(provider)) {
       this.fail(`module has no provider for contract: ${contractName(contract).toString()}`);
     }
 
@@ -225,13 +240,13 @@ export class Container implements ContainerOptions {
     ctor: Constructor<TReturn, TOptions>,
     options: PartialOptions<TOptions>,
     args: ExtraArgs
-  ) {
+  ): Promise<TReturn> {
     const deps: ExtraArgs = [await this.dependencies(getInject(ctor), options)];
     return Reflect.construct(ctor, deps.concat(args));
   }
 
   public async apply<TReturn, TOptions extends BaseOptions>(
-    // eslint-disable-next-line @typescript-eslint/ban-types
+    /* eslint-disable-next-line @typescript-eslint/ban-types */
     impl: Function,
     thisArg: unknown,
     options: PartialOptions<TOptions>,
@@ -244,7 +259,7 @@ export class Container implements ContainerOptions {
   protected fail(msg: string): never {
     const error = new MissingValueError(msg);
 
-    if (this.logger !== undefined) {
+    if (doesExist(this.logger)) {
       this.logger.error(error, msg);
     }
 
@@ -260,7 +275,7 @@ export class Container implements ContainerOptions {
     const options: Partial<TOptions> = {};
     for (const dependency of deps) {
       const { contract, name } = dependency;
-      if (!Reflect.has(passed, name)) {
+      if (Reflect.has(passed, name) === false) {
         // tslint:disable-next-line:no-any
         const dep = await this.create<any, AnyOptions>(contract);
         options[name as keyof TOptions] = dep;

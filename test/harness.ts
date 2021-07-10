@@ -12,7 +12,7 @@ sourceMapSupport.install({
 /**
  * This will break the whole test run if any test leaks an unhandled rejection.
  */
-process.on('unhandledRejection', (reason, promise) => {
+process.on('unhandledRejection', (reason, _promise) => {
   // eslint-disable-next-line no-console
   console.error('unhandled error during tests', reason);
   process.exit(1);

@@ -1,6 +1,7 @@
+import { BaseOptions, Constructor } from './Container';
 import { Dependency, InjectedDependency, resolveDepends } from './Dependency';
 import { InvalidTargetError } from './error/InvalidTargetError';
-import { doesExist, isNil, resolveDescriptor } from './utils';
+import { doesExist, isNone, resolveDescriptor } from './utils';
 
 export const injectionSymbol = Symbol('noicejs-inject');
 
@@ -36,10 +37,14 @@ export function getInject(target: any): Array<Dependency> {
  *
  * @public
  */
-export function Inject(...needs: Array<InjectedDependency>) {
+export function Inject<
+  TReturn,
+  TOptions extends BaseOptions,
+  TTarget extends Constructor<TReturn, TOptions>
+>(...needs: Array<InjectedDependency>) {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  return (target: any, key?: string, providedDesc?: PropertyDescriptor) => {
-    if (isNil(key)) {
+  return (target: TTarget, key?: string, providedDesc?: PropertyDescriptor): void => {
+    if (isNone(key)) {
       const prev = getInject(target);
       const next = resolveDepends(needs);
       Reflect.set(target, injectionSymbol, prev.concat(next));

@@ -65,7 +65,6 @@ const bundle = {
 		}),
 		commonjs(),
 		eslint({
-			configFile: join('.', 'config', 'eslint.json'),
 			exclude: [
 				join('node_modules', '**'),
 				join('src', 'resource'),
@@ -77,7 +76,7 @@ const bundle = {
 				join('test', '**', '*.ts'),
 			],
 			throwOnError: true,
-			useEslintrc: false,
+			useEslintrc: true,
 		}),
 		typescript({
 			cacheRoot: join(targetPath, 'cache', 'rts2'),

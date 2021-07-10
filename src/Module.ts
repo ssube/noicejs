@@ -1,9 +1,9 @@
-import { AnyContract, AnyOptions, BaseOptions, Constructor, Container, Contract, contractName } from './Container';
+import { AnyContract, AnyOptions, BaseOptions, Constructor, Container, Contract, contractName, Factory } from './Container';
 import { LoggerNotFoundError } from './error/LoggerNotFoundError';
 import { Logger } from './logger/Logger';
 import { NullLogger } from './logger/NullLogger';
 import { getProvides } from './Provides';
-import { doesExist, isNil } from './utils';
+import { doesExist, isNone, mustExist } from './utils';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -13,26 +13,15 @@ import { doesExist, isNil } from './utils';
  * @public
  */
 export enum ProviderType {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   None = 0,
-  /* eslint-disable-next-line @typescript-eslint/no-shadow */
+  // eslint-disable-next-line @typescript-eslint/naming-convention,@typescript-eslint/no-shadow
   Constructor,
+  // eslint-disable-next-line @typescript-eslint/naming-convention,@typescript-eslint/no-shadow
   Factory,
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   Instance,
 }
-
-/**
- * Factory provider signature.
- *
- * @public
- */
-export type Factory<R, O extends BaseOptions> = (options: O) => Promise<R>;
-
-/**
- * Concrete implementation provider signature group.
- *
- * @public
- */
-export type Implementation<R, O extends BaseOptions> = Constructor<R, O> | Factory<R, O>;
 
 /**
  * Provider definitions.
@@ -71,8 +60,7 @@ export interface FluentBinding<TContract, TReturn, TOptions extends BaseOptions>
  *
  * @public
  */
-export interface ModuleOptions {
-  container?: Container;
+export interface ModuleOptions extends BaseOptions {
   logger?: Logger;
 }
 
@@ -82,9 +70,14 @@ export interface ModuleOptions {
  * @public
  */
 export abstract class Module implements ModuleOptions {
-  public container?: Container;
   public logger?: Logger;
+
+  protected containerRef?: Container;
   protected providers: Map<AnyContract, AnyProvider>;
+
+  public get container(): Container {
+    return mustExist(this.containerRef);
+  }
 
   constructor() {
     this.logger = NullLogger.global;
@@ -92,7 +85,7 @@ export abstract class Module implements ModuleOptions {
   }
 
   public async configure(options: ModuleOptions): Promise<void> {
-    this.container = options.container;
+    this.containerRef = options.container;
     this.logger = options.logger;
 
     if (this.logger !== undefined) {
@@ -146,15 +139,16 @@ export abstract class Module implements ModuleOptions {
   public bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: ProviderType.Constructor, value: Constructor<I, O>): this;
   public bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: ProviderType.Factory, value: Factory<I, O>): this;
   public bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: ProviderType.Instance, value: I): this;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: ProviderType.None): this;
-  public bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: ProviderType, value?: any): this {
+  public bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: ProviderType, value?: I | Factory<I, O> | Constructor<I, O>): this {
     const name = contractName(contract);
 
     if (this.logger !== undefined) {
       this.logger.debug({ contract: name, type, value }, 'binding contract');
     }
 
-    this.providers.set(contract, { type, value });
+    this.providers.set(contract, { type, value } as Provider<I, O>);
     return this;
   }
 
@@ -172,8 +166,8 @@ export abstract class Module implements ModuleOptions {
     };
   }
 
-  public debug() {
-    if (isNil(this.logger)) {
+  public debug(): void {
+    if (isNone(this.logger)) {
       throw new LoggerNotFoundError('module has no logger');
     }
 
@@ -183,7 +177,7 @@ export abstract class Module implements ModuleOptions {
     }
   }
 
-  protected bindFunction<C, I extends C, O extends BaseOptions>(fn: Factory<I, O>) {
+  protected bindFunction<C, I extends C, O extends BaseOptions>(fn: Factory<I, O>): void {
     const provides = getProvides(fn);
     for (const p of provides) {
       this.bindTo(p.contract, ProviderType.Factory, fn);
@@ -191,7 +185,7 @@ export abstract class Module implements ModuleOptions {
   }
 
   // eslint-disable-next-line @typescript-eslint/ban-types
-  protected bindPrototype(proto: object) {
+  protected bindPrototype(proto: object): void {
     for (const [/* name */, desc] of Object.entries(Object.getOwnPropertyDescriptors(proto))) {
       if (typeof desc.value === 'function') {
         this.bindFunction(desc.value);

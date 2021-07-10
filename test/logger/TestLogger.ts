@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { createStubInstance, spy } from 'sinon';
+import { createStubInstance } from 'sinon';
 
 import { NullLogger } from '../../src';
 import { LogLevel, logWithLevel } from '../../src/logger/Logger';

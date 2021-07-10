@@ -8,7 +8,7 @@ import { MissingValueError } from '../../src/error/MissingValueError';
 import { Inject } from '../../src/Inject';
 import { Module, ModuleOptions } from '../../src/Module';
 import { MapModule } from '../../src/module/MapModule';
-import { isNil } from '../../src/utils';
+import { doesExist, isNone } from '../../src/utils';
 import { Consumer, Implementation, Interface, TestModule } from '../HelperClass';
 import { getTestLogger } from '../helpers/logger';
 
@@ -36,7 +36,7 @@ describe('container', async () => {
     }
 
     class FooModule extends Module {
-      public async configure(options: ModuleOptions) {
+      public async configure(_options: ModuleOptions) {
         this.bind(FooClass).toInstance(instance);
       }
     }
@@ -61,7 +61,7 @@ describe('container', async () => {
 
     @Inject({ contract: FooClass, name: 'foo' })
     class TestClass {
-      public readonly foo: FooClass;
+      public readonly foo?: FooClass;
 
       constructor(options: FooOptions) {
         this.foo = options.foo;
@@ -69,7 +69,7 @@ describe('container', async () => {
     }
 
     class FooModule extends Module {
-      public async configure(options: ModuleOptions) {
+      public async configure(_options: ModuleOptions) {
         this.bind(FooClass).toConstructor(FooClass);
       }
     }
@@ -99,7 +99,7 @@ describe('container', async () => {
     class TypedConsumer {
       public readonly others: Array<string>;
 
-      constructor(options: BaseOptions, ...others: Array<string>) {
+      constructor(_options: BaseOptions, ...others: Array<string>) {
         this.others = others;
       }
     }
@@ -116,7 +116,7 @@ describe('container', async () => {
       public async create() {
         modSpy();
 
-        if (isNil(this.container)) {
+        if (isNone(this.container)) {
           throw new Error('missing container');
         } else {
           return this.container.create(Implementation);
@@ -134,30 +134,31 @@ describe('container', async () => {
   });
 
   it('should call provider methods with dependencies', async () => {
-    class Outerface { /* empty */ }
+    class Outerface { }
     const outerInstance = new Outerface();
 
     const modSpy = spy();
+
     class SubModule extends Module {
       public async configure(options: ModuleOptions) {
         await super.configure(options);
         this.bind(Outerface).toInstance(outerInstance);
       }
 
-      @Inject(Outerface)
+      // eslint-disable-next-line @typescript-eslint/ban-types
+      @(Inject as Function)(Outerface)
       @Provides(Interface)
-      public async create(outer: { outerface: Outerface }) {
-        if (this.logger !== undefined) {
+      public async create(outer: { container: Container; outerface: Outerface }) {
+        if (doesExist(this.logger)) {
           this.logger.debug({ outer }, 'submodule create');
         }
 
         modSpy(outer);
-        if (isNil(this.container)) {
+        if (isNone(this.container)) {
           throw new Error('missing container');
         } else {
           return this.container.create(Implementation, outer as any);
         }
-
       }
     }
 
@@ -268,7 +269,7 @@ describe('container', async () => {
 
     const foo = {};
     class FooModule extends Module {
-      public async configure(options: ModuleOptions) {
+      public async configure(_options: ModuleOptions) {
         this.bind('foo').toInstance(foo);
       }
     }
@@ -344,7 +345,7 @@ describe('container', async () => {
 
   it('should fail and throw with a logger', async () => {
     @Inject('foo')
-    class Bar {}
+    class Bar { }
 
     const container = Container.from();
     await container.configure({

@@ -25,7 +25,7 @@ export function getProvides(target: any): Array<Dependency> {
  *
  * @public
  */
-export function Provides<TInjected>(...provides: Array<InjectedDependency>) {
+export function Provides(...provides: Array<InjectedDependency>) {
   return (target: any, key: string, providedDesc?: PropertyDescriptor) => {
     const desc = resolveDescriptor(target, key, providedDesc);
     const prev = getProvides(target);

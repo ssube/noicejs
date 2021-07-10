@@ -10,13 +10,13 @@ export type CacheFallback = (path: string) => Promise<string>;
  * in calls to bind or inject.
  */
 export class Cache {
-  public get(path: string, ttl: number, fallback: CacheFallback): Promise<string> {
+  public get(_path: string, _ttl: number, _fallback: CacheFallback): Promise<string> {
     throw new Error('not implemented');
   }
 }
 
 export class Filesystem {
-  public get(path: string): Promise<string> {
+  public get(_path: string): Promise<string> {
     throw new Error('not implemented');
   }
 }
@@ -45,7 +45,7 @@ export class Server implements ServerOptions {
     this.ttl = options.ttl;
   }
 
-  public get(path: string) {
+  public get(path: string): Promise<string> {
     return this.cache.get(path, this.ttl, () => this.filesystem.get(path));
   }
 }
