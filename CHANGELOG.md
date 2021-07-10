@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/ssube/noicejs/compare/v3.3.0...v4.0.0) (2021-07-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* the 4.x release family will support Node 16+ and
+drop support for previous versions.
+
+### Features
+
+* document supported Node versions ([aca25b4](https://github.com/ssube/noicejs/commit/aca25b44505623383e72bde3586ad14d353d734a))
+
 ## [3.3.0](https://github.com/ssube/noicejs/compare/v3.1.0...v3.3.0) (2021-07-10)
 
 
