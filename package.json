@@ -33,7 +33,7 @@
     "@istanbuljs/nyc-config-typescript": "1.0.1",
     "@microsoft/api-documenter": "7.13.33",
     "@microsoft/api-extractor": "7.18.4",
-    "@rollup/plugin-commonjs": "19.0.0",
+    "@rollup/plugin-commonjs": "19.0.1",
     "@rollup/plugin-json": "4.1.0",
     "@rollup/plugin-multi-entry": "4.0.0",
     "@rollup/plugin-node-resolve": "13.0.0",
