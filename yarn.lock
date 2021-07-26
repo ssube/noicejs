@@ -326,10 +326,10 @@
   resolved "https://artifacts.apextoaster.com/repository/group-npm/@rollup/plugin-virtual/-/plugin-virtual-2.0.3.tgz#0afc88d75c1e1378ab290b8e9898d4edb5be0d74"
   integrity sha512-pw6ziJcyjZtntQ//bkad9qXaBx665SgEL8C8KI5wO8G5iU5MPxvdWrQyVaAvjojGm9tJoS8M9Z/EEepbqieYmw==
 
-"@rollup/plugin-yaml@3.0.0":
-  version "3.0.0"
-  resolved "https://artifacts.apextoaster.com/repository/group-npm/@rollup/plugin-yaml/-/plugin-yaml-3.0.0.tgz#632af397a6faaea10c885680c575ae01f4556c1d"
-  integrity sha512-nXYI3WsfG7Oq5K5k7evGQ1ZABGCPhHxMaMX4T3GRSDi9VyhkaU1+8R1RzTRFXITFJHx0QEGn8jR+P9pux5FuBQ==
+"@rollup/plugin-yaml@3.1.0":
+  version "3.1.0"
+  resolved "https://artifacts.apextoaster.com/repository/group-npm/@rollup/plugin-yaml/-/plugin-yaml-3.1.0.tgz#03a13039ba366fc8d39a1ab94a7debacdd776c2f"
+  integrity sha512-61PsAXqN7YNYdg/nezK3NkqAu6e3Qu2wjHYW3r52Nx0aLi+rG7gkkIqtvxG8EtSqE2rra5CUcWBZj+v362qt9A==
   dependencies:
     "@rollup/pluginutils" "^3.1.0"
     js-yaml "^3.14.0"
