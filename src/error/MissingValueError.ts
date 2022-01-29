@@ -1,4 +1,4 @@
-import { BaseError } from './BaseError';
+import { BaseError } from './BaseError.js';
 
 /**
  * Error indicating that a required value is missing.

@@ -1,4 +1,4 @@
-import { Logger, LogLevel } from './Logger';
+import { Logger, LogLevel } from './Logger.js';
 
 interface RealWinston {
   log(level: LogLevel, msg: string, ...data: Array<unknown>): void;

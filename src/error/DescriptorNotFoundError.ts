@@ -1,4 +1,4 @@
-import { BaseError } from './BaseError';
+import { BaseError } from './BaseError.js';
 
 /**
  * Error indicating that the target descriptor could not be found on the decorator target.

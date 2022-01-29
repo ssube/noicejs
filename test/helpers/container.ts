@@ -1,4 +1,4 @@
-import { Container } from '../../src/Container';
+import { Container } from '../../src/Container.js';
 
 export async function createContainer(): Promise<{container: Container}> {
   const container = Container.from();

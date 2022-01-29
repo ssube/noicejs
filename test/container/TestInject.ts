@@ -2,15 +2,15 @@ import { expect } from 'chai';
 import { spy, stub } from 'sinon';
 
 import { NullLogger, Provides } from '../../src';
-import { BaseOptions, Container, Contract } from '../../src/Container';
-import { BaseError } from '../../src/error/BaseError';
-import { MissingValueError } from '../../src/error/MissingValueError';
-import { Inject } from '../../src/Inject';
-import { Module, ModuleOptions } from '../../src/Module';
-import { MapModule } from '../../src/module/MapModule';
-import { isNil } from '../../src/utils';
-import { Consumer, Implementation, Interface, TestModule } from '../HelperClass';
-import { getTestLogger } from '../helpers/logger';
+import { BaseOptions, Container, Contract } from '../../src/Container.js';
+import { BaseError } from '../../src/error/BaseError.js';
+import { MissingValueError } from '../../src/error/MissingValueError.js';
+import { Inject } from '../../src/Inject.js';
+import { Module, ModuleOptions } from '../../src/Module.js';
+import { MapModule } from '../../src/module/MapModule.js';
+import { isNil } from '../../src/utils/index.js';
+import { Consumer, Implementation, Interface, TestModule } from '../HelperClass.js';
+import { getTestLogger } from '../helpers/logger.js';
 
 /* eslint-disable no-null/no-null, @typescript-eslint/no-explicit-any, @typescript-eslint/unbound-method */
 

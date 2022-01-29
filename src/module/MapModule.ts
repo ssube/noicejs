@@ -1,5 +1,5 @@
-import { BaseOptions, Constructor, Contract, isConstructor } from '../Container';
-import { Module, ModuleOptions } from '../Module';
+import { BaseOptions, Constructor, Contract, isConstructor } from '../Container.js';
+import { Module, ModuleOptions } from '../Module.js';
 
 export type ProviderValue<TReturn, TOptions extends BaseOptions> = TReturn | Constructor<TReturn, TOptions>;
 export type ProviderMap<TReturn, TOptions extends BaseOptions> = Map<Contract<TReturn, TOptions>, ProviderValue<TReturn, TOptions>>;

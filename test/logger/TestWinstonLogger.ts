@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
 
-import { LogLevel } from '../../src/logger/Logger';
-import { WinstonLogger } from '../../src/logger/WinstonLogger';
+import { LogLevel } from '../../src/logger/Logger.js';
+import { WinstonLogger } from '../../src/logger/WinstonLogger.js';
 
 const TEST_MSG = 'hello world';
 const TEST_ARGS = ['foo', 'bar'];

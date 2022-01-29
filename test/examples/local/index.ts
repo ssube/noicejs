@@ -1,5 +1,5 @@
-import { Cache, CacheFallback, Filesystem } from '..';
-import { Module } from '../../../src';
+import { Cache, CacheFallback, Filesystem } from '../index.js';
+import { Module } from '../../../src/index.js';
 
 export class LocalCache extends Cache {
   public async get(path: string, ttl: number, fallback: CacheFallback): Promise<string> {

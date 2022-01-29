@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { BaseOptions, constructWithContainer, Container, invokeWithContainer } from '../../src/Container';
+import { BaseOptions, constructWithContainer, Container, invokeWithContainer } from '../../src/Container.js';
 
 /* eslint-disable arrow-body-style, @typescript-eslint/no-explicit-any */
 

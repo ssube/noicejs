@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { restore, spy } from 'sinon';
 
-import { ConsoleLogger } from '../../src/logger/ConsoleLogger';
+import { ConsoleLogger } from '../../src/logger/ConsoleLogger.js';
 
 /* eslint-disable no-console, @typescript-eslint/unbound-method */
 

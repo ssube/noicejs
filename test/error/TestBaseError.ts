@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { BaseError } from '../../src/error/BaseError';
+import { BaseError } from '../../src/error/BaseError.js';
 
 describe('base error', () => {
   it('should include nested errors in the stack trace', () => {

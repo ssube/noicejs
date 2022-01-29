@@ -1,5 +1,5 @@
-import { Dependency, InjectedDependency, resolveDepends } from './Dependency';
-import { resolveDescriptor } from './utils';
+import { Dependency, InjectedDependency, resolveDepends } from './Dependency.js';
+import { resolveDescriptor } from './utils/index.js';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

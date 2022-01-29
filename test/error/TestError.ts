@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 
-import { ContainerBoundError } from '../../src/error/ContainerBoundError';
-import { ContainerNotBoundError } from '../../src/error/ContainerNotBoundError';
-import { DescriptorNotFoundError } from '../../src/error/DescriptorNotFoundError';
-import { InvalidProviderError } from '../../src/error/InvalidProviderError';
-import { InvalidTargetError } from '../../src/error/InvalidTargetError';
-import { LoggerNotFoundError } from '../../src/error/LoggerNotFoundError';
-import { MissingValueError } from '../../src/error/MissingValueError';
+import { ContainerBoundError } from '../../src/error/ContainerBoundError.js';
+import { ContainerNotBoundError } from '../../src/error/ContainerNotBoundError.js';
+import { DescriptorNotFoundError } from '../../src/error/DescriptorNotFoundError.js';
+import { InvalidProviderError } from '../../src/error/InvalidProviderError.js';
+import { InvalidTargetError } from '../../src/error/InvalidTargetError.js';
+import { LoggerNotFoundError } from '../../src/error/LoggerNotFoundError.js';
+import { MissingValueError } from '../../src/error/MissingValueError.js';
 
 const errors = [
   ContainerBoundError,

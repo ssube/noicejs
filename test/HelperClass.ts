@@ -1,5 +1,5 @@
-import { Inject } from '../src/Inject';
-import { Module, ModuleOptions } from '../src/Module';
+import { Inject } from '../src/Inject.js';
+import { Module, ModuleOptions } from '../src/Module.js';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

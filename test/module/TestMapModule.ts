@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import { ConsoleLogger, Container } from '../../src';
-import { MapModule } from '../../src/module/MapModule';
+import { ConsoleLogger, Container } from '../../src/index.js';
+import { MapModule } from '../../src/module/MapModule.js';
 
 /* eslint-disable sonarjs/no-identical-functions */
 

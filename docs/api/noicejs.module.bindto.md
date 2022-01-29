@@ -19,7 +19,7 @@ bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: Pr
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  contract | [Contract](./noicejs.contract.md)<!-- -->&lt;C, O&gt; | the contract to be bound |
-|  type | [ProviderType.Constructor](./noicejs.providertype.constructor.md) | the type of provider |
+|  type | [ProviderType.Constructor](./noicejs.providertype.md) | the type of provider |
 |  value | [Constructor](./noicejs.constructor.md)<!-- -->&lt;I, O&gt; | the class, factory, or instance to bind |
 
 <b>Returns:</b>

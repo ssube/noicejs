@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { resolveDescriptor } from '../src/utils';
+import { resolveDescriptor } from '../src/utils/index.js';
 
 describe('utils', async () => {
   describe('resolve descriptor', async () => {

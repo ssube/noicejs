@@ -1,6 +1,6 @@
-import { ConsoleLogger } from '../../src/logger/ConsoleLogger';
-import { Logger } from '../../src/logger/Logger';
-import { NullLogger } from '../../src/logger/NullLogger';
+import { ConsoleLogger } from '../../src/logger/ConsoleLogger.js';
+import { Logger } from '../../src/logger/Logger.js';
+import { NullLogger } from '../../src/logger/NullLogger.js';
 
 const ENV_DEBUG = 'DEBUG';
 

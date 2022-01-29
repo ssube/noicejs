@@ -1,4 +1,4 @@
-import { AnyContract, contractName, isConstructor } from './Container';
+import { AnyContract, contractName, isConstructor } from './Container.js';
 
 export interface Dependency {
   name: string | symbol;

@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 import { match, spy } from 'sinon';
 
-import { LoggerNotFoundError, Provides } from '../src';
-import { BaseOptions, Container } from '../src/Container';
-import { Module, ModuleOptions, ProviderType } from '../src/Module';
-import { isNil } from '../src/utils';
-import { getTestLogger } from './helpers/logger';
+import { LoggerNotFoundError, Provides } from '../src/index.js';
+import { BaseOptions, Container } from '../src/Container.js';
+import { Module, ModuleOptions, ProviderType } from '../src/Module.js';
+import { isNil } from '../src/utils/index.js';
+import { getTestLogger } from './helpers/logger.js';
 
 /* eslint-disable @typescript-eslint/unbound-method */
 

@@ -1,4 +1,4 @@
-import { MissingValueError } from './MissingValueError';
+import { MissingValueError } from './MissingValueError.js';
 
 /**
  * Error indicating that a debug method has been called, but no logger was registered for debugging.

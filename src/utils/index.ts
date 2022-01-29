@@ -1,5 +1,5 @@
-import { DescriptorNotFoundError } from '../error/DescriptorNotFoundError';
-import { MissingValueError } from '../error/MissingValueError';
+import { DescriptorNotFoundError } from '../error/DescriptorNotFoundError.js';
+import { MissingValueError } from '../error/MissingValueError.js';
 
 /* eslint-disable-next-line @typescript-eslint/ban-types */
 export type Maybe<TValue> = TValue | null | undefined;

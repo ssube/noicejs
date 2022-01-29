@@ -1,4 +1,4 @@
-import { BaseError } from './BaseError';
+import { BaseError } from './BaseError.js';
 
 /**
  * Error indicating that the container was able to find a provider, but did not understand the provider type and could

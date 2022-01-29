@@ -15,7 +15,7 @@ bindTo<C, I extends C, O extends BaseOptions>(contract: Contract<C, O>, type: Pr
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  contract | [Contract](./noicejs.contract.md)<!-- -->&lt;C, O&gt; |  |
-|  type | [ProviderType.None](./noicejs.providertype.none.md) |  |
+|  type | [ProviderType.None](./noicejs.providertype.md) |  |
 
 <b>Returns:</b>
 

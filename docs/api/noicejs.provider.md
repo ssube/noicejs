@@ -23,5 +23,5 @@ export declare type Provider<R, O extends BaseOptions> = {
     value: undefined;
 };
 ```
-<b>References:</b> [BaseOptions](./noicejs.baseoptions.md)<!-- -->, [ProviderType.Constructor](./noicejs.providertype.constructor.md)<!-- -->, [Constructor](./noicejs.constructor.md)<!-- -->, [ProviderType.Factory](./noicejs.providertype.factory.md)<!-- -->, [ProviderType.Instance](./noicejs.providertype.instance.md)<!-- -->, [ProviderType.None](./noicejs.providertype.none.md)
+<b>References:</b> [BaseOptions](./noicejs.baseoptions.md)<!-- -->, [ProviderType.Constructor](./noicejs.providertype.md)<!-- -->, [Constructor](./noicejs.constructor.md)<!-- -->, [ProviderType.Factory](./noicejs.providertype.md)<!-- -->, [ProviderType.Instance](./noicejs.providertype.md)<!-- -->, [ProviderType.None](./noicejs.providertype.md)
 

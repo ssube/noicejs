@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
-import { Server } from '.';
-import { Container } from '../../src';
-import { LocalCache, LocalFilesystem, LocalModule } from './local';
+import { Server } from './index.js';
+import { Container } from '../../src/index.js';
+import { LocalCache, LocalFilesystem, LocalModule } from './local/index.js';
 
 const TEST_TTL = 60;
 

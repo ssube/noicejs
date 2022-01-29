@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 import { createStubInstance, spy } from 'sinon';
 
-import { NullLogger } from '../../src';
-import { LogLevel, logWithLevel } from '../../src/logger/Logger';
+import { NullLogger } from '../../src/index.js';
+import { LogLevel, logWithLevel } from '../../src/logger/Logger.js';
 
 /* eslint-disable @typescript-eslint/unbound-method */
 

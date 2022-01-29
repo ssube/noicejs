@@ -1,6 +1,6 @@
-import { Dependency, InjectedDependency, resolveDepends } from './Dependency';
-import { InvalidTargetError } from './error/InvalidTargetError';
-import { doesExist, isNil, resolveDescriptor } from './utils';
+import { Dependency, InjectedDependency, resolveDepends } from './Dependency.js';
+import { InvalidTargetError } from './error/InvalidTargetError.js';
+import { doesExist, isNil, resolveDescriptor } from './utils/index.js';
 
 export const injectionSymbol = Symbol('noicejs-inject');
 

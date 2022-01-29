@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
-import { BaseOptions, Container, DescriptorNotFoundError, InvalidTargetError, Module } from '../src';
-import { getInject, Inject, injectionSymbol } from '../src/Inject';
+import { BaseOptions, Container, DescriptorNotFoundError, InvalidTargetError, Module } from '../src/index.js';
+import { getInject, Inject, injectionSymbol } from '../src/Inject.js';
 
 /* eslint-disable @typescript-eslint/unbound-method */
 describe('inject decorator', async () => {

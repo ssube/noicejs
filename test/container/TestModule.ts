@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import { stub } from 'sinon';
 
-import { Container } from '../../src/Container';
-import { InvalidProviderError } from '../../src/error/InvalidProviderError';
-import { MissingValueError } from '../../src/error/MissingValueError';
-import { Module, ModuleOptions } from '../../src/Module';
-import { MapModule } from '../../src/module/MapModule';
-import { Consumer, Implementation, Interface, TestModule } from '../HelperClass';
+import { Container } from '../../src/Container.js';
+import { InvalidProviderError } from '../../src/error/InvalidProviderError.js';
+import { MissingValueError } from '../../src/error/MissingValueError.js';
+import { Module, ModuleOptions } from '../../src/Module.js';
+import { MapModule } from '../../src/module/MapModule.js';
+import { Consumer, Implementation, Interface, TestModule } from '../HelperClass.js';
 
 /* eslint-disable no-null/no-null, @typescript-eslint/no-explicit-any */
 

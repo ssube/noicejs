@@ -1,14 +1,14 @@
-import { Dependency } from './Dependency';
-import { ContainerBoundError } from './error/ContainerBoundError';
-import { ContainerNotBoundError } from './error/ContainerNotBoundError';
-import { InvalidProviderError } from './error/InvalidProviderError';
-import { LoggerNotFoundError } from './error/LoggerNotFoundError';
-import { MissingValueError } from './error/MissingValueError';
-import { getInject } from './Inject';
-import { Logger } from './logger/Logger';
-import { Module, ProviderType } from './Module';
-import { isNil } from './utils';
-import { VERSION_INFO } from './version';
+import { Dependency } from './Dependency.js';
+import { ContainerBoundError } from './error/ContainerBoundError.js';
+import { ContainerNotBoundError } from './error/ContainerNotBoundError.js';
+import { InvalidProviderError } from './error/InvalidProviderError.js';
+import { LoggerNotFoundError } from './error/LoggerNotFoundError.js';
+import { MissingValueError } from './error/MissingValueError.js';
+import { getInject } from './Inject.js';
+import { Logger } from './logger/Logger.js';
+import { Module, ProviderType } from './Module.js';
+import { isNil } from './utils/index.js';
+import { VERSION_INFO } from './version.js';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

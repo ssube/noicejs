@@ -2,6 +2,7 @@
   "name": "noicejs",
   "version": "4.0.0",
   "description": "extremely thin dependency injection",
+  "type": "module",
   "main": "out/main.js",
   "types": "out/index.d.ts",
   "typings": "out/index.d.ts",

@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
-import { Container } from '../src/Container';
-import { Module } from '../src/Module';
-import { getProvides, Provides } from '../src/Provides';
+import { Container } from '../src/Container.js';
+import { Module } from '../src/Module.js';
+import { getProvides, Provides } from '../src/Provides.js';
 
 /* eslint-disable @typescript-eslint/unbound-method */
 

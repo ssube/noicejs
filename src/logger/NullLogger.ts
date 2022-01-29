@@ -1,4 +1,4 @@
-import { Logger } from './Logger';
+import { Logger } from './Logger.js';
 
 /**
  * Logger implementation that consumes input and produces no output.

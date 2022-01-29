@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { restore, spy } from 'sinon';
 
-import { NullLogger } from '../../src/logger/NullLogger';
+import { NullLogger } from '../../src/logger/NullLogger.js';
 
 describe('console logger', async () => {
   beforeEach(() => {

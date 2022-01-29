@@ -1,9 +1,9 @@
-import { AnyContract, AnyOptions, BaseOptions, Constructor, Container, Contract, contractName } from './Container';
-import { LoggerNotFoundError } from './error/LoggerNotFoundError';
-import { Logger } from './logger/Logger';
-import { NullLogger } from './logger/NullLogger';
-import { getProvides } from './Provides';
-import { doesExist, isNil } from './utils';
+import { AnyContract, AnyOptions, BaseOptions, Constructor, Container, Contract, contractName } from './Container.js';
+import { LoggerNotFoundError } from './error/LoggerNotFoundError.js';
+import { Logger } from './logger/Logger.js';
+import { NullLogger } from './logger/NullLogger.js';
+import { getProvides } from './Provides.js';
+import { doesExist, isNil } from './utils/index.js';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

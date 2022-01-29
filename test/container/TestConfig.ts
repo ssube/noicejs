@@ -1,15 +1,15 @@
 import { expect } from 'chai';
 import { createStubInstance, spy } from 'sinon';
 
-import { NullLogger } from '../../src';
-import { Container } from '../../src/Container';
-import { ContainerBoundError } from '../../src/error/ContainerBoundError';
-import { ContainerNotBoundError } from '../../src/error/ContainerNotBoundError';
-import { LoggerNotFoundError } from '../../src/error/LoggerNotFoundError';
-import { Module } from '../../src/Module';
-import { Provides } from '../../src/Provides';
-import { TestModule } from '../HelperClass';
-import { getTestLogger } from '../helpers/logger';
+import { NullLogger } from '../../src/index.js';
+import { Container } from '../../src/Container.js';
+import { ContainerBoundError } from '../../src/error/ContainerBoundError.js';
+import { ContainerNotBoundError } from '../../src/error/ContainerNotBoundError.js';
+import { LoggerNotFoundError } from '../../src/error/LoggerNotFoundError.js';
+import { Module } from '../../src/Module.js';
+import { Provides } from '../../src/Provides.js';
+import { TestModule } from '../HelperClass.js';
+import { getTestLogger } from '../helpers/logger.js';
 
 /* eslint-disable no-null/no-null, @typescript-eslint/unbound-method */
 

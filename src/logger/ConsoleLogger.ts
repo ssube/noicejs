@@ -1,4 +1,4 @@
-import { Logger } from './Logger';
+import { Logger } from './Logger.js';
 
 /**
  * Logger implementation using the console.
