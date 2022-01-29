@@ -10,12 +10,14 @@ export type CacheFallback = (path: string) => Promise<string>;
  * in calls to bind or inject.
  */
 export class Cache {
+  /* c8 ignore next 3 */
   public get(path: string, ttl: number, fallback: CacheFallback): Promise<string> {
     throw new Error('not implemented');
   }
 }
 
 export class Filesystem {
+  /* c8 ignore next 3 */
   public get(path: string): Promise<string> {
     throw new Error('not implemented');
   }

@@ -8,7 +8,7 @@ export class LocalCache extends Cache {
 }
 
 export class LocalFilesystem extends Filesystem {
-  public get(path: string): Promise<string> {
+  public async get(path: string): Promise<string> {
     throw new Error('file not found!');
   }
 }

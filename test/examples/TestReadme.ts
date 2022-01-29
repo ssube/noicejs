@@ -26,5 +26,7 @@ describe('readme example', async () => {
     expect(server.cache).to.be.an.instanceOf(LocalCache);
     expect(server.filesystem).to.be.an.instanceOf(LocalFilesystem);
     expect(server.ttl).to.equal(TEST_TTL);
+
+    expect(server.filesystem.get('foo')).to.be.rejectedWith(Error);
   });
 });

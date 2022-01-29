@@ -23,6 +23,7 @@ describe('inject decorator', async () => {
 
     @Inject(...params)
     class Target {
+      /* c8 ignore next */
       private method() { /* noop */ }
     }
 
@@ -114,16 +115,13 @@ describe('inject decorator', async () => {
 
   it('cannot be applied to non-function properties', async () => {
     expect(() => {
-      class TestClass {
+      /* c8 ignore next 4 */
+      class TestField {
         @Inject('foo')
         public readonly foo: string = '';
-
-        constructor() {
-          this.foo = 'foo';
-        }
       }
 
-      const foo = new TestClass();
+      const foo = new TestField();
       expect(foo).to.equal(undefined);
     }).to.throw(DescriptorNotFoundError);
   });

@@ -163,6 +163,7 @@ describe('module', async () => {
         this.bind('foo').toInstance({});
       }
 
+      /* c8 ignore next 4 */
       @Provides('bar')
       public async counted() {
         /* noop */

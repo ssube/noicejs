@@ -19,11 +19,6 @@ export class Implementation {
 
 @Inject(Interface)
 export class Consumer {
-  // @Inject(Interface)
-  public static create(deps: any, ...args: Array<any>) {
-    return new Consumer(deps, ...args);
-  }
-
   public readonly args: Array<any>;
   public readonly deps: any;
 

@@ -1,14 +1,14 @@
 import { expect } from 'chai';
 import { spy, stub } from 'sinon';
 
-import { NullLogger, Provides } from '../../src/index.js';
 import { BaseOptions, Container, Contract } from '../../src/Container.js';
 import { BaseError } from '../../src/error/BaseError.js';
 import { MissingValueError } from '../../src/error/MissingValueError.js';
+import { NullLogger, Provides } from '../../src/index.js';
 import { Inject } from '../../src/Inject.js';
 import { Module, ModuleOptions } from '../../src/Module.js';
 import { MapModule } from '../../src/module/MapModule.js';
-import { isNil } from '../../src/utils/index.js';
+import { isNil, mustExist } from '../../src/utils/index.js';
 import { Consumer, Implementation, Interface, TestModule } from '../HelperClass.js';
 import { getTestLogger } from '../helpers/logger.js';
 
@@ -116,11 +116,7 @@ describe('container', async () => {
       public async create() {
         modSpy();
 
-        if (isNil(this.container)) {
-          throw new Error('missing container');
-        } else {
-          return this.container.create(Implementation);
-        }
+        return mustExist(this.container).create(Implementation);
       }
     }
 
@@ -147,17 +143,8 @@ describe('container', async () => {
       @Inject(Outerface)
       @Provides(Interface)
       public async create(outer: { outerface: Outerface }) {
-        if (this.logger !== undefined) {
-          this.logger.debug({ outer }, 'submodule create');
-        }
-
         modSpy(outer);
-        if (isNil(this.container)) {
-          throw new Error('missing container');
-        } else {
-          return this.container.create(Implementation, outer as any);
-        }
-
+        return mustExist(this.container).create(Implementation, outer as any);
       }
     }
 
@@ -312,6 +299,7 @@ describe('container', async () => {
     class FailingConsumer {
       private readonly di: any;
 
+      /* c8 ignore next 3 */
       constructor(di: any) {
         this.di = di;
       }

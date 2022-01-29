@@ -9,6 +9,7 @@ export function isDebug(): boolean {
 }
 
 export function getTestLogger(): Logger {
+  /* c8 ignore next 5 */
   if (isDebug()) {
     return new ConsoleLogger();
   } else {

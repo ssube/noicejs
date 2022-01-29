@@ -14,6 +14,7 @@ describe('provides decorator', () => {
   it('should register the method on the class', async () => {
     class Target { }
     class TestModule extends Module {
+      /* c8 ignore next */
       public foo() { /* noop */ }
     }
 
@@ -37,5 +38,10 @@ describe('provides decorator', () => {
     await ctr.configure();
 
     expect(module.get(Target).value).to.equal(TestModule.prototype.foo);
+
+    const provides = getProvides(TestModule.prototype.foo);
+    expect(provides[0].contract).to.deep.equal(Target);
+
+    expect(await ctr.create(Target)).to.be.finite;
   });
 });

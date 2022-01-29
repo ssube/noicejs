@@ -1,10 +1,10 @@
 import { DescriptorNotFoundError } from '../error/DescriptorNotFoundError.js';
 import { MissingValueError } from '../error/MissingValueError.js';
 
+// these could be pulled from js-utils, but that would introduce a dependency...
+
 /* eslint-disable-next-line @typescript-eslint/ban-types */
 export type Maybe<TValue> = TValue | null | undefined;
-
-// these could be pulled from lodash, but that would introduce a dependency...
 
 /* eslint-disable-next-line @typescript-eslint/ban-types */
 export function isNil<T>(val: Maybe<T>): val is null | undefined {
