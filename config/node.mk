@@ -17,22 +17,23 @@ build: node_modules
 clean-deps: ## clean up the node_modules directory
 	rm -rf node_modules/
 
-NYC_ARGS := --all \
+COVER_ARGS := --all \
 	--check-coverage \
 	--exclude ".eslintrc.js" \
 	--exclude "bundle/**" \
 	--exclude "config/**" \
 	--exclude "docs/**" \
+	--exclude "examples/**" \
 	--exclude "out/bundle/**" \
 	--exclude "out/coverage/**" \
-	--exclude "test/**" \
+	--exclude "vendor/**" \
 	--reporter=text-summary \
 	--reporter=lcov \
 	--report-dir=out/coverage
 
 cover: ## run tests with coverage
 cover: node_modules out
-	yarn nyc $(NYC_ARGS) yarn mocha $(MOCHA_ARGS) "out/**/Test*.js"
+	yarn c8 $(COVER_ARGS) yarn mocha $(MOCHA_ARGS) "out/**/Test*.js"
 
 deps:
 	yarn

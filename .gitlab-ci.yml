@@ -1,6 +1,6 @@
 include:
-  - local: /config/gitlab/ci-tools.yml
-  - local: /config/gitlab/ci-rules.yml
+  - local: /.gitlab/ci-tools.yml
+  - local: /.gitlab/ci-rules.yml
 
 stages:
   - status-pre

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { spy, stub } from 'sinon';
 
-import { NullLogger, Provides } from '../../src';
+import { NullLogger, Provides } from '../../src/index.js';
 import { BaseOptions, Container, Contract } from '../../src/Container.js';
 import { BaseError } from '../../src/error/BaseError.js';
 import { MissingValueError } from '../../src/error/MissingValueError.js';

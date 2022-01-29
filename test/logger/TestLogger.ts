@@ -7,7 +7,7 @@ import { LogLevel, logWithLevel } from '../../src/logger/Logger.js';
 /* eslint-disable @typescript-eslint/unbound-method */
 
 describe('log level switch', async () => {
-  it('should log at debug level', () => {
+  it('should log at debug level', async () => {
     const logger = createStubInstance(NullLogger);
 
     const data = {};
@@ -17,7 +17,7 @@ describe('log level switch', async () => {
     expect(logger.debug).to.have.been.calledWithExactly(data, msg);
   });
 
-  it('should log at error level', () => {
+  it('should log at error level', async () => {
     const logger = createStubInstance(NullLogger);
 
     const data = {};
@@ -27,7 +27,7 @@ describe('log level switch', async () => {
     expect(logger.error).to.have.been.calledWithExactly(data, msg);
   });
 
-  it('should log at info level', () => {
+  it('should log at info level', async () => {
     const logger = createStubInstance(NullLogger);
 
     const data = {};
@@ -37,7 +37,7 @@ describe('log level switch', async () => {
     expect(logger.info).to.have.been.calledWithExactly(data, msg);
   });
 
-  it('should log at warn level', () => {
+  it('should log at warn level', async () => {
     const logger = createStubInstance(NullLogger);
 
     const data = {};

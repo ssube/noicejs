@@ -3,20 +3,20 @@ import { expect } from 'chai';
 import { BaseError } from '../../src/error/BaseError.js';
 
 describe('base error', () => {
-  it('should include nested errors in the stack trace', () => {
+  it('should include nested errors in the stack trace', async () => {
     const inner = new Error('inner error');
     const err = new BaseError('outer error', inner);
     expect(err.stack).to.include('inner', 'inner error message').and.include('outer', 'outer error message');
   });
 
-  it('should have the nested error', () => {
+  it('should have the nested error', async () => {
     const inner = new Error('inner error');
     const err = new BaseError('outer error', inner);
     expect(err.cause()).to.equal(inner);
     expect(err.length).to.equal(1);
   });
 
-  it('should work when the base error does not have a stack', () => {
+  it('should work when the base error does not have a stack', async () => {
     class EmptyError extends BaseError {
       public stack?: string;
 

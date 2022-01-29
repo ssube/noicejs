@@ -1,4 +1,4 @@
-import { BaseOptions, Container, Inject } from '../../src';
+import { BaseOptions, Container, Inject } from '../../src/index.js';
 
 export type CacheFallback = (path: string) => Promise<string>;
 

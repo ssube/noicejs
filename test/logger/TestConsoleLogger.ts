@@ -18,11 +18,11 @@ describe('console logger', async () => {
     restore();
   });
 
-  it('should return the global singleton for children', () => {
+  it('should return the global singleton for children', async () => {
     expect(ConsoleLogger.global.child()).to.equal(ConsoleLogger.global);
   });
 
-  it('should log at debug level', () => {
+  it('should log at debug level', async () => {
     const data = {};
     const msg = 'debug';
     ConsoleLogger.global.debug(data, msg);
@@ -36,7 +36,7 @@ describe('console logger', async () => {
     expect(console.warn).to.have.callCount(0);
   });
 
-  it('should log at error level', () => {
+  it('should log at error level', async () => {
     const data = {};
     const msg = 'error';
     ConsoleLogger.global.error(data, msg);
@@ -50,7 +50,7 @@ describe('console logger', async () => {
     expect(console.warn).to.have.callCount(0);
   });
 
-  it('should log at info level', () => {
+  it('should log at info level', async () => {
     const data = {};
     const msg = 'info';
     ConsoleLogger.global.info(data, msg);
@@ -64,7 +64,7 @@ describe('console logger', async () => {
     expect(console.warn).to.have.callCount(0);
   });
 
-  it('should log at warn level', () => {
+  it('should log at warn level', async () => {
     const data = {};
     const msg = 'warn';
     ConsoleLogger.global.warn(data, msg);

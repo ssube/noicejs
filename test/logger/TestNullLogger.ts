@@ -3,7 +3,7 @@ import { restore, spy } from 'sinon';
 
 import { NullLogger } from '../../src/logger/NullLogger.js';
 
-describe('console logger', async () => {
+describe('null logger', async () => {
   beforeEach(() => {
     spy(console, 'debug');
     spy(console, 'error');
@@ -16,29 +16,29 @@ describe('console logger', async () => {
     restore();
   });
 
-  it('should return the global singleton for children', () => {
+  it('should return the global singleton for children', async () => {
     expect(NullLogger.global.child()).to.equal(NullLogger.global);
   });
 
-  it('should log at debug level', () => {
+  it('should log at debug level', async () => {
     const data = {};
     const msg = 'debug';
     NullLogger.global.debug(data, msg);
   });
 
-  it('should log at error level', () => {
+  it('should log at error level', async () => {
     const data = {};
     const msg = 'error';
     NullLogger.global.error(data, msg);
   });
 
-  it('should log at info level', () => {
+  it('should log at info level', async () => {
     const data = {};
     const msg = 'info';
     NullLogger.global.info(data, msg);
   });
 
-  it('should log at warn level', () => {
+  it('should log at warn level', async () => {
     const data = {};
     const msg = 'warn';
     NullLogger.global.warn(data, msg);
