@@ -6,8 +6,6 @@
 
 Register a class as the provider for a particular contract. The class will be instantiated after having dependencies resolved, its parameters being the dependencies and any additional arguments passed to the container.
 
- this should be protected
-
 <b>Signature:</b>
 
 ```typescript

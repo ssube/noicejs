@@ -1,7 +1,7 @@
 include $(shell find $(ROOT_PATH) -name '*.mk' | grep -v node_modules | sort)
 
 # Tool options
-.PHONY: all clean clean-deps clean-target configure help todo
+.PHONY: all clean clean-deps clean-target configure docs help todo
 .PHONY: build build-bundle build-docs build-image test test-check test-cover test-watch
 .PHONY: yarn-install yarn-upgrade git-push git-stats license-check release release-dry upload-climate upload-codecov
 

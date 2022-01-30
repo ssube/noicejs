@@ -32,15 +32,15 @@ export declare abstract class Module implements ModuleOptions
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
-|  [bind(contract)](./noicejs.module.bind.md) |  | Register a class as the provider for a particular contract. The class will be instantiated after having dependencies resolved, its parameters being the dependencies and any additional arguments passed to the container. this should be protected |
+|  [bind(contract)](./noicejs.module.bind.md) |  | Register a class as the provider for a particular contract. The class will be instantiated after having dependencies resolved, its parameters being the dependencies and any additional arguments passed to the container. |
 |  [bindFunction(fn)](./noicejs.module.bindfunction.md) |  |  |
 |  [bindPrototype(proto)](./noicejs.module.bindprototype.md) |  |  |
-|  [bindTo(contract, type, value)](./noicejs.module.bindto.md) |  | Bind a provider to a contract. This is the core of the module. fix the any in this signature |
+|  [bindTo(contract, type, value)](./noicejs.module.bindto.md) |  | Bind a provider to a contract. This is the core of the module. |
 |  [bindTo(contract, type, value)](./noicejs.module.bindto_1.md) |  |  |
 |  [bindTo(contract, type, value)](./noicejs.module.bindto_2.md) |  |  |
 |  [bindTo(contract, type)](./noicejs.module.bindto_3.md) |  |  |
 |  [configure(options)](./noicejs.module.configure.md) |  |  |
 |  [debug()](./noicejs.module.debug.md) |  |  |
 |  [get(contract)](./noicejs.module.get.md) |  |  |
-|  [has(contract)](./noicejs.module.has.md) |  | Indicate if this module provides a dependency and if so, how. Memoize this if performance becomes a problem. |
+|  [has(contract)](./noicejs.module.has.md) |  | Indicate if this module provides a dependency and if so, how. |
 

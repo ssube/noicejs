@@ -4,31 +4,27 @@
   "mainEntryPointFilePath": "<projectFolder>/out/src/index.d.ts",
   "apiReport": {
     "enabled": true,
-    "reportFolder": "<projectFolder>/out/",
+    "reportFolder": "<projectFolder>/docs/",
     "reportTempFolder": "<projectFolder>/out/tmp/"
   },
   "docModel": {
     "enabled": true,
     "apiJsonFilePath": "<projectFolder>/out/api/<unscopedPackageName>.api.json"
   },
-
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "<projectFolder>/out/index.d.ts",
     "betaTrimmedFilePath": "<projectFolder>/out/index-beta.d.ts",
     "publicTrimmedFilePath": "<projectFolder>/out/index-public.d.ts"
   },
-
   "tsdocMetadata": {
   },
-
   "messages": {
     "compilerMessageReporting": {
       "default": {
         "logLevel": "warning"
       }
     },
-
     "extractorMessageReporting": {
       "default": {
         "logLevel": "warning"

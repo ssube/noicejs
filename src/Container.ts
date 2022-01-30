@@ -302,9 +302,10 @@ export function constructWithContainer(container: Container) {
  * The required signature for a function to be invoked by the wrapper.
  *
  * @public
- * @todo does these options need to extend BaseOptions?
  */
 export type InvokableFunction<TOptions, TReturn> = (options: TOptions, ...others: ExtraArgs) => TReturn;
+
+// TODO: do these options need to extend BaseOptions?
 export type WrappedFunction<TOptions extends BaseOptions, TReturn> = InvokableFunction<WrappedOptions<TOptions>, TReturn>;
 
 /**

@@ -6,8 +6,6 @@
 
 Indicate if this module provides a dependency and if so, how.
 
- Memoize this if performance becomes a problem.
-
 <b>Signature:</b>
 
 ```typescript

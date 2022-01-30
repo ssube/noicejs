@@ -6,8 +6,6 @@
 
 Bind a provider to a contract. This is the core of the module.
 
- fix the any in this signature
-
 <b>Signature:</b>
 
 ```typescript

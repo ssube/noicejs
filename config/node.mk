@@ -18,7 +18,7 @@ clean-deps: ## clean up the node_modules directory
 	rm -rf node_modules/
 
 COVER_ARGS := --all \
-	--check-coverage \
+	--100 \
 	--exclude ".eslintrc.js" \
 	--exclude "bundle/**" \
 	--exclude "config/**" \
@@ -40,7 +40,7 @@ deps:
 
 docs:
 	yarn api-extractor run -c config/api-extractor.json
-	yarn api-documenter markdown -i out/temp -o out/docs
+	yarn api-documenter markdown -i out/api -o docs/api
 
 lint: ## run eslint
 lint: node_modules
