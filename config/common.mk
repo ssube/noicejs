@@ -38,10 +38,10 @@ export DEBUG_PORT ?= 9229
 export NODE_VERSION   := $(shell node -v || echo "none")
 export RUNNER_VERSION := $(CI_RUNNER_VERSION)
 
-all: build test ## builds, bundles, and tests the application
+all: lint build cover docs ## builds, bundles, and tests the application
 	@echo Success!
 
-ci: build cover
+ci: clean-target lint build cover docs
 
 clean: ## clean up everything added by the default target
 clean: clean-deps clean-target

@@ -56,10 +56,7 @@ MOCHA_ARGS := --async-only \
 
 test: ## run tests
 test: node_modules out
-	yarn mocha $(MOCHA_ARGS) "out/src/lib.js" "out/**/Test*.js"
-
-test-watch:
-	$(NODE_BIN)/nyc $(COVER_OPTS) $(NODE_BIN)/mocha $(MOCHA_OPTS) --watch $(TARGET_PATH)/test-bundle.js
+	yarn mocha $(MOCHA_ARGS) "out/**/Test*.js"
 
 yarn-global: ## install bundle as a global tool
 	yarn global add file:$(ROOT_PATH)
