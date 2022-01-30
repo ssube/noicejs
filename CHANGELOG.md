@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0-0](https://github.com/ssube/noicejs/compare/v4.0.0...v5.0.0-0) (2022-01-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* the library will now be published as loose ES
+modules. Library users are better informed on bundling needs,
+and repeated bundling introduces extra boilerplate code.
+
+### Features
+
+* **build:** switch to c8 for coverage ([bb6b113](https://github.com/ssube/noicejs/commit/bb6b11383042cded4196ca84abe84a646d6fcc69))
+* update code and build to use ES modules ([e14b9b3](https://github.com/ssube/noicejs/commit/e14b9b304b57158272b5da0d8f0aff43091661c8))
+
+
+### Bug Fixes
+
+* **build:** add command for dev image, fix node bin path ([b172d23](https://github.com/ssube/noicejs/commit/b172d2315e0b7ffaee526949d06651e0e70d6262))
+* **build:** add docker TLS options, remove codecov job ([1227e47](https://github.com/ssube/noicejs/commit/1227e47a2509090c79072ee69db4472ddf6f60fd))
+* **build:** correct GPG socket in dev container ([b4b13c8](https://github.com/ssube/noicejs/commit/b4b13c808b81e988b3da419da87ce7c731f050f3))
+* **build:** update API extractor report for ES modules ([19c2de1](https://github.com/ssube/noicejs/commit/19c2de10324749fa78f953c5dda5c39dd5a2d523))
+* **deps:** add tslib directly, pin others ([b30664c](https://github.com/ssube/noicejs/commit/b30664ce35e696d51c297d7615fcb4c8ce5afc23))
+* **test:** restore coverage, mark noop methods ([6a4f35c](https://github.com/ssube/noicejs/commit/6a4f35ca2c76210132e5c0e066022765d3b67cf9))
+
 ## [4.0.0](https://github.com/ssube/noicejs/compare/v3.3.0...v4.0.0) (2021-07-10)
 
 
