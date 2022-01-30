@@ -1,4 +1,4 @@
-FROM node:16-stretch
+FROM node:17-stretch
 
 # set up packages
 COPY package.json /app/package.json
