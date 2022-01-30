@@ -1,8 +1,9 @@
 # node options
-NODE_BIN := $(ROOT_PATH)/node_modules/.bin
+NODE_BIN = $(ROOT_PATH)node_modules/.bin
 NODE_CMD ?= $(shell env node)
 NODE_DEBUG ?= --inspect-brk=$(DEBUG_BIND):$(DEBUG_PORT) --nolazy
-NODE_INFO := $(shell node -v)
+
+export NODE_VERSION   := $(shell node -v 2>/dev/null || echo "none")
 
 # directory targets
 node_modules: deps

@@ -1,3 +1,5 @@
+SHELL := bash
+
 # Git
 export GIT_BRANCH ?= $(shell git rev-parse --abbrev-ref HEAD)
 export GIT_COMMIT ?= $(shell git rev-parse HEAD)
@@ -35,7 +37,6 @@ export DEBUG_BIND ?= 127.0.0.1
 export DEBUG_PORT ?= 9229
 
 # Versions
-export NODE_VERSION   := $(shell node -v || echo "none")
 export RUNNER_VERSION := $(CI_RUNNER_VERSION)
 
 all: lint build cover docs ## builds, bundles, and tests the application
@@ -67,11 +68,11 @@ release: node_modules
 		echo "Please merge to master before releasing."; \
 		exit 1; \
 	fi
-	yarn standard-version $(RELEASE_ARGS)
+	$(NODE_BIN)/standard-version $(RELEASE_ARGS)
 	GIT_ARGS=--follow-tags $(MAKE) push
 
 release-dry: ## test creating a release
-	$(NODE_BIN)/standard-version --sign $(RELEASE_OPTS) --dry-run
+	RELEASE_ARGS="$(RELEASE_ARGS) --dry-run" make release
 
 todo:
 	@echo "Remaining tasks:"
