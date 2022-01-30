@@ -1,6 +1,6 @@
 {
   "name": "noicejs",
-  "version": "4.0.0",
+  "version": "5.0.0-0",
   "description": "extremely thin dependency injection",
   "type": "module",
   "main": "out/src/index.js",
