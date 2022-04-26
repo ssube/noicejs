@@ -17,7 +17,7 @@ create<TReturn, TOptions extends BaseOptions>(contract: Contract<TReturn, TOptio
 |  Parameter | Type | Description |
 |  --- | --- | --- |
 |  contract | [Contract](./noicejs.contract.md)<!-- -->&lt;TReturn, TOptions&gt; |  |
-|  options | PartialOptions&lt;TOptions&gt; |  |
+|  options | PartialOptions&lt;TOptions&gt; | <i>(Optional)</i> |
 |  args | ExtraArgs |  |
 
 <b>Returns:</b>

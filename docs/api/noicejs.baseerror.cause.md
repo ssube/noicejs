@@ -2,16 +2,12 @@
 
 [Home](./index.md) &gt; [noicejs](./noicejs.md) &gt; [BaseError](./noicejs.baseerror.md) &gt; [cause](./noicejs.baseerror.cause.md)
 
-## BaseError.cause() method
+## BaseError.cause property
 
 Get the cause of this error: the first nested error.
 
 <b>Signature:</b>
 
 ```typescript
-cause(): Error | undefined;
+get cause(): Error | undefined;
 ```
-<b>Returns:</b>
-
-Error \| undefined
-

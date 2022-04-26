@@ -7,7 +7,7 @@
 // @public
 export class BaseError extends Error {
     constructor(message: string, ...nested: Array<Error>);
-    cause(): Error | undefined;
+    get cause(): Error | undefined;
     get length(): number;
     // (undocumented)
     readonly message: string;

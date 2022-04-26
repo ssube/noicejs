@@ -23,14 +23,9 @@ export declare class BaseError extends Error
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
+|  [cause](./noicejs.baseerror.cause.md) |  | Error \| undefined | Get the cause of this error: the first nested error. |
 |  [length](./noicejs.baseerror.length.md) |  | number | Get the number of nested errors. |
 |  [message](./noicejs.baseerror.message.md) |  | string |  |
 |  [nested](./noicejs.baseerror.nested.md) |  | Array&lt;Error&gt; |  |
 |  [stack?](./noicejs.baseerror.stack.md) |  | string | <i>(Optional)</i> |
-
-## Methods
-
-|  Method | Modifiers | Description |
-|  --- | --- | --- |
-|  [cause()](./noicejs.baseerror.cause.md) |  | Get the cause of this error: the first nested error. |
 

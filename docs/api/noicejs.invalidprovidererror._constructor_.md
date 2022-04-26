@@ -16,6 +16,6 @@ constructor(msg?: string, ...nested: Array<Error>);
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  msg | string |  |
+|  msg | string | <i>(Optional)</i> |
 |  nested | Array&lt;Error&gt; |  |
 
