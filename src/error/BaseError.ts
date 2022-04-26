@@ -36,7 +36,7 @@ export class BaseError extends Error {
    *
    * @public
    */
-  public cause(): Error | undefined {
+  public get cause(): Error | undefined {
     return this.nested[0];
   }
 

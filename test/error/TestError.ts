@@ -35,7 +35,7 @@ describe('errors', () => {
       it('should have the nested error', async () => {
         const inner = new Error('inner error');
         const err = new errorType('outer error', inner);
-        expect(err.cause()).to.equal(inner);
+        expect(err.cause).to.equal(inner);
         expect(err.length).to.equal(1);
       });
     });

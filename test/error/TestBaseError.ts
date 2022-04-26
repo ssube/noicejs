@@ -12,7 +12,7 @@ describe('base error', () => {
   it('should have the nested error', async () => {
     const inner = new Error('inner error');
     const err = new BaseError('outer error', inner);
-    expect(err.cause()).to.equal(inner);
+    expect(err.cause).to.equal(inner);
     expect(err.length).to.equal(1);
   });
 
