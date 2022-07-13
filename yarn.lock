@@ -80,10 +80,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@microsoft/api-documenter@7.18.0":
-  version "7.18.0"
-  resolved "https://artifacts.apextoaster.com/repository/group-npm/@microsoft/api-documenter/-/api-documenter-7.18.0.tgz#d81de81dab98b675d23adf2868d16da84fb36dee"
-  integrity sha512-O2IlE1G6xpa5xoTw1fDflSJBrTT5zMkZj9nMNFXhIYpU5YgpCet+ugnC/cGTjH+0W2lu69asBWJZiMUZ7F1a4w==
+"@microsoft/api-documenter@7.18.3":
+  version "7.18.3"
+  resolved "https://artifacts.apextoaster.com/repository/group-npm/@microsoft/api-documenter/-/api-documenter-7.18.3.tgz#84e66ca2974379cec211125e664850a2b6f8a92d"
+  integrity sha512-B3quZHJ3ZRDO3iw+8NfTCHxQwmWltTz0GN3rCBBqNS2CpLgIUHM+lC7vUtb3VFkMeLAOK5eKB88qRNUqKA24pg==
   dependencies:
     "@microsoft/api-extractor-model" "7.21.0"
     "@microsoft/tsdoc" "0.14.1"
