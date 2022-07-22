@@ -102,12 +102,21 @@
     "@microsoft/tsdoc-config" "~0.16.1"
     "@rushstack/node-core-library" "3.49.0"
 
-"@microsoft/api-extractor@7.28.2":
-  version "7.28.2"
-  resolved "https://artifacts.apextoaster.com/repository/group-npm/@microsoft/api-extractor/-/api-extractor-7.28.2.tgz#41612a15d98b46fc5aeadd3e27198f572bafb770"
-  integrity sha512-sl97erZ5Zh3ov5dvV/rMSt45//dYf7C5Y6PCpIXpFidDYMyRwN+pizZ543g2d8D5/WbthGvsZoYcYSzG7CkjHQ==
+"@microsoft/api-extractor-model@7.22.1":
+  version "7.22.1"
+  resolved "https://artifacts.apextoaster.com/repository/group-npm/@microsoft/api-extractor-model/-/api-extractor-model-7.22.1.tgz#2c72bba972bdcc74d16f6f5c8a5f575eff9ce977"
+  integrity sha512-3Bx6VC8F4ti8XlhaOCynCpwGvdXGwHD2dGBpo2xpJT9gEmPQvpAL3Ni+5gaEX0eQ27zGILVTUZDqZSRYskk/Rw==
   dependencies:
-    "@microsoft/api-extractor-model" "7.21.0"
+    "@microsoft/tsdoc" "0.14.1"
+    "@microsoft/tsdoc-config" "~0.16.1"
+    "@rushstack/node-core-library" "3.49.0"
+
+"@microsoft/api-extractor@7.28.6":
+  version "7.28.6"
+  resolved "https://artifacts.apextoaster.com/repository/group-npm/@microsoft/api-extractor/-/api-extractor-7.28.6.tgz#da88050d37b19edd414d8daf7da890beeff264f2"
+  integrity sha512-RNUokJTlBGD0ax/Jo8xLPWv4s6IboqrYrcabEEh6rFadO/tVPoV/R5YHtEeZ2q4ubvwhHTtX3sRm+p4fJo/3Sg==
+  dependencies:
+    "@microsoft/api-extractor-model" "7.22.1"
     "@microsoft/tsdoc" "0.14.1"
     "@microsoft/tsdoc-config" "~0.16.1"
     "@rushstack/node-core-library" "3.49.0"
