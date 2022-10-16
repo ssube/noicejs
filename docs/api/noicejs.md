@@ -9,12 +9,12 @@
 |  Class | Description |
 |  --- | --- |
 |  [BaseError](./noicejs.baseerror.md) | Base class for typed errors, adding nested errors (causes) to the stack. |
-|  [ConsoleLogger](./noicejs.consolelogger.md) | Logger implementation using the console.<!-- -->Works in the browser or node. |
+|  [ConsoleLogger](./noicejs.consolelogger.md) | <p>Logger implementation using the console.</p><p>Works in the browser or node.</p> |
 |  [Container](./noicejs.container.md) | This is an exceptionally minimal DI container. |
 |  [ContainerBoundError](./noicejs.containerbounderror.md) | Error indicating that this container is already bound and cannot be bound again. |
 |  [ContainerNotBoundError](./noicejs.containernotbounderror.md) | Error indicating that this container is not bound yet and not ready to be used. |
 |  [DescriptorNotFoundError](./noicejs.descriptornotfounderror.md) | Error indicating that the target descriptor could not be found on the decorator target. |
-|  [InvalidProviderError](./noicejs.invalidprovidererror.md) | Error indicating that the container was able to find a provider, but did not understand the provider type and could not use it to fulfill the dependency.<!-- -->This should not normally occur, unless custom provider types are in use. |
+|  [InvalidProviderError](./noicejs.invalidprovidererror.md) | <p>Error indicating that the container was able to find a provider, but did not understand the provider type and could not use it to fulfill the dependency.</p><p>This should not normally occur, unless custom provider types are in use.</p> |
 |  [InvalidTargetError](./noicejs.invalidtargeterror.md) | Error indicating that the decorator target is not valid. |
 |  [LoggerNotFoundError](./noicejs.loggernotfounderror.md) | Error indicating that a debug method has been called, but no logger was registered for debugging. |
 |  [MissingValueError](./noicejs.missingvalueerror.md) | Error indicating that a required value is missing. |
@@ -33,7 +33,7 @@
 |  Function | Description |
 |  --- | --- |
 |  [constructWithContainer(container)](./noicejs.constructwithcontainer.md) | Permanently attach a container to all instances of this class. |
-|  [contractName(c)](./noicejs.contractname.md) | Get the standard name for a contract (usually a constructor).<!-- -->This accepts strings and symbols, so if a function is not provably a constructor, simply pass the name. |
+|  [contractName(c)](./noicejs.contractname.md) | <p>Get the standard name for a contract (usually a constructor).</p><p>This accepts strings and symbols, so if a function is not provably a constructor, simply pass the name.</p> |
 |  [getInject(target)](./noicejs.getinject.md) | Get attached dependencies. |
 |  [getProvides(target)](./noicejs.getprovides.md) | Get dependencies provided by this previously-decorated target. |
 |  [Inject(needs)](./noicejs.inject.md) | Injection decorator for classes. |

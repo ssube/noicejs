@@ -24,20 +24,20 @@ export declare class Container implements ContainerOptions
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
 |  [logger?](./noicejs.container.logger.md) |  | [Logger](./noicejs.logger.md) | <i>(Optional)</i> |
-|  [modules](./noicejs.container.modules.md) |  | Array&lt;[Module](./noicejs.module.md)<!-- -->&gt; |  |
-|  [ready](./noicejs.container.ready.md) |  | boolean |  |
+|  [modules](./noicejs.container.modules.md) | <code>protected</code> | Array&lt;[Module](./noicejs.module.md)<!-- -->&gt; |  |
+|  [ready](./noicejs.container.ready.md) | <code>protected</code> | boolean |  |
 
 ## Methods
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
 |  [apply(impl, thisArg, options, args)](./noicejs.container.apply.md) |  |  |
-|  [configure(options)](./noicejs.container.configure.md) |  | Configure each module, linking dependencies to their contracts and preparing factories.<!-- -->This must be done sequentially, since some modules may use classes from other modules. |
+|  [configure(options)](./noicejs.container.configure.md) |  | <p>Configure each module, linking dependencies to their contracts and preparing factories.</p><p>This must be done sequentially, since some modules may use classes from other modules.</p> |
 |  [construct(ctor, options, args)](./noicejs.container.construct.md) |  |  |
 |  [create(contract, options, args)](./noicejs.container.create.md) |  | Returns the best provided value for the request contract. |
 |  [debug()](./noicejs.container.debug.md) |  |  |
-|  [dependencies(deps, passed)](./noicejs.container.dependencies.md) |  | Prepare a map with the dependencies for a descriptor.<!-- -->This will always inject the container itself to configure children. |
-|  [fail(msg)](./noicejs.container.fail.md) |  |  |
+|  [dependencies(deps, passed)](./noicejs.container.dependencies.md) | <code>protected</code> | <p>Prepare a map with the dependencies for a descriptor.</p><p>This will always inject the container itself to configure children.</p> |
+|  [fail(msg)](./noicejs.container.fail.md) | <code>protected</code> |  |
 |  [from(modules)](./noicejs.container.from.md) | <code>static</code> |  |
 |  [getModules()](./noicejs.container.getmodules.md) |  |  |
 |  [provide(module, contract, options, args)](./noicejs.container.provide.md) |  |  |

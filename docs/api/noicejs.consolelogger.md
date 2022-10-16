@@ -19,7 +19,7 @@ export declare class ConsoleLogger implements Logger
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [global](./noicejs.consolelogger.global.md) | <code>static</code> | [ConsoleLogger](./noicejs.consolelogger.md) | Global instance for users needing no customization. |
+|  [global](./noicejs.consolelogger.global.md) | <p><code>readonly</code></p><p><code>static</code></p> | [ConsoleLogger](./noicejs.consolelogger.md) | Global instance for users needing no customization. |
 
 ## Methods
 
@@ -27,7 +27,7 @@ export declare class ConsoleLogger implements Logger
 |  --- | --- | --- |
 |  [child()](./noicejs.consolelogger.child.md) |  | Create a child logger. |
 |  [debug(params)](./noicejs.consolelogger.debug.md) |  | Log a message at debug level. |
-|  [error(params)](./noicejs.consolelogger.error.md) |  | Log a message at error level.<!-- -->Writes to stdout in node, appears as a red message in chrome, etc. |
+|  [error(params)](./noicejs.consolelogger.error.md) |  | <p>Log a message at error level.</p><p>Writes to stdout in node, appears as a red message in chrome, etc.</p> |
 |  [info(params)](./noicejs.consolelogger.info.md) |  | Log a message at info level. |
 |  [warn(params)](./noicejs.consolelogger.warn.md) |  | Log a message at warning level. |
 

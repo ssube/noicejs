@@ -17,7 +17,7 @@ export declare class NullLogger implements Logger
 
 |  Property | Modifiers | Type | Description |
 |  --- | --- | --- | --- |
-|  [global](./noicejs.nulllogger.global.md) | <code>static</code> | [NullLogger](./noicejs.nulllogger.md) |  |
+|  [global](./noicejs.nulllogger.global.md) | <p><code>readonly</code></p><p><code>static</code></p> | [NullLogger](./noicejs.nulllogger.md) |  |
 
 ## Methods
 

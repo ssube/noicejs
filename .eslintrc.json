@@ -15,8 +15,7 @@
         "eslint-plugin-mocha",
         "eslint-plugin-no-null",
         "eslint-plugin-sonarjs",
-        "@typescript-eslint",
-        "@typescript-eslint/tslint"
+        "@typescript-eslint"
     ],
     "rules": {
         "@typescript-eslint/adjacent-overload-signatures": "error",
@@ -291,72 +290,6 @@
         "sonarjs/no-redundant-jump": "error",
         "sonarjs/no-same-line-conditional": "error",
         "sonarjs/no-useless-catch": "error",
-        "sonarjs/prefer-immediate-return": "error",
-        "@typescript-eslint/tslint/config": [
-            "error",
-            {
-                "rules": {
-                    "ban": [
-                        true,
-                        {
-                            "message": "use lodash isString",
-                            "name": [
-                                "util",
-                                "isString"
-                            ]
-                        },
-                        {
-                            "message": "use lodash isNil",
-                            "name": [
-                                "util",
-                                "isNullOrUndefined"
-                            ]
-                        }
-                    ],
-                    "import-spacing": true,
-                    "jsdoc-format": [
-                        true,
-                        "check-multiline-start"
-                    ],
-                    "no-dynamic-delete": true,
-                    "no-inferred-empty-object-type": true,
-                    "no-reference-import": true,
-                    "object-literal-sort-keys": true,
-                    "one-line": [
-                        true,
-                        "check-catch",
-                        "check-else",
-                        "check-finally",
-                        "check-open-brace",
-                        "check-whitespace"
-                    ],
-                    "prefer-switch": true,
-                    "strict-type-predicates": true,
-                    "trailing-comma": [
-                        true,
-                        {
-                            "esSpecCompliant": true,
-                            "multiline": {
-                                "arrays": "always",
-                                "functions": "never",
-                                "object": "always"
-                            },
-                            "singleline": "never"
-                        }
-                    ],
-                    "whitespace": [
-                        true,
-                        "check-branch",
-                        "check-decl",
-                        "check-operator",
-                        "check-separator",
-                        "check-type",
-                        "check-typecast",
-                        "check-type-operator",
-                        "check-rest-spread"
-                    ]
-                }
-            }
-        ]
+        "sonarjs/prefer-immediate-return": "error"
     }
 }

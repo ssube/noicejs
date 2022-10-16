@@ -25,16 +25,16 @@ export declare abstract class Module implements ModuleOptions
 |  --- | --- | --- | --- |
 |  [container?](./noicejs.module.container.md) |  | [Container](./noicejs.container.md) | <i>(Optional)</i> |
 |  [logger?](./noicejs.module.logger.md) |  | [Logger](./noicejs.logger.md) | <i>(Optional)</i> |
-|  [providers](./noicejs.module.providers.md) |  | Map&lt;AnyContract, AnyProvider&gt; |  |
-|  [size](./noicejs.module.size.md) |  | number |  |
+|  [providers](./noicejs.module.providers.md) | <code>protected</code> | Map&lt;AnyContract, AnyProvider&gt; |  |
+|  [size](./noicejs.module.size.md) | <code>readonly</code> | number |  |
 
 ## Methods
 
 |  Method | Modifiers | Description |
 |  --- | --- | --- |
 |  [bind(contract)](./noicejs.module.bind.md) |  | Register a class as the provider for a particular contract. The class will be instantiated after having dependencies resolved, its parameters being the dependencies and any additional arguments passed to the container. |
-|  [bindFunction(fn)](./noicejs.module.bindfunction.md) |  |  |
-|  [bindPrototype(proto)](./noicejs.module.bindprototype.md) |  |  |
+|  [bindFunction(fn)](./noicejs.module.bindfunction.md) | <code>protected</code> |  |
+|  [bindPrototype(proto)](./noicejs.module.bindprototype.md) | <code>protected</code> |  |
 |  [bindTo(contract, type, value)](./noicejs.module.bindto.md) |  | Bind a provider to a contract. This is the core of the module. |
 |  [bindTo(contract, type, value)](./noicejs.module.bindto_1.md) |  |  |
 |  [bindTo(contract, type, value)](./noicejs.module.bindto_2.md) |  |  |
