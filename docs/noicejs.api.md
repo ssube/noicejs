@@ -113,7 +113,7 @@ export function getProvides(target: any): Array<Dependency>;
 // Warning: (ae-forgotten-export) The symbol "InjectedDependency" needs to be exported by the entry point index.d.ts
 //
 // @public
-export function Inject(...needs: Array<InjectedDependency>): (target: any, key?: string | undefined, providedDesc?: PropertyDescriptor | undefined) => void;
+export function Inject(...needs: Array<InjectedDependency>): (target: any, key?: string, providedDesc?: PropertyDescriptor) => void;
 
 // @public
 export class InvalidProviderError extends BaseError {
@@ -283,7 +283,7 @@ export enum ProviderType {
 }
 
 // @public
-export function Provides<TInjected>(...provides: Array<InjectedDependency>): (target: any, key: string, providedDesc?: PropertyDescriptor | undefined) => void;
+export function Provides<TInjected>(...provides: Array<InjectedDependency>): (target: any, key: string, providedDesc?: PropertyDescriptor) => void;
 
 // (No @packageDocumentation comment for this package)
 
