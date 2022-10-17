@@ -107,10 +107,10 @@
     "@microsoft/tsdoc-config" "~0.16.1"
     "@rushstack/node-core-library" "3.53.2"
 
-"@microsoft/api-extractor@7.33.2":
-  version "7.33.2"
-  resolved "https://artifacts.apextoaster.com/repository/group-npm/@microsoft/api-extractor/-/api-extractor-7.33.2.tgz#994fb63a547375e0c4e59b288a0f48dca1d532aa"
-  integrity sha512-OTCOtpQgvvRnxyCAHCPEDXVyJXrj54sGNCltOQaaT1wkTUPmRYo/I8yrCGXiBPUIHOpV3lUnaDJkzQF9dtbNWA==
+"@microsoft/api-extractor@7.33.3":
+  version "7.33.3"
+  resolved "https://artifacts.apextoaster.com/repository/group-npm/@microsoft/api-extractor/-/api-extractor-7.33.3.tgz#7120b9f0465aadecb9dbd4580b6dc9b58d99326d"
+  integrity sha512-Djrb0/7hE3WYO9+U17PRlcHmkKwIiz8LdyoFK+GCcrc+bVcif9rwJdlNu9fXnNEMelbtiHlHppcKDfJ4uRTE3g==
   dependencies:
     "@microsoft/api-extractor-model" "7.25.1"
     "@microsoft/tsdoc" "0.14.1"
