@@ -1,5 +1,6 @@
 import { Dependency, InjectedDependency, resolveDepends } from './Dependency.js';
 import { InvalidTargetError } from './error/InvalidTargetError.js';
+import { getFields } from './Field.js';
 import { doesExist, isNil, resolveDescriptor } from './utils/index.js';
 
 export const injectionSymbol = Symbol('noicejs-inject');
@@ -53,5 +54,17 @@ export function Inject(...needs: Array<InjectedDependency>) {
       const next = resolveDepends(needs);
       Reflect.set(desc.value, injectionSymbol, prev.concat(next));
     }
+  };
+}
+
+export function InjectWithFields(...needs: Array<InjectedDependency>) {
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+  return (target: any, key?: string, providedDesc?: PropertyDescriptor) => {
+    const fields = getFields(target);
+    const fieldContracts = fields.map((it) => it.name);
+    const mergedNeeds = needs.concat(fieldContracts);
+
+    // console.log('inject with fields', target, mergedNeeds);
+    Inject(...mergedNeeds)(target, key, providedDesc);
   };
 }

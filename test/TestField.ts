@@ -1,6 +1,10 @@
 import { expect } from 'chai';
 
-import { Field, fillFields, getFields } from '../src/Field.js';
+import { BaseOptions, Container } from '../src/Container.js';
+import { Field, getFields, injectFields } from '../src/Field.js';
+import { ConsoleLogger } from '../src/index.js';
+import { InjectWithFields } from '../src/Inject.js';
+import { MapModule } from '../src/module/MapModule.js';
 
 /* eslint-disable @typescript-eslint/unbound-method */
 describe('field decorator', async () => {
@@ -18,7 +22,7 @@ describe('field decorator', async () => {
       constructor(props: TargetProps) {
         this.foo = 0;
 
-        fillFields(this, props as any);
+        injectFields(this, props);
       }
     }
 
@@ -26,7 +30,7 @@ describe('field decorator', async () => {
       [numberSymbol]: 4, // random
     });
 
-    expect(getFields(target).length).to.equal(1);
+    expect(getFields(Target).length).to.equal(1);
     expect(target.foo).to.equal(4);
   });
 
@@ -50,7 +54,7 @@ describe('field decorator', async () => {
         this.foo = 0;
         this.bar = '';
 
-        fillFields(this, props);
+        injectFields(this, props);
       }
     }
 
@@ -59,7 +63,7 @@ describe('field decorator', async () => {
       [stringSymbol]: 'bar',
     });
 
-    expect(getFields(target).length).to.equal(2);
+    expect(getFields(Target).length).to.equal(2);
     expect(target.bar).to.equal('bar');
   });
 
@@ -81,7 +85,7 @@ describe('field decorator', async () => {
         this.bar = 0;
         this.foo = 0;
 
-        fillFields(this, props);
+        injectFields(this, props);
       }
     }
 
@@ -109,7 +113,7 @@ describe('field decorator', async () => {
       constructor(props: TargetProps) {
         this.bar = 0;
 
-        fillFields(this, props);
+        injectFields(this, props);
       }
     }
 
@@ -131,13 +135,21 @@ describe('field decorator', async () => {
     }).to.throw('field decorator must be used on a field');
   });
 
+  it('should handle objects with no prototype', async () => {
+    const target = Object.create(null, {});
+    injectFields(target, {});
+
+    expect(target).to.deep.equal({});
+  });
+
   it('should handle missing values', async () => {
     const numberSymbol = Symbol('number');
 
-    interface TargetProps {
+    interface TargetProps extends BaseOptions {
       [numberSymbol]: number;
     }
 
+    @InjectWithFields()
     class Target {
       @Field(numberSymbol)
       public bar: number;
@@ -145,10 +157,22 @@ describe('field decorator', async () => {
       constructor(props: Partial<TargetProps>) {
         this.bar = 0;
 
-        fillFields(this, props);
+        injectFields(this, props);
       }
     }
 
-    expect(() => new Target({})).to.throw('missing value for field');
+    const fields = getFields(Target);
+    expect(fields.length).to.be.greaterThan(0);
+
+    const container = Container.from(new MapModule({
+      providers: new Map([
+        [numberSymbol, 4],
+      ]),
+    }));
+    await container.configure();
+
+    const target = await container.create(Target);
+
+    expect(target.bar).to.equal(4);
   });
 });
