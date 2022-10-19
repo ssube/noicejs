@@ -1,4 +1,4 @@
-import { AnyContract, ContractName } from './Container.js';
+import { ContractName } from './Container.js';
 import { InvalidTargetError } from './error/InvalidTargetError.js';
 import { MissingValueError } from './error/MissingValueError.js';
 import { doesExist, isNil } from './utils/index.js';
@@ -17,8 +17,7 @@ export const fieldSymbol = Symbol('noicejs-field');
  *
  * @public
  */
-/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-export function getFields(target: any): Array<Binding> {
+export function getFields(target: object): Array<Binding> {
   if (Reflect.has(target, fieldSymbol)) {
     const existing = Reflect.get(target, fieldSymbol);
     // console.log('target has fields', target, existing);
@@ -51,7 +50,9 @@ export function Field(gets: ContractName) {
     if (isNil(key)) {
       throw new InvalidTargetError('field decorator must be used on a field');
     } else {
-      const fields = getFields(target);
+      const ctor = target.constructor || target;
+
+      const fields = getFields(ctor);
       const prev = fields.find((it) => it.key === key);
 
       // console.log('binding field', target, key, gets);
@@ -64,7 +65,7 @@ export function Field(gets: ContractName) {
         });
       }
 
-      Reflect.set(target, fieldSymbol, fields);
+      Reflect.set(ctor, fieldSymbol, fields);
     }
   };
 }
@@ -74,9 +75,8 @@ export interface FieldValues {
   [K: ContractName]: any;
 }
 
-export function fillFields(target: object, values: FieldValues): void {
-  const proto = Reflect.getPrototypeOf(target);
-  const fields = getFields(proto);
+export function injectFields(target: object, values: FieldValues): void {
+  const fields = getFields(target.constructor || target); // || target handles objects without a constructor/prototype
 
   // console.log('filling fields on target', fields.length, fields, target);
   for (const field of fields) {

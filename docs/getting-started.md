@@ -14,6 +14,7 @@ noicejs with abundant examples.
   - [Extending a Module](#extending-a-module)
   - [Requiring a Dependency](#requiring-a-dependency)
   - [Providing a Dependency](#providing-a-dependency)
+  - [Populating Properties](#populating-properties)
   - [Additional Examples](#additional-examples)
 
 ## Why Inject Dependencies
@@ -392,10 +393,14 @@ class RandomModule extends MapModule {
 }
 ```
 
+## Populating Properties
+
+TODO: examples for `@Field`
+
 ## Additional Examples
 
 For additional examples, please see:
 
 - [the `docs/examples` directory](examples)
 - [the unit tests](../test)
-- [the isolex chatbot](https://github.com/ssube/isolex/tree/master/src/module)
+- [this text adventure engine](https://github.com/ssube/textual-engine)

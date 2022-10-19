@@ -4,7 +4,7 @@ import { Module, ModuleOptions } from '../Module.js';
 export type ProviderValue<TReturn, TOptions extends BaseOptions> = TReturn | Constructor<TReturn, TOptions>;
 export type ProviderMap<TReturn, TOptions extends BaseOptions> = Map<Contract<TReturn, TOptions>, ProviderValue<TReturn, TOptions>>;
 export type ProviderMapLike = ProviderMap<unknown, BaseOptions> | {
-  [key: string]: ProviderValue<unknown, BaseOptions>;
+  [key: string | symbol]: ProviderValue<unknown, BaseOptions>;
 };
 
 export interface MapModuleOptions {
