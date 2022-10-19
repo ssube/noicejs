@@ -144,6 +144,30 @@ describe('field decorator', async () => {
 
   it('should handle missing values', async () => {
     const numberSymbol = Symbol('number');
+    const stringSymbol = Symbol('string');
+
+    interface TargetProps {
+      [numberSymbol]: number;
+    }
+
+    class Target {
+      @Field(stringSymbol)
+      public bar: number;
+
+      constructor(props: TargetProps) {
+        this.bar = 0;
+
+        injectFields(this, props);
+      }
+    }
+
+    expect(() => new Target({
+      [numberSymbol]: 4,
+    })).to.throw('missing value for field');
+  });
+
+  it('should add fields to constructor needs', async () => {
+    const numberSymbol = Symbol('number');
 
     interface TargetProps extends BaseOptions {
       [numberSymbol]: number;
