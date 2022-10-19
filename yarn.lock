@@ -85,15 +85,15 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@microsoft/api-documenter@7.19.20":
-  version "7.19.20"
-  resolved "https://artifacts.apextoaster.com/repository/group-npm/@microsoft/api-documenter/-/api-documenter-7.19.20.tgz#552eb8a4c64fcaaf03cf7604e20e378174119b28"
-  integrity sha512-1SX16ootdbymEG+ZkGhksDwHkd6SlNoQxhtFpx6n8HexcLVXn+ssENN0ALd1gvWRRHeKf3x+cCzfiMM5qwIX9A==
+"@microsoft/api-documenter@7.19.22":
+  version "7.19.22"
+  resolved "https://artifacts.apextoaster.com/repository/group-npm/@microsoft/api-documenter/-/api-documenter-7.19.22.tgz#961e1e2d5c0ca4751ef9d72c641dbb3ae1206500"
+  integrity sha512-Gz9l7tspR0Brnv4I1PcDMLZTZ9H4n8g1iHDwRNMWuOehvp3Wkn2ydBxmVB4ugsTfOPm04DK3cMm5RCVNejDYuw==
   dependencies:
     "@microsoft/api-extractor-model" "7.25.1"
     "@microsoft/tsdoc" "0.14.1"
     "@rushstack/node-core-library" "3.53.2"
-    "@rushstack/ts-command-line" "4.12.5"
+    "@rushstack/ts-command-line" "4.13.0"
     colors "~1.2.1"
     js-yaml "~3.13.1"
     resolve "~1.17.0"
@@ -182,16 +182,6 @@
   dependencies:
     resolve "~1.17.0"
     strip-json-comments "~3.1.1"
-
-"@rushstack/ts-command-line@4.12.5":
-  version "4.12.5"
-  resolved "https://artifacts.apextoaster.com/repository/group-npm/@rushstack/ts-command-line/-/ts-command-line-4.12.5.tgz#c9aaed76ca6f3537bd7c100eb6be65af76733fec"
-  integrity sha512-PCKrOu4RXKXPHcswHEQ9MYDW7Z7iQ+vbkvPtqHC46zFxD67ZCBXkm9P8QNOtED0cQzXh5nCtFnSOMuaOQf0GaQ==
-  dependencies:
-    "@types/argparse" "1.0.38"
-    argparse "~1.0.9"
-    colors "~1.2.1"
-    string-argv "~0.3.1"
 
 "@rushstack/ts-command-line@4.13.0":
   version "4.13.0"
