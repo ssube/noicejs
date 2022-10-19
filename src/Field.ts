@@ -21,20 +21,20 @@ export const fieldSymbol = Symbol('noicejs-field');
 export function getFields(target: any): Array<Binding> {
   if (Reflect.has(target, fieldSymbol)) {
     const existing = Reflect.get(target, fieldSymbol);
-    console.log('target has fields', target, existing);
+    // console.log('target has fields', target, existing);
     if (Array.isArray(existing)) {
       return existing;
     }
   } else {
     // first dep for this target, check prototype
     const proto = Reflect.getPrototypeOf(target);
-    console.log('target does not have fields, checking prototype', target, proto);
+    // console.log('target does not have fields, checking prototype', target, proto);
     if (doesExist(proto) && proto !== target) {
       return getFields(proto);
     }
   }
 
-  console.log('making new fields for target', target);
+  // console.log('making new fields for target', target);
   return [];
 }
 
@@ -52,9 +52,9 @@ export function Field(gets: ContractName) {
       throw new InvalidTargetError('field decorator must be used on a field');
     } else {
       const fields = getFields(target);
-      const prev = fields.find((it) => it.name === key);
+      const prev = fields.find((it) => it.key === key);
 
-      console.log('binding field', target, key, gets);
+      // console.log('binding field', target, key, gets);
       if (doesExist(prev)) {
         prev.name = gets;
       } else {
@@ -69,11 +69,16 @@ export function Field(gets: ContractName) {
   };
 }
 
-export function fillFields(target: object, values: Record<ContractName, AnyContract>): void {
+export interface FieldValues {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [K: ContractName]: any;
+}
+
+export function fillFields(target: object, values: FieldValues): void {
   const proto = Reflect.getPrototypeOf(target);
   const fields = getFields(proto);
 
-  console.log('filling fields on target', fields.length, fields, target);
+  // console.log('filling fields on target', fields.length, fields, target);
   for (const field of fields) {
     if (Reflect.has(values, field.name)) {
       Reflect.set(target, field.key, values[field.name]);
