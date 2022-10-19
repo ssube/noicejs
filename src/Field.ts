@@ -37,6 +37,15 @@ export function getFields(target: object): Array<Binding> {
   return [];
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function getTargetOrCtor(target: object): any {
+  if (doesExist(target.constructor)) {
+    return target.constructor;
+  }
+
+  return target;
+}
+
 /**
  * Injection decorator for classes.
  *
@@ -50,7 +59,7 @@ export function Field(gets: ContractName) {
     if (isNil(key)) {
       throw new InvalidTargetError('field decorator must be used on a field');
     } else {
-      const ctor = target.constructor || target;
+      const ctor = getTargetOrCtor(target);
 
       const fields = getFields(ctor);
       const prev = fields.find((it) => it.key === key);
@@ -76,7 +85,8 @@ export interface FieldValues {
 }
 
 export function injectFields(target: object, values: FieldValues): void {
-  const fields = getFields(target.constructor || target); // || target handles objects without a constructor/prototype
+  const ctor = getTargetOrCtor(target);
+  const fields = getFields(ctor); // || target handles objects without a constructor/prototype
 
   // console.log('filling fields on target', fields.length, fields, target);
   for (const field of fields) {
