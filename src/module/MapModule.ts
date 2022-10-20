@@ -1,10 +1,10 @@
-import { BaseOptions, Constructor, Contract, isConstructor } from '../Container.js';
+import { BaseOptions, Constructor, Contract, ContractName, isConstructor } from '../Container.js';
 import { Module, ModuleOptions } from '../Module.js';
 
 export type ProviderValue<TReturn, TOptions extends BaseOptions> = TReturn | Constructor<TReturn, TOptions>;
 export type ProviderMap<TReturn, TOptions extends BaseOptions> = Map<Contract<TReturn, TOptions>, ProviderValue<TReturn, TOptions>>;
 export type ProviderMapLike = ProviderMap<unknown, BaseOptions> | {
-  [key: string | symbol]: ProviderValue<unknown, BaseOptions>;
+  [key: ContractName]: ProviderValue<unknown, BaseOptions>;
 };
 
 export interface MapModuleOptions {
