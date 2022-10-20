@@ -395,7 +395,58 @@ class RandomModule extends MapModule {
 
 ## Populating Properties
 
-TODO: examples for `@Field`
+While injecting constructor parameters covers many common use-cases, there are many cases where you may want to
+assign those parameters to properties within the newly-constructed object. In particular, this pattern is common
+enough to have a helper:
+
+```typescript
+import { Container, Inject, Module } from 'noicejs';
+
+@Inject(INJECT_COUNTER, INJECT_EVENT, INJECT_LOGGER, INJECT_RANDOM)
+class FooService {
+  constructor(options: InjectedOptions) {
+    this.container = options.container;
+    this.counter = mustExist(options[INJECT_COUNTER]);
+    this.event = mustExist(options[INJECT_EVENT]);
+    this.random = mustExist(options[INJECT_RANDOM]);
+
+    // some other logic, maybe using those properties
+    this.logger = makeServiceLogger(options[INJECT_LOGGER], this);
+  }
+}
+```
+
+This can be simplified with the `@Field` decorator and `injectFields` helper. Fields are not automatically added to
+the list of dependencies with `@Inject`, although that may be changed in a future version. A more specific decorator
+is provided that _does_ merge the lists, `@InjectWithFields`.
+
+An equivalent to the previous example using those decorators would look more like:
+
+```typescript
+import { Container, Field, InjectWithFields, Module } from 'noicejs';
+
+@InjectWithFields(INJECT_LOGGER) // the logger is not a simple field, it uses some additional computation
+class FooService {
+  @Field('container')
+  public container: Container;
+
+  @Field(INJECT_COUNTER)
+  public counter: Counter;
+
+  @Field(INJECT_EVENT)
+  public event: EventBus;
+
+  @Field(INJECT_RANDOM)
+  public random: RandomSource;
+
+  constructor(options: InjectedOptions) {
+    injectFields(this, options);
+
+    // some other logic, maybe using those properties
+    this.logger = makeServiceLogger(options[INJECT_LOGGER], this);
+  }
+}
+```
 
 ## Additional Examples
 
