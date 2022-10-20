@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0-3](https://github.com/ssube/noicejs/compare/v5.0.0-2...v5.0.0-3) (2022-10-20)
+
+
+### Features
+
+* **field:** add helper to populate fields ([2f61059](https://github.com/ssube/noicejs/commit/2f61059629b3b68b3c6456daa4eb5d0d7d0b156c))
+* add field decorator ([4fe165b](https://github.com/ssube/noicejs/commit/4fe165bb9dd629ec908222ee334ad3bf29e95dcb))
+
+
+### Bug Fixes
+
+* **docs:** describe how to use field decorator, add example ([8ae83cb](https://github.com/ssube/noicejs/commit/8ae83cbe6d33b2cb0b898a4f6e7050b7196cca3b))
+* **docs:** update API signatures ([f470f25](https://github.com/ssube/noicejs/commit/f470f25adc0986dcd044af3a13c6bc642baf9cbe))
+* **field:** bind fields to constructor, cover field injection ([9ea00ed](https://github.com/ssube/noicejs/commit/9ea00ed573a0284af1294c9b3d1e807ededa10e6))
+* **module:** consistently use contract name type ([156d257](https://github.com/ssube/noicejs/commit/156d257356664a7180173de80107b977f87972db))
+* **test:** cover basic usage of field decorator ([a344da6](https://github.com/ssube/noicejs/commit/a344da6ed8f325772eae05aee494ddc5a4ba0bf6))
+* **test:** cover missing fields better ([134b389](https://github.com/ssube/noicejs/commit/134b389aa803afc0ee12fb9a4a2c5756cf258992))
+
 ## [5.0.0-2](https://github.com/ssube/noicejs/compare/v5.0.0-1...v5.0.0-2) (2022-04-26)
 
 
